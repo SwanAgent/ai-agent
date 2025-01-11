@@ -47,6 +47,7 @@
     "@vercel/postgres": "^0.10.0",
     "agent-twitter-client-poc": "^0.0.18",
     "ai": "4.0.20",
+    "bignumber.js": "^9.1.2",
     "bs58": "^6.0.0",
     "class-variance-authority": "^0.7.1",
     "classnames": "^2.5.1",

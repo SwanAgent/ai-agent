@@ -1,9 +1,7 @@
 import { ActionResponse } from "@/types/actions";
-import { AssetType } from "@/types/assets";
+import { Coin } from "@/types/coin";
 import { z } from "zod";
-const url = 'https://api.leapwallet.io/proxy/ankr';
-const supportedChains = ['base'];
-
+const url = 'https://api.blockvision.org/v2/sui';
 
 export const getPortfolioSchema = z.object({
     walletAddress: z.string(),
@@ -11,59 +9,49 @@ export const getPortfolioSchema = z.object({
 
 export type GetPortfolioParams = z.infer<typeof getPortfolioSchema>;
 export type GetPortfolioResponse = {
-    id: number;
-    jsonrpc: string;
+    code: number;
+    message: string;
     result: {
-        totalBalanceUsd: string;
-        totalCount: number;
-        assets: AssetType[];
+        coins: Coin[];
+        usdValue: string;
     };
 }
 export type GetPortfolioResult = ActionResponse<GetPortfolioResponse['result']>;
 
-
 export const getPortfolio = {
-    description: 'Get the portfolio of a wallet on base chain',
+    description: 'Get the portfolio of a wallet on sui chain',
     parameters: getPortfolioSchema,
     execute: async ({ walletAddress }: GetPortfolioParams): Promise<GetPortfolioResult> => {
         try {
-            const response = await fetch(`${url}`, {
-                method: 'POST',
+            const response = await fetch(`${url}/account/coins?account=${walletAddress}`, {
+                method: 'GET',
                 headers: {
-                    'Content-Type': 'application/json',
+                    'accept': 'application/json',
+                    'x-api-key': process.env.BLOCKVISION_API_KEY ?? '',
                 },
-                body: JSON.stringify(
-                    {
-                        nativeFirst: true,
-                        walletAddress: walletAddress,
-                        blockchains: supportedChains,
-                        currency: 'USD',
-                    }
-                ),
             });
             const data: GetPortfolioResponse = await response.json();
 
-            if (!data?.result || data?.result?.totalCount === 0) {
+            if (!data?.result || data?.result?.coins.length === 0) {    
                 return {
                     success: true,
                     suppressFollowUp: true,
                     data: {
-                        totalBalanceUsd: '0',
-                        totalCount: 0,
-                        assets: [{
-                            blockchain: 'base',
-                            tokenName: 'Ether',
-                            tokenSymbol: 'ETH',
-                            tokenDecimals: 18,
-                            tokenType: 'NATIVE',
-                            holderAddress: walletAddress,
+                        coins: [{
+                            coinType: '0x0000000000000000000000000000000000000000000000000000000000000002::sui::SUI',
+                            name: 'Sui',
+                            symbol: 'SUI',
+                            decimals: 9,
                             balance: '0',
-                            balanceRawInteger: '0',
-                            balanceUsd: '0',
-                            tokenPrice: 0,
-                            thumbnail: '',
-                            tokenBalance: 0,
+                            usdValue: '0',
+                            price: '0',
+                            priceChangePercentage24H: '0',
+                            objects: 0,
+                            scam: false,
+                            verified: true,
+                            logo: 'https://imagedelivery.net/cBNDGgkrsEA-b_ixIp9SkQ/sui-coin.svg/public',
                         }],
+                        usdValue: '0',
                     }
                 }
             }
@@ -71,9 +59,13 @@ export const getPortfolio = {
             return {
                 success: true,
                 suppressFollowUp: true,
-                data: data.result,
+                data: {
+                    usdValue: data.result.usdValue,
+                    coins: data.result.coins.filter((coin) => coin.verified),
+                },
             };
         } catch (error) {
+            console.error(error);
             return {
                 success: false,
                 error: error instanceof Error ? error.message : 'Can not fetch portfolio at the moment. Please try again later.',

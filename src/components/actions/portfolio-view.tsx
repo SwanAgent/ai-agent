@@ -1,26 +1,30 @@
-'use client';
+"use client";
 
-import React from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { cn } from '@/lib/utils';
-import { AssetType } from '@/types/assets';
-import { Wallet, TrendingUp } from 'lucide-react';
-import { ActionComponentProps } from '@/types/actions';
-import { GetPortfolioResult } from '@/lib/ai/actions/getPortfolio';
+import React from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { cn } from "@/lib/utils";
+import { Wallet } from "lucide-react";
+import { ActionComponentProps } from "@/types/actions";
+import { GetPortfolioResult } from "@/lib/ai/actions/getPortfolio";
+import { Coin } from "@/types/coin";
+import { fromSmall } from "@/utils/token-converter";
 
-type PortfolioViewProps = ActionComponentProps<GetPortfolioResult>
+type PortfolioViewProps = ActionComponentProps<GetPortfolioResult>;
 
-interface TokenRowProps {
-  asset: AssetType;
+interface CoinRowProps {
+  coin: Coin;
   index: number;
 }
 
-const formatNumber = (value: string | number, style: 'currency' | 'decimal' = 'decimal') => {
-  const numberValue = typeof value === 'string' ? parseFloat(value) : value;
-  
-  return new Intl.NumberFormat('en-US', {
+const formatNumber = (
+  value: string | number,
+  style: "currency" | "decimal" = "decimal"
+) => {
+  const numberValue = typeof value === "string" ? parseFloat(value) : value;
+
+  return new Intl.NumberFormat("en-US", {
     style,
-    currency: 'USD',
+    currency: "USD",
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
   }).format(numberValue);
@@ -42,43 +46,80 @@ const TokenCardSkeleton = () => (
   </div>
 );
 
-const TokenRow = ({ asset, index }: TokenRowProps) => (
-  <div className="flex items-center justify-between p-4 hover:bg-muted/50 transition-colors">
+const CoinRow = ({ coin, index }: CoinRowProps) => (
+  <div className="flex items-center justify-between px-6 py-4 w-full hover:bg-muted/50 transition-colors">
     <div className="flex items-center gap-3">
       <div className="flex items-center gap-3">
-        {asset.thumbnail ? (
+        {coin.logo ? (
+          // eslint-disable-next-line @next/next/no-img-element
           <img
-            src={asset.thumbnail}
-            alt={asset.tokenName}
+            src={coin.logo}
+            alt={coin.name}
             className="h-8 w-8 rounded-full"
           />
         ) : (
           <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center">
-            {asset.tokenSymbol.charAt(0)}
+            {coin.symbol.charAt(0)}
           </div>
         )}
         <div>
-          <p className="font-medium">{asset.tokenName}</p>
-          <p className="text-sm text-muted-foreground">{asset.tokenSymbol}</p>
+          <p className="font-medium">{coin.name}</p>
+          <p className="text-sm text-muted-foreground">
+            {coin.symbol}
+          </p>
         </div>
+        {(Number(coin.priceChangePercentage24H) !== 0) && (
+          <div className="ml-1">
+            {Number(coin.priceChangePercentage24H) >= 0 ? (
+              <div className="bg-green-500/10 px-2 rounded-md">
+                <span className="text-green-500 text-xs leading-3 font-medium">
+                  +
+                  {Number(
+                    coin.priceChangePercentage24H
+                  ).toFixed(2)}
+                  %
+                </span>
+              </div>
+            ) : (
+              <div className="bg-red-500/10 px-2 rounded-md">
+                <span className="text-red-500 text-xs leading-3 font-medium">
+                  {Number(
+                    coin.priceChangePercentage24H
+                  ).toFixed(2)}
+                  %
+                </span>
+              </div>
+            )}
+          </div>
+        )}
       </div>
     </div>
     <div className="text-right">
-      <p className="font-medium">{formatNumber(asset.balanceUsd, 'currency')}</p>
+      <p className="font-medium">
+        {formatNumber(coin.usdValue, "currency")}
+      </p>
       <p className="text-sm text-muted-foreground">
-        {formatNumber(asset.balance)} {asset.tokenSymbol}
+        {formatNumber(
+          fromSmall(coin.balance, coin.decimals),
+          "decimal"
+        )}{" "}
+        {coin.symbol}
       </p>
     </div>
   </div>
 );
 
-export function PortfolioView({ result, isLoading, className }: PortfolioViewProps) {
+export function PortfolioView({
+  result,
+  isLoading,
+  className,
+}: PortfolioViewProps) {
   if (isLoading) {
     return (
       <Card
         className={cn(
-          'max-w-48 mt-3 overflow-hidden border-border/50 bg-gradient-to-br from-background to-muted/30',
-          className,
+          "max-w-48 mt-3 overflow-hidden border-border/50 bg-gradient-to-br from-background to-muted/30",
+          className
         )}
       >
         <CardHeader>
@@ -88,7 +129,7 @@ export function PortfolioView({ result, isLoading, className }: PortfolioViewPro
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="h-[480px] overflow-y-scroll pr-4">
+          <div className="h-[480px] overflow-y-scroll">
             <div className="space-y-3">
               {Array.from({ length: 5 }).map((_, i) => (
                 <TokenCardSkeleton key={i} />
@@ -102,15 +143,15 @@ export function PortfolioView({ result, isLoading, className }: PortfolioViewPro
 
   const { data, error } = result ?? {};
 
-  if(error) {
+  if (error) {
     return <div>Error fetching portfolio</div>;
   }
 
   return (
     <Card
       className={cn(
-        'mt-3 max-w-96 overflow-hidden border-border/50 bg-gradient-to-br from-background to-muted/30',
-        className,
+        "mt-3 max-w-96 overflow-hidden border-border/50 bg-gradient-to-br from-background to-muted/30",
+        className
       )}
     >
       <CardHeader className="border-b border-border/40 bg-muted/20">
@@ -122,15 +163,15 @@ export function PortfolioView({ result, isLoading, className }: PortfolioViewPro
             </div>
           </div>
           <span className="text-lg font-bold">
-            {formatNumber(data?.totalBalanceUsd ?? 0, 'currency')}
+            {formatNumber(data?.usdValue ?? 0, "currency")}
           </span>
         </CardTitle>
       </CardHeader>
       <CardContent className="p-0">
-        <div className="h-[480px] overflow-y-scroll pr-4">
+        <div className="h-[480px] overflow-y-scroll">
           <div className="divide-y divide-border/40">
-            {data?.assets.map((asset, index) => (
-              <TokenRow key={index} asset={asset} index={index} />
+            {data?.coins.map((coin, index) => (
+              <CoinRow key={index} coin={coin} index={index} />
             ))}
           </div>
         </div>

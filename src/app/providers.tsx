@@ -20,7 +20,7 @@ const SuiWalletProvider: FC<any> = ({ children }) => {
       defaultWallets={[
         ...AllDefaultWallets,
         defineStashedWallet({
-          appName: "Suiet Kit Playground",
+          appName: "SISI AI Agent",
         }),
       ]}
     >

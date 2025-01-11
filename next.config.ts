@@ -8,6 +8,12 @@ const nextConfig: NextConfig = {
       {
         hostname: 'avatar.vercel.sh',
       },
+      {
+        hostname: 'suicamp.b-cdn.net',
+      },
+      {
+        hostname: 'imagedelivery.net',
+      },
     ],
   },
 };
