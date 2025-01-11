@@ -1,0 +1,219 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(uuid())
+  address   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  earlyAccess Boolean @default(false)
+
+  wallets       Wallet[]
+  conversations Chat[]
+  Rule          Rule[]
+  Action        Action[]
+  tokenStats    TokenStat[]
+  Document      Document[]
+  Suggestion    Suggestion[]
+  transactions  Transaction[]
+
+  @@unique([address])
+  @@index([address])
+  @@map("users")
+}
+
+model Wallet {
+  id                  String   @id @default(uuid())
+  ownerId             String   @unique
+  name                String
+  publicKey           String
+  encryptedPrivateKey String
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+
+  owner User @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+
+  @@map("wallets")
+}
+
+model Chat {
+  id         String     @id @default(uuid())
+  userId     String
+  title      String
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
+  visibility Visibility @default(private)
+
+  user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  messages Message[]
+  Action   Action[]
+  Vote     Vote[]
+
+  @@map("chats")
+}
+
+model Message {
+  id        String   @id @default(uuid())
+  chatId    String
+  role      String
+  content   Json
+  createdAt DateTime @default(now())
+
+  chat  Chat   @relation(fields: [chatId], references: [id], onDelete: Cascade)
+  votes Vote[]
+
+  @@map("messages")
+}
+
+model Vote {
+  chatId    String
+  messageId String
+  isUpvoted Boolean
+  chat      Chat    @relation(fields: [chatId], references: [id], onDelete: Cascade)
+  message   Message @relation(fields: [messageId], references: [id], onDelete: Cascade)
+
+  @@id([chatId, messageId])
+  @@map("votes")
+}
+
+model Document {
+  id          String       @default(uuid())
+  createdAt   DateTime
+  title       String       @db.Text
+  content     String?      @db.Text
+  kind        Kind         @default(text)
+  userId      String
+  user        User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  suggestions Suggestion[]
+
+  @@id([id, createdAt])
+  @@map("documents")
+}
+
+model Suggestion {
+  id                String   @id @default(uuid())
+  documentId        String
+  documentCreatedAt DateTime
+  document          Document @relation(fields: [documentId, documentCreatedAt], references: [id, createdAt])
+  originalText      String   @db.Text
+  suggestedText     String   @db.Text
+  description       String?  @db.Text
+  isResolved        Boolean  @default(false)
+  userId            String
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt         DateTime @default(now())
+
+  @@map("suggestions")
+}
+
+enum Operator {
+  eq
+  lt
+  gt
+  contains
+}
+
+model Rule {
+  id        String   @id @default(uuid())
+  userId    String
+  name      String   @db.VarChar(255)
+  field     String   @db.VarChar(255) // Field to evaluate (e.g., "transaction.amount", "transaction.sender")
+  operator  Operator
+  value     String   @db.VarChar(255) // Value to compare against (e.g., "100", "0x1234")
+  triggered Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("rules")
+}
+
+model Action {
+  id             String    @id @default(uuid())
+  userId         String
+  conversationId String
+  triggeredBy    Int[] // Array of rule IDs required to trigger this action
+  stoppedBy      Int[] // Array of rule IDs required to stop this action
+  frequency      Int? // Frequency in seconds (e.g., 3600 for 1 hour, 86400 for 1 day)
+  maxExecutions  Int? // Times to execute before stopping
+  description    String    @db.VarChar(255) // Human readable description of the action, or message to send to AI
+  actionType     String    @db.VarChar(255) // Type of action (e.g., "call_function", "invoke_api")
+  params         Json? // JSON object for action parameters (e.g., inputs for the function)
+  timesExecuted  Int       @default(0)
+  lastExecutedAt DateTime?
+  triggered      Boolean   @default(false) // Whether the action has been triggered. True if triggeredBy is empty
+  paused         Boolean   @default(false)
+  completed      Boolean   @default(false)
+  priority       Int       @default(0) // Priority level for execution, higher numbers execute first
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  user         User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  conversation Chat @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+
+  @@index([triggeredBy], name: "triggeredBy_idx")
+  @@index([stoppedBy], name: "stoppedBy_idx")
+  @@map("actions")
+}
+
+model TokenStat {
+  id               String   @id @default(uuid())
+  userId           String
+  messageIds       String[]
+  promptTokens     Int
+  completionTokens Int
+  totalTokens      Int
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("token_stats")
+}
+
+enum Visibility {
+  private @map("private")
+  public  @map("public")
+}
+
+enum Kind {
+  text @map("text")
+  code @map("code")
+}
+
+enum TransactionType {
+  TRANSFER @map("transfer")
+  SWAP     @map("swap")
+}
+
+enum TransactionStatus {
+  PENDING   @map("pending")
+  SUBMITTED @map("submitted")
+  SUCCESS   @map("success")
+  FAILED    @map("failed")
+}
+
+model Transaction {
+  id        String            @id @default(uuid())
+  msgToolId String            @unique @map("msg_tool_id") // Combination of messageId and toolCallId
+  type      TransactionType
+  title     String?
+  metadata  Json?
+  hash      String?
+  status    TransactionStatus @default(PENDING)
+  userId    String            @map("user_id")
+  createdAt DateTime          @default(now()) @map("created_at")
+  updatedAt DateTime          @updatedAt @map("updated_at")
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@map("transactions")
+}
