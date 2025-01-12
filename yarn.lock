@@ -15,6 +15,11 @@
     "@gql.tada/internal" "^1.0.0"
     graphql "^15.5.0 || ^16.0.0 || ^17.0.0"
 
+"@7kprotocol/sdk-ts@^2.2.1":
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/@7kprotocol/sdk-ts/-/sdk-ts-2.2.1.tgz#70cc141b4e9de27e5844be23d3542f10370d40f7"
+  integrity sha512-Sg5l+4VLHCDXvjRmJzkftg+d2ECmNskZRDOfaMAuYarnCdGzpxw3Wn9gMGF22Bcgq+tmK6I8lTN21SFD5EVueA==
+
 "@adraffy/ens-normalize@1.10.1":
   version "1.10.1"
   resolved "https://registry.yarnpkg.com/@adraffy/ens-normalize/-/ens-normalize-1.10.1.tgz#63430d04bd8c5e74f8d7d049338f1cd9d4f02069"

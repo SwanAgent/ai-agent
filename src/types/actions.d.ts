@@ -11,3 +11,20 @@ export type ActionComponentProps<T> = {
     isLoading?: boolean;
     className?: string;
 }
+
+export interface SwapQuote {
+  tokenIn: string;
+  tokenOut: string;
+  amountIn: string;
+  quoteResponse?: any;
+}
+
+export interface SwapResult {
+  tx?: any;
+  coinOut?: string;
+}
+
+export interface SwapCommission {
+  partner: string;
+  commissionBps: number;
+}

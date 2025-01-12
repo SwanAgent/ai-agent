@@ -5,6 +5,7 @@ import { ConnectButton } from "@suiet/wallet-kit";
 import { getCsrfToken, signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+import { Swap } from '@/components/actions/swap-token';
 
 export default function LoginButton() {
   const wallet = useWallet();
@@ -45,7 +46,7 @@ export default function LoginButton() {
   }, [wallet.connected, session]);
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen">
+    <div className="flex flex-col items-center w-full justify-center h-screen">
       <h1 className="text-9xl font-bold p-10">Home Page</h1>
       <ConnectButton
         onConnectError={(error) => {
@@ -58,6 +59,7 @@ export default function LoginButton() {
           }
         }}
       />
+      {/* <Swap /> */}
     </div>
   );
 }
