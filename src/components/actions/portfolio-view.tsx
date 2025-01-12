@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 import { Wallet } from "lucide-react";
 import { ActionComponentProps } from "@/types/actions";
 import { GetPortfolioResult } from "@/lib/ai/actions/getPortfolio";
-import { Coin } from "@/types/coin";
+import { Coin } from "@/types/block-vision";
 import { fromSmall } from "@/utils/token-converter";
 
 type PortfolioViewProps = ActionComponentProps<GetPortfolioResult>;

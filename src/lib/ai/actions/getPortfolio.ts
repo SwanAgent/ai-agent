@@ -1,38 +1,25 @@
 import { ActionResponse } from "@/types/actions";
-import { Coin } from "@/types/coin";
 import { z } from "zod";
-const url = 'https://api.blockvision.org/v2/sui';
+import { Coin } from "@/types/block-vision";
+import { PortfolioResponse } from "@/types/block-vision";
+import { getWalletCoins } from "@/server/actions/block-vision";
 
 export const getPortfolioSchema = z.object({
     walletAddress: z.string(),
 });
 
 export type GetPortfolioParams = z.infer<typeof getPortfolioSchema>;
-export type GetPortfolioResponse = {
-    code: number;
-    message: string;
-    result: {
-        coins: Coin[];
-        usdValue: string;
-    };
-}
-export type GetPortfolioResult = ActionResponse<GetPortfolioResponse['result']>;
+export type GetPortfolioResult = ActionResponse<PortfolioResponse['result']>;
 
 export const getPortfolio = {
     description: 'Get the portfolio of a wallet on sui chain',
     parameters: getPortfolioSchema,
     execute: async ({ walletAddress }: GetPortfolioParams): Promise<GetPortfolioResult> => {
         try {
-            const response = await fetch(`${url}/account/coins?account=${walletAddress}`, {
-                method: 'GET',
-                headers: {
-                    'accept': 'application/json',
-                    'x-api-key': process.env.BLOCKVISION_API_KEY ?? '',
-                },
-            });
-            const data: GetPortfolioResponse = await response.json();
+            const response = await getWalletCoins({walletAddress});
+            const data = response?.data?.data;
 
-            if (!data?.result || data?.result?.coins.length === 0) {    
+            if (!data || data?.coins.length === 0) {    
                 return {
                     success: true,
                     suppressFollowUp: true,
@@ -60,8 +47,8 @@ export const getPortfolio = {
                 success: true,
                 suppressFollowUp: true,
                 data: {
-                    usdValue: data.result.usdValue,
-                    coins: data.result.coins.filter((coin) => coin.verified),
+                    usdValue: data.usdValue,
+                    coins: data.coins.filter((coin: Coin) => coin.verified),
                 },
             };
         } catch (error) {

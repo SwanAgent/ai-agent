@@ -1,0 +1,90 @@
+{
+    "schemaVersion": "text",
+    "pairs": [
+        {
+            "chainId": "solana",
+            "dexId": "raydium",
+            "url": "https://dexscreener.com/solana/3legaqekuktwbjtxhrg1l1spg7zzbsohvmctmbhffqtq",
+            "pairAddress": "3LEgaqekukTWbjTxHRg1L1spg7zZBSohvmctmbhfFQtq",
+            "baseToken": {
+                "address": "BDW8YHasD3NSDjSHU9Xy6KXtshGayMGQfj5bJpLcpump",
+                "name": "Hiero Terminal",
+                "symbol": "HTERM"
+            },
+            "quoteToken": {
+                "address": "So11111111111111111111111111111111111111112",
+                "name": "Wrapped SOL",
+                "symbol": "SOL"
+            },
+            "priceNative": "0.0001309",
+            "priceUsd": "0.02819",
+            "txns": {
+                "m5": {
+                    "buys": 28,
+                    "sells": 15
+                },
+                "h1": {
+                    "buys": 467,
+                    "sells": 439
+                },
+                "h6": {
+                    "buys": 2986,
+                    "sells": 2507
+                },
+                "h24": {
+                    "buys": 18364,
+                    "sells": 15343
+                }
+            },
+            "volume": {
+                "h24": 24489817.82,
+                "h6": 3974626.48,
+                "h1": 828517.08,
+                "m5": 42744.62
+            },
+            "priceChange": {
+                "m5": 1.37,
+                "h1": 9.06,
+                "h6": 10.89,
+                "h24": 48.43
+            },
+            "liquidity": {
+                "usd": 883589.79,
+                "base": 15688012,
+                "quote": 2048.6806
+            },
+            "fdv": 22916799,
+            "marketCap": 22916799,
+            "pairCreatedAt": 1736100688000,
+            "info": {
+                "imageUrl": "https://dd.dexscreener.com/ds-data/tokens/solana/BDW8YHasD3NSDjSHU9Xy6KXtshGayMGQfj5bJpLcpump.png?key=ab7cf9",
+                "header": "https://dd.dexscreener.com/ds-data/tokens/solana/BDW8YHasD3NSDjSHU9Xy6KXtshGayMGQfj5bJpLcpump/header.png?key=ab7cf9",
+                "openGraph": "https://cdn.dexscreener.com/token-images/og/solana/BDW8YHasD3NSDjSHU9Xy6KXtshGayMGQfj5bJpLcpump?timestamp=1736238000000",
+                "websites": [
+                    {
+                        "label": "Website",
+                        "url": "https://hiero.ai"
+                    },
+                    {
+                        "label": "Docs",
+                        "url": "https://github.com/hiero-ai/docs"
+                    },
+                    {
+                        "label": "Streamflow Locked Team Supply",
+                        "url": "https://app.streamflow.finance/contract/solana/mainnet/8ZPftQnaAvBaN6agAJifQ4DBDdUbfdR8gcNnCH1MX3Ds"
+                    }
+                ],
+                "socials": [
+                    {
+                        "type": "twitter",
+                        "url": "https://x.com/HieroTerminal"
+                    },
+                    {
+                        "type": "telegram",
+                        "url": "https://t.me/hiero_ai"
+                    }
+                ]
+            }
+        }
+    ]
+}

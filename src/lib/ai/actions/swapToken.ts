@@ -14,18 +14,13 @@ export type SwapTokenResponse = ActionResponse<{
     fromAmount: number;
 }>;
 
-// If some random token other than ETH is mentioned, ask for the correct token address before proceeding. Do not assume the token address on your own, always ask for the correct token address from user.
-
 export const swapTokens = {
-    description: 'Swap tokens on base chains. Use ETH as fromToken when using this function for buying any token. just send the token name or symbol or address as inputs for fromToken and toToken. It finds ',
+    description: 'Swap tokens on SUI chains. The fromAmount parameter is required. If no fromToken is specified, SUI will be used as the default. You can provide token name, symbol, or address for both fromToken and toToken parameters. For buying any token, it\'s recommended to use SUI as the fromToken.',
     parameters: swapSchema,
     execute: async ({ fromAmount, fromToken, toToken }: SwapTokenSchema): Promise<SwapTokenResponse> => {
         try {
-            const fromTokenDetailsResult = fromToken === 'ETH' ? 'ETH' : (await searchTokenDetails.execute({ query: fromToken }))?.data?.address;
-            console.log(fromTokenDetailsResult);
-
-            const toTokenDetailsResult = toToken === 'ETH' ? 'ETH' : (await searchTokenDetails.execute({ query: toToken }))?.data?.address;
-            console.log(toTokenDetailsResult);
+            const fromTokenDetailsResult = fromToken === 'SUI' ? '0x2::sui::SUI' : (await searchTokenDetails.execute({ query: fromToken }))?.data?.address;
+            const toTokenDetailsResult = toToken === 'SUI' ? '0x2::sui::SUI' : (await searchTokenDetails.execute({ query: toToken }))?.data?.address;
 
             if (!fromTokenDetailsResult || !toTokenDetailsResult) {
                 return {

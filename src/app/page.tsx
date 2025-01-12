@@ -5,7 +5,6 @@ import { ConnectButton } from "@suiet/wallet-kit";
 import { getCsrfToken, signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
-import { Swap } from '@/components/actions/swap-token';
 
 export default function LoginButton() {
   const wallet = useWallet();
@@ -59,7 +58,6 @@ export default function LoginButton() {
           }
         }}
       />
-      {/* <Swap /> */}
     </div>
   );
 }

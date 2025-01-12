@@ -1,4 +1,5 @@
 import { ActionResponse } from "@/types/actions";
+import { DexScreenerSearchResponse, TokenDetails } from "@/types/dex-screener";
 import { z } from "zod";
 
 export const searchTokenDetailsSchema = z.object({
@@ -43,8 +44,7 @@ export const searchTokenDetails = {
         try {
             const response = await fetch(`https://api.dexscreener.com/latest/dex/search?q=${query}`);
             const data: DexScreenerSearchResponse = await response.json();
-            console.log("data", query, data.pairs.length);
-            const chainFilteredData = data.pairs.filter((pair) => pair.chainId === 'base').sort((a, b) => {
+            const chainFilteredData = data.pairs.filter((pair) => pair.chainId === 'sui').sort((a, b) => {
                 const exactMatchA = exactTokenMatch(query, a.baseToken) || exactTokenMatch(query, a.quoteToken);
                 const exactMatchB = exactTokenMatch(query, b.baseToken) || exactTokenMatch(query, b.quoteToken);
                 if (exactMatchA && exactMatchB) {
@@ -74,10 +74,13 @@ export const searchTokenDetails = {
             }
 
             const filteredData = chainFilteredData[0];
+            const name = filteredData.baseToken.address.toLowerCase() === tokenAddress.toLowerCase() ? filteredData.baseToken.name : filteredData.quoteToken.name;
+            const symbol = filteredData.baseToken.address.toLowerCase() === tokenAddress.toLowerCase() ? filteredData.baseToken.symbol : filteredData.quoteToken.symbol;
+
             const tokenDetails: TokenDetails = {
                 address: tokenAddress,
-                name: filteredData.baseToken.name,
-                symbol: filteredData.baseToken.symbol,
+                name: name,
+                symbol: symbol,
                 imageUrl: filteredData.info?.imageUrl || '',
                 websiteUrl: filteredData.info?.websites?.[0]?.url || '',
                 socials: filteredData.info?.socials || [],
@@ -108,221 +111,3 @@ export const searchTokenDetails = {
         }
     },
 };
-
-export type TokenDetails = {
-    address: string;
-    name: string;
-    symbol: string;
-    imageUrl: string;
-    websiteUrl: string;
-    socials: {
-        type: string;
-        url: string;
-    }[];
-    priceUsd: number;
-    liquidityUsd: number;
-    marketCapUsd: number;
-    fdv: number;
-    marketCap: number;
-    pairCreatedAt: number;
-    pairAddress: string;
-    labels: string[];
-    txns?: {
-        m5?: {
-            buys: number;
-            sells: number;
-        };
-        h1?: {
-            buys: number;
-            sells: number;
-        };
-        h6?: {
-            buys: number;
-            sells: number;
-        };
-        h24?: {
-            buys: number;
-            sells: number;
-        };
-    };
-    volume?: {
-        h24?: number;
-        h6?: number;
-        h1?: number;
-        m5?: number;
-    };
-    priceChange?: {
-        m5?: number;
-        h1?: number;
-        h6?: number;
-        h24?: number;
-    };
-}
-
-
-export type DexScreenerSearchResponse = {
-    schemaVersion: string;
-    pairs: {
-        chainId: string;
-        dexId: string;
-        url: string;
-        pairAddress: string;
-        labels: string[];
-        baseToken: {
-            address: string;
-            name: string;
-            symbol: string;
-        };
-        quoteToken: {
-            address: string;
-            name: string;
-            symbol: string;
-        };
-        priceNative: string;
-        priceUsd: string;
-        txns?: {
-            m5?: {
-                buys: number;
-                sells: number;
-            };
-            h1?: {
-                buys: number;
-                sells: number;
-            };
-            h6?: {
-                buys: number;
-                sells: number;
-            };
-            h24?: {
-                buys: number;
-                sells: number;
-            };
-        };
-        volume?: {
-            h24?: number;
-            h6?: number;
-            h1?: number;
-            m5?: number;
-        };
-        priceChange?: {
-            m5?: number;
-            h1?: number;
-            h6?: number;
-            h24?: number;
-        };
-        liquidity: {
-            usd: number;
-            base: number;
-            quote: number;
-        };
-        fdv: number;
-        marketCap: number;
-        pairCreatedAt: number;
-        info: {
-            imageUrl?: string;
-            websites?: {
-                label?: string;
-                url: string;
-            }[];
-            socials?: {
-                type: string;
-                url: string;
-            }[];
-        };
-        
-        boosts?: {
-            active: number;
-        };
-    }[];
-}
-
-// export const dexScreenerSearchResponseExample: DexScreenerSearchResponse = {
-//     "schemaVersion": "text",
-//     "pairs": [
-//         {
-//             "chainId": "solana",
-//             "dexId": "raydium",
-//             "url": "https://dexscreener.com/solana/3legaqekuktwbjtxhrg1l1spg7zzbsohvmctmbhffqtq",
-//             "pairAddress": "3LEgaqekukTWbjTxHRg1L1spg7zZBSohvmctmbhfFQtq",
-//             "baseToken": {
-//                 "address": "BDW8YHasD3NSDjSHU9Xy6KXtshGayMGQfj5bJpLcpump",
-//                 "name": "Hiero Terminal",
-//                 "symbol": "HTERM"
-//             },
-//             "quoteToken": {
-//                 "address": "So11111111111111111111111111111111111111112",
-//                 "name": "Wrapped SOL",
-//                 "symbol": "SOL"
-//             },
-//             "priceNative": "0.0001309",
-//             "priceUsd": "0.02819",
-//             "txns": {
-//                 "m5": {
-//                     "buys": 28,
-//                     "sells": 15
-//                 },
-//                 "h1": {
-//                     "buys": 467,
-//                     "sells": 439
-//                 },
-//                 "h6": {
-//                     "buys": 2986,
-//                     "sells": 2507
-//                 },
-//                 "h24": {
-//                     "buys": 18364,
-//                     "sells": 15343
-//                 }
-//             },
-//             "volume": {
-//                 "h24": 24489817.82,
-//                 "h6": 3974626.48,
-//                 "h1": 828517.08,
-//                 "m5": 42744.62
-//             },
-//             "priceChange": {
-//                 "m5": 1.37,
-//                 "h1": 9.06,
-//                 "h6": 10.89,
-//                 "h24": 48.43
-//             },
-//             "liquidity": {
-//                 "usd": 883589.79,
-//                 "base": 15688012,
-//                 "quote": 2048.6806
-//             },
-//             "fdv": 22916799,
-//             "marketCap": 22916799,
-//             "pairCreatedAt": 1736100688000,
-//             "info": {
-//                 "imageUrl": "https://dd.dexscreener.com/ds-data/tokens/solana/BDW8YHasD3NSDjSHU9Xy6KXtshGayMGQfj5bJpLcpump.png?key=ab7cf9",
-//                 "header": "https://dd.dexscreener.com/ds-data/tokens/solana/BDW8YHasD3NSDjSHU9Xy6KXtshGayMGQfj5bJpLcpump/header.png?key=ab7cf9",
-//                 "openGraph": "https://cdn.dexscreener.com/token-images/og/solana/BDW8YHasD3NSDjSHU9Xy6KXtshGayMGQfj5bJpLcpump?timestamp=1736238000000",
-//                 "websites": [
-//                     {
-//                         "label": "Website",
-//                         "url": "https://hiero.ai"
-//                     },
-//                     {
-//                         "label": "Docs",
-//                         "url": "https://github.com/hiero-ai/docs"
-//                     },
-//                     {
-//                         "label": "Streamflow Locked Team Supply",
-//                         "url": "https://app.streamflow.finance/contract/solana/mainnet/8ZPftQnaAvBaN6agAJifQ4DBDdUbfdR8gcNnCH1MX3Ds"
-//                     }
-//                 ],
-//                 "socials": [
-//                     {
-//                         "type": "twitter",
-//                         "url": "https://x.com/HieroTerminal"
-//                     },
-//                     {
-//                         "type": "telegram",
-//                         "url": "https://t.me/hiero_ai"
-//                     }
-//                 ]
-//             }
-//         }
-//     ]
-// }
