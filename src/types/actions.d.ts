@@ -7,9 +7,11 @@ export type ActionResponse<T> = {
 }
 
 export type ActionComponentProps<T> = {
-    result?: T;
-    isLoading?: boolean;
-    className?: string;
+    result: {
+      toolResult?: T;
+      isLoading?: boolean;
+      className?: string;
+    }
 }
 
 export interface SwapQuote {

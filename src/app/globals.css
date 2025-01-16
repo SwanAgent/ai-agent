@@ -24,75 +24,75 @@
 
 @layer base {
     :root {
-        --background: 0 0% 100%;
-        --foreground: 240 10% 3.9%;
-        --card: 0 0% 100%;
-        --card-foreground: 240 10% 3.9%;
-        --popover: 0 0% 100%;
-        --popover-foreground: 240 10% 3.9%;
-        --primary: 240 5.9% 10%;
-        --primary-foreground: 0 0% 98%;
-        --secondary: 240 4.8% 95.9%;
-        --secondary-foreground: 240 5.9% 10%;
-        --muted: 240 4.8% 95.9%;
-        --muted-foreground: 240 3.8% 46.1%;
-        --accent: 240 4.8% 95.9%;
-        --accent-foreground: 240 5.9% 10%;
-        --destructive: 0 84.2% 60.2%;
-        --destructive-foreground: 0 0% 98%;
-        --border: 240 5.9% 90%;
-        --input: 240 5.9% 90%;
-        --ring: 240 10% 3.9%;
-        --chart-1: 12 76% 61%;
-        --chart-2: 173 58% 39%;
-        --chart-3: 197 37% 24%;
-        --chart-4: 43 74% 66%;
-        --chart-5: 27 87% 67%;
-        --radius: 0.5rem;
-        --sidebar-background: 0 0% 98%;
-        --sidebar-foreground: 240 5.3% 26.1%;
-        --sidebar-primary: 240 5.9% 10%;
-        --sidebar-primary-foreground: 0 0% 98%;
-        --sidebar-accent: 240 4.8% 95.9%;
-        --sidebar-accent-foreground: 240 5.9% 10%;
-        --sidebar-border: 220 13% 91%;
-        --sidebar-ring: 217.2 91.2% 59.8%;
-    }
+        --background: 220 40% 97%; /* Light bluish background */
+        --foreground: 220 15% 20%; /* Mild grayish-blue for text */
+        --card: 0 0% 100%; /* Keep cards white */
+        --card-foreground: 220 15% 20%; /* Matches foreground */
+        --popover: 220 40% 97%; /* Match the background */
+        --popover-foreground: 220 15% 20%; /* Match text */
+        --primary: 220 60% 40%; /* Soft blue for primary actions */
+        --primary-foreground: 0 0% 98%; /* White for contrast */
+        --secondary: 220 30% 92%; /* Light bluish-gray for secondary elements */
+        --secondary-foreground: 220 15% 20%; /* Text on secondary elements */
+        --muted: 220 30% 92%; /* Same as secondary for muted */
+        --muted-foreground: 220 10% 50%; /* Subtle gray-blue for muted text */
+        --accent: 220 60% 40%; /* Accent matches primary */
+        --accent-foreground: 0 0% 98%; /* White for contrast */
+        --destructive: 0 70% 60%; /* Mild red for destructive actions */
+        --destructive-foreground: 0 0% 98%; /* White for contrast */
+        --border: 220 20% 90%; /* Light gray-blue for borders */
+        --input: 220 20% 90%; /* Match border for inputs */
+        --ring: 220 40% 50%; /* Blue ring for focus states */
+        --chart-1: 12 70% 55%; /* Mild red for charts */
+        --chart-2: 173 50% 35%; /* Light green */
+        --chart-3: 197 35% 30%; /* Muted blue */
+        --chart-4: 43 65% 60%; /* Soft yellow-green */
+        --chart-5: 27 75% 65%; /* Brighter yellow-green */
+        --radius: 0.5rem; /* Keep the same border radius */
+        --sidebar-background: 220 30% 95%; /* Slightly darker bluish background */
+        --sidebar-foreground: 220 20% 40%; /* Text in the sidebar */
+        --sidebar-primary: 220 60% 40%; /* Match primary */
+        --sidebar-primary-foreground: 0 0% 98%; /* White for contrast */
+        --sidebar-accent: 220 30% 92%; /* Match secondary */
+        --sidebar-accent-foreground: 220 15% 20%; /* Text on accent */
+        --sidebar-border: 220 20% 85%; /* Slightly darker border */
+        --sidebar-ring: 220 50% 50%; /* Sidebar focus ring */
+            }
     .dark {
-        --background: 240 10% 3.9%;
-        --foreground: 0 0% 98%;
-        --card: 240 10% 3.9%;
-        --card-foreground: 0 0% 98%;
-        --popover: 240 10% 3.9%;
-        --popover-foreground: 0 0% 98%;
-        --primary: 0 0% 98%;
-        --primary-foreground: 240 5.9% 10%;
-        --secondary: 240 3.7% 15.9%;
-        --secondary-foreground: 0 0% 98%;
-        --muted: 240 3.7% 15.9%;
-        --muted-foreground: 240 5% 64.9%;
-        --accent: 240 3.7% 15.9%;
-        --accent-foreground: 0 0% 98%;
-        --destructive: 0 62.8% 30.6%;
-        --destructive-foreground: 0 0% 98%;
-        --border: 240 3.7% 15.9%;
-        --input: 240 3.7% 15.9%;
-        --ring: 240 4.9% 83.9%;
-        --chart-1: 220 70% 50%;
-        --chart-2: 160 60% 45%;
-        --chart-3: 30 80% 55%;
-        --chart-4: 280 65% 60%;
-        --chart-5: 340 75% 55%;
-        --sidebar-background: 240 5.9% 10%;
-        --sidebar-foreground: 240 4.8% 95.9%;
-        --sidebar-primary: 224.3 76.3% 48%;
-        --sidebar-primary-foreground: 0 0% 100%;
-        --sidebar-accent: 240 3.7% 15.9%;
-        --sidebar-accent-foreground: 240 4.8% 95.9%;
-        --sidebar-border: 240 3.7% 15.9%;
-        --sidebar-ring: 217.2 91.2% 59.8%;
-    }
-}
+        --background: 220 8% 10%; /* Deep grayish-blue for a clean, subtle background */
+        --foreground: 0 0% 90%; /* Soft white for text */
+        --card: 220 7% 14%; /* Dark gray for cards to add depth */
+        --card-foreground: 0 0% 95%; /* Bright white text on cards */
+        --popover: 220 8% 12%; /* Slightly lighter gray for popovers */
+        --popover-foreground: 0 0% 90%; /* Soft white for popover text */
+        --primary: 200 98% 55%; /* Neon blue for primary actions */
+        --primary-foreground: 0 0% 98%; /* White for high contrast */
+        --secondary: 220 7% 20%; /* Muted gray for secondary elements */
+        --secondary-foreground: 200 95% 55%; /* Neon blue for secondary text */
+        --muted: 220 8% 18%; /* Medium gray for muted elements */
+        --muted-foreground: 220 6% 60%; /* Cool blue-gray for muted text */
+        --accent: 200 98% 55%; /* Neon blue for accent elements */
+        --accent-foreground: 0 0% 98%; /* White for accent text */
+        --destructive: 0 60% 40%; /* Deep red for warnings or destructive actions */
+        --destructive-foreground: 0 0% 95%; /* Bright white for destructive actions */
+        --border: 220 8% 15%; /* Subtle gray-blue for borders */
+        --input: 220 10% 15%; /* Light gray for inputs */
+        --ring: 200 98% 55%; /* Neon blue glow for focus rings */
+        --chart-1: 200 98% 55%; /* Neon blue for chart highlights */
+        --chart-2: 160 70% 50%; /* Neon green for diversity in charts */
+        --chart-3: 340 80% 55%; /* Vibrant pink for charts */
+        --chart-4: 60 100% 50%; /* Bright yellow-green for contrast */
+        --chart-5: 280 70% 60%; /* Neon purple for charts */
+        --sidebar-background: 220 8% 10%; /* Match the main background for consistency */
+        --sidebar-foreground: 0 0% 90%; /* Soft white for sidebar text */
+        --sidebar-primary: 200 98% 55%; /* Neon blue for primary sidebar elements */
+        --sidebar-primary-foreground: 0 0% 98%; /* White for contrast */
+        --sidebar-accent: 220 7% 14%; /* Dark gray for sidebar accents */
+        --sidebar-accent-foreground: 200 95% 55%; /* Neon blue for sidebar text */
+        --sidebar-border: 220 8% 15%; /* Subtle border color */
+        --sidebar-ring: 200 98% 55%; /* Neon blue focus ring for sidebar elements */
+            }
+        }
 
 @layer base {
     * {
@@ -186,3 +186,43 @@
     width: 100%;
     height: 100%;
 }
+
+
+@keyframes gradient {
+    0% {
+      background-position: 0% 50%;
+    }
+  
+    50% {
+      background-position: 100% 50%;
+    }
+  
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  
+  .animate-fade-in {
+    animation: fadeIn 0.3s ease-in-out;
+  }
+  
+  @layer utilities {
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+  
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  }
+  

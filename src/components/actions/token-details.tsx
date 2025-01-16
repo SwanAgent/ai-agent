@@ -5,7 +5,9 @@ import { ActionComponentProps } from "@/types/actions";
 
 export type TokenDetailsCardProps = ActionComponentProps<SearchTokenDetailsResult>
 
-export function TokenDetailsCard({ result, isLoading }: TokenDetailsCardProps) {
+export function TokenDetailsCard({ result }: TokenDetailsCardProps) {
+    const { isLoading, toolResult } = result ?? {};
+    console.log("toolResult", result);
     if (isLoading) {
         return <div>
             <div className="flex flex-col gap-2">
@@ -14,7 +16,7 @@ export function TokenDetailsCard({ result, isLoading }: TokenDetailsCardProps) {
             </div>
         </div>
     }
-    const { data: tokenDetails, error } = result ?? {};
+    const { data: tokenDetails, error } = toolResult ?? {};
 
     if (error) {
         return null
@@ -76,6 +78,6 @@ export function TokenDetailsCard({ result, isLoading }: TokenDetailsCardProps) {
                     </div>
                 </div>
         </div>
-        <div id="dexscreener-embed"><iframe src={`https://dexscreener.com/base/${tokenDetails?.pairAddress}?embed=1&loadChartSettings=0&trades=0&tabs=0&info=0&chartLeftToolbar=0&chartTimeframesToolbar=0&chartDefaultOnMobile=1&chartTheme=dark&theme=dark&chartStyle=0&chartType=usd&interval=15`}></iframe></div>
+        <div id="dexscreener-embed"><iframe src={`https://dexscreener.com/sui/${tokenDetails?.pairAddress}?embed=1&loadChartSettings=0&trades=0&tabs=0&info=0&chartLeftToolbar=0&chartTimeframesToolbar=0&chartDefaultOnMobile=1&chartTheme=dark&theme=dark&chartStyle=0&chartType=usd&interval=15`}></iframe></div>
     </div>
 }

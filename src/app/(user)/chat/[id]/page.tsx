@@ -8,6 +8,7 @@ import { convertToUIMessages } from '@/lib/utils';
 import { DataStreamHandler } from '@/components/data-stream-handler';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/utils/auth-options';
+import ChatInterface from './chat-interface';
 
 export default async function Page(props: { params: Promise<{ id: string }> }) {
   const params = await props.params;
@@ -45,16 +46,18 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
     models.find((model) => model.id === modelIdFromCookie)?.id ||
     DEFAULT_MODEL_NAME;
 
+  console.log("selectedModelId", selectedModelId);
   return (
     <>
-      <Chat
+      {/* <Chat
         id={chat.id}
         initialMessages={convertToUIMessages(messagesFromDb)}
         selectedModelId={selectedModelId}
         selectedVisibilityType={chat.visibility}
         isReadonly={userId !== chat.userId}
       />
-      <DataStreamHandler id={id} />
+      <DataStreamHandler id={id} /> */}
+      <ChatInterface id={id} initialMessages={convertToUIMessages(messagesFromDb)} />
     </>
   );
 }

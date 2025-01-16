@@ -31,14 +31,15 @@ export const transfer = {
         };
 
         if (tokenToSend !== "ETH") {
-            tokenDetails = await getTokenFromRegistry(tokenToSend);
-        }
-
-        if (!tokenDetails) {
-            return {
-                success: false,
-                error: "Can not find token details for " + tokenToSend + " on Base chain. Please give a valid token name/symbol/address.",
-            };
+            const tokenDetailsResult = await getTokenFromRegistry(tokenToSend);
+            if (tokenDetailsResult) {
+                tokenDetails = tokenDetailsResult;
+            } else {
+                return {
+                    success: false,
+                    error: "Can not find token details for " + tokenToSend + " on Base chain. Please give a valid token name/symbol/address.",
+                };
+            }
         }
 
         return {

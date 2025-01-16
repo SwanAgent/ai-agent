@@ -26,7 +26,8 @@ const TweetSkeleton = () => (
   </div>
 );
 
-export function FetchTweets({ result, isLoading, className }: FetchTweetsProps) {
+export function FetchTweets({ result }: FetchTweetsProps) {
+    const { toolResult, isLoading, className } = result;
     if (isLoading) {
         return (
             <Card className={cn(
@@ -50,8 +51,8 @@ export function FetchTweets({ result, isLoading, className }: FetchTweetsProps) 
             </Card>
         );
     }
-    const { data, error } = result ?? {};
 
+    const { data,error } = toolResult ?? {};
     if (error) {
         return (
             <Card className={cn("mt-3 max-w-96", className)}>

@@ -1,0 +1,70 @@
+import { ActionComponentProps } from "@/types/actions";
+import { FetchTweets } from "./fetch-tweets";
+import { TokenDetailsCard } from "./token-details";
+import { PortfolioView } from "./portfolio-view";
+
+export { SwapToken } from "./swap-token";
+// export { Transfer } from "./transfer";
+export { TokenDetailsCard } from "./token-details";
+export { PostTweet } from "./post-tweet";
+export { PortfolioView } from "./portfolio-view";
+export { ResolveBasename } from "./resolve-basename";
+
+export type ToolResultRenderer = (props: ActionComponentProps<any>) => React.ReactNode | null;
+
+export function DefaultToolResultRenderer({ result }: { result: any }) {
+  console.log("result", result);
+  if (result && typeof result === 'object' && 'error' in result) {
+    return (
+      <div className="mt-2 pl-3.5 text-sm text-destructive">
+        {String((result as { error: unknown }).error)}
+      </div>
+    );
+  }
+  
+  return (
+    <div className="mt-2 border-l border-border/40 pl-3.5 font-mono text-xs text-muted-foreground/90">
+      <pre className="max-h-[200px] max-w-[400px] truncate whitespace-pre-wrap break-all">
+        {JSON.stringify(result, null, 2).trim()}
+      </pre>
+    </div>
+  );
+}
+
+export const defaultTools: Record<string, {
+  displayName: string;
+  component: ToolResultRenderer;
+}> = {
+  "fetchTweets": {
+    displayName: "Fetch Tweets",
+    component: FetchTweets,
+  },
+  "swapToken": {
+    displayName: "Swap Token",
+    component: DefaultToolResultRenderer,
+  },
+  "tokenDetails": {
+    displayName: "Token Details",
+    component: DefaultToolResultRenderer,
+  },
+  "postTweet": {
+    displayName: "Post Tweet",
+    component: DefaultToolResultRenderer,
+  },
+  "getPortfolio": {
+    displayName: "getPortfolio",
+    component: PortfolioView,
+  },
+  "searchTokenDetails": {
+    displayName: "Search Token Details",
+    component: TokenDetailsCard,
+  },
+  // "resolveBasename": DefaultToolResultRenderer,
+}
+
+export function getToolConfig(toolName: string): {
+  displayName: string;
+  component: ToolResultRenderer;
+} | undefined {
+  return defaultTools[toolName];
+}
