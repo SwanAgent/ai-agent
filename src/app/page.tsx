@@ -1,63 +1,59 @@
 "use client";
 
-import { ErrorCode, useWallet } from "@suiet/wallet-kit";
-import { ConnectButton } from "@suiet/wallet-kit";
+import { ConnectButton, useCurrentAccount, useSignPersonalMessage } from '@mysten/dapp-kit';
 import { getCsrfToken, signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
 export default function LoginButton() {
-  const wallet = useWallet();
+  const account = useCurrentAccount();
+  const { mutate: signPersonalMessage } = useSignPersonalMessage();
+
   const router = useRouter();
   const { data: session } = useSession();
 
   const handleLogin = async () => {
     try {
-      const msg = "Welcome to SISI AI Agent";
+      const msg = "Welcome to FOAM DeFAI Agent";
       const nonce = await getCsrfToken();
       const msgBytes = new TextEncoder().encode(
         JSON.stringify({ message: msg, nonce: nonce })
       );
       
-      const result = await wallet.signPersonalMessage({
-        message: msgBytes,
-      });
+      signPersonalMessage(
+        {
+          message: msgBytes,
+        },
+        {
+          onSuccess: async (result) => {
+            const response = await signIn("credentials", {
+              signature: result.signature,
+              message: msg,
+              redirect: false,
+              address: account?.address,
+            });
 
-      const response = await signIn("credentials", {
-        signature: result.signature,
-        message: msg,
-        redirect: false,
-        address: wallet.account?.address,
-      });
-
-      if (response?.ok) {
-        router.push("/home");
-      }
+            if (response?.ok) {
+              router.push("/home");
+            }
+          },
+        }
+      );
     } catch (error) {
       console.error("Login error:", error);
     }
   };
 
   useEffect(() => {
-    if (wallet.connected && !session) {
+    if (account && !session) {
       handleLogin();
     }
-  }, [wallet.connected, session]);
+  }, [account, session]);
 
   return (
     <div className="flex flex-col items-center w-full justify-center h-screen">
       <h1 className="text-9xl font-bold p-10">Home Page</h1>
-      <ConnectButton
-        onConnectError={(error) => {
-          if (error.code === ErrorCode.WALLET__CONNECT_ERROR__USER_REJECTED) {
-            console.warn(
-              "User rejected the connection to " + error.details?.wallet
-            );
-          } else {
-            console.warn("Unknown connect error:", error);
-          }
-        }}
-      />
+      <ConnectButton />
     </div>
   );
 }

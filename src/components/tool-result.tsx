@@ -47,7 +47,7 @@ export function ToolResult({ toolName, result, header }: ToolResultProps) {
         <div className="w-full rounded-lg bg-muted/40 px-3 py-2">
           {headerContent}
         </div>
-        <div className="mt-2 px-4">{content}</div>
+        <div className="mt-2">{content}</div>
       </div>
     );
   }
@@ -61,7 +61,7 @@ export function ToolResult({ toolName, result, header }: ToolResultProps) {
       </Collapsible.Trigger>
 
       <Collapsible.Content>
-        <div className="mt-2 px-4">{content}</div>
+        <div className="mt-2">{content}</div>
       </Collapsible.Content>
     </Collapsible.Root>
   );
