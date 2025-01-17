@@ -50,3 +50,4 @@ export type ActionFull = Prisma.ActionGetPayload<{
 }>;
 
 export type Transaction = _PrismaTransaction;
+
