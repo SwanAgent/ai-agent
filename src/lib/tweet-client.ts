@@ -34,7 +34,7 @@ class TweetScraper implements ITweetScraper {
     public static getInstance(): TweetScraper {
         if (!TweetScraper.instance) {
             TweetScraper.instance = new TweetScraper();
-            TweetScraper.instance.init();
+            // TweetScraper.instance.init();
         }
         return TweetScraper.instance;
     }

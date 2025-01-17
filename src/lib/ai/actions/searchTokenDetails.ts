@@ -1,6 +1,7 @@
 import { ActionResponse } from "@/types/actions";
 import { DexScreenerSearchResponse, TokenDetails } from "@/types/dex-screener";
 import { z } from "zod";
+import { getTokenFromRegistry } from "../helpers/getTokenFromRegistry";
 
 export const searchTokenDetailsSchema = z.object({
     query: z.string().describe('The query to search for token details, it can be part of token name, symbol, or address'),
@@ -38,10 +39,16 @@ export const exactTokenMatch = (query: string, token: TokenMetadata) => {
 }
 
 export const searchTokenDetails = {
-    description: 'Search for token details using either token name, symbol, or address.',
+    description: 'Search for token details like name, symbol, address, image, website, socials, price, volume, price change, fdv, market cap using either token name, symbol, or address.',
     parameters: searchTokenDetailsSchema,
-    execute: async ({ query }: SearchTokenDetailsParams): Promise<SearchTokenDetailsResult> => {
+    execute: async ({ query: _query }: SearchTokenDetailsParams): Promise<SearchTokenDetailsResult> => {
         try {
+            let query = _query;
+            const tokenDetailsResult = await getTokenFromRegistry(query);
+            if (tokenDetailsResult) {
+                query = tokenDetailsResult.address;
+            }
+
             const response = await fetch(`https://api.dexscreener.com/latest/dex/search?q=${query}`);
             const data: DexScreenerSearchResponse = await response.json();
             const chainFilteredData = data.pairs.filter((pair) => pair.chainId === 'sui').sort((a, b) => {
@@ -81,7 +88,7 @@ export const searchTokenDetails = {
                 address: tokenAddress,
                 name: name,
                 symbol: symbol,
-                imageUrl: filteredData.info?.imageUrl || '',
+                imageUrl: tokenDetailsResult?.thumbnail || filteredData.info?.imageUrl || '',
                 websiteUrl: filteredData.info?.websites?.[0]?.url || '',
                 socials: filteredData.info?.socials || [],
                 priceUsd: parseFloat(filteredData.priceUsd),
@@ -106,7 +113,7 @@ export const searchTokenDetails = {
             console.log("error fetching token details", error);
             return {
                 success: false,
-                error: `Could not find token details for ${query}. Please try a specific token name, symbol, or address.`,
+                error: `Could not find token details for ${_query}. Please try a specific token name, symbol, or address.`,
             };
         }
     },

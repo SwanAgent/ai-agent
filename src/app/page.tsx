@@ -31,7 +31,7 @@ export default function LoginButton() {
       });
 
       if (response?.ok) {
-        router.push("/chat");
+        router.push("/home");
       }
     } catch (error) {
       console.error("Login error:", error);

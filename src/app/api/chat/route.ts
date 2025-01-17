@@ -8,7 +8,7 @@ import {
 import { z } from 'zod';
 
 import { customModel } from '@/lib/ai';
-import { models } from '@/lib/ai/models';
+import { DEFAULT_MODEL_NAME, models } from '@/lib/ai/models';
 import {
   codePrompt,
   systemPrompt,
@@ -46,8 +46,8 @@ export async function POST(request: Request) {
     const {
       id,
       messages,
-      modelId,
-    }: { id: string; messages: Array<Message>; modelId: string } =
+      // modelId,
+    }: { id: string; messages: Array<Message>;  } =
       await request.json();
 
     // Get the session using the auth options
@@ -56,6 +56,7 @@ export async function POST(request: Request) {
       return new Response('Unauthorized', { status: 401 })
     }
 
+    const modelId = DEFAULT_MODEL_NAME;
     const { id: userId, address: userAddress } = session.user
     const model = models.find((model) => model.id === modelId);
 

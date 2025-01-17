@@ -111,14 +111,13 @@ const CoinRow = ({ coin, index }: CoinRowProps) => (
 
 export function PortfolioView({
   result,
-  isLoading,
-  className,
 }: PortfolioViewProps) {
+  const { toolResult, isLoading, className } = result ?? {};
   if (isLoading) {
     return (
       <Card
         className={cn(
-          "max-w-48 mt-3 overflow-hidden border-border/50 bg-gradient-to-br from-background to-muted/30",
+          "max-w-96 w-96 mt-3 overflow-hidden border-border/50 bg-gradient-to-br from-background to-muted/30",
           className
         )}
       >
@@ -141,7 +140,7 @@ export function PortfolioView({
     );
   }
 
-  const { data, error } = result ?? {};
+  const { data, error } = toolResult ?? {};
 
   if (error) {
     return <div>Error fetching portfolio</div>;
@@ -150,7 +149,7 @@ export function PortfolioView({
   return (
     <Card
       className={cn(
-        "mt-3 max-w-96 overflow-hidden border-border/50 bg-gradient-to-br from-background to-muted/30",
+        "mt-3 max-w-96 w-96 overflow-hidden border-border/50 bg-gradient-to-br from-background to-muted/30",
         className
       )}
     >

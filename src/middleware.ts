@@ -5,7 +5,7 @@ import type { NextRequest } from "next/server";
 export async function middleware(request: NextRequest) {
   const token = await getToken({ req: request });
   const isAuthPage = request.nextUrl.pathname === "/";
-  const isProtectedRoute = request.nextUrl.pathname.startsWith("/chat");
+  const isProtectedRoute = request.nextUrl.pathname.startsWith("/chat") || request.nextUrl.pathname.startsWith("/home");
 
   if (isProtectedRoute) {
     if (!token) {
@@ -15,7 +15,7 @@ export async function middleware(request: NextRequest) {
   }
 
   if (isAuthPage && token) {
-    const redirectUrl = new URL("/chat", request.url);
+    const redirectUrl = new URL("/home", request.url);
     return NextResponse.redirect(redirectUrl);
   }
 
