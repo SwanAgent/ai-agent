@@ -3,12 +3,13 @@ import { ActionComponentProps } from "@/types/actions";
 
 type PostTweetProps = ActionComponentProps<PostTweetResponse>
 
-export function PostTweet({ result, isLoading }: PostTweetProps) {
+export function PostTweet({ result }: PostTweetProps) {
+    const { isLoading, toolResult } = result ?? {};
     if(isLoading) {
         return <div>Generating tweet...</div>;
     }
 
-    const { error } = result ?? {};
+    const { error } = toolResult ?? {};
     if(error) {
         return <div>Error posting tweet</div>;
     }

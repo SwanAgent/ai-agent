@@ -3,12 +3,12 @@ import { FetchTweets } from "./fetch-tweets";
 import { TokenDetailsCard } from "./token-details";
 import { PortfolioView } from "./portfolio-view";
 
-export { SwapToken } from "./swap-token";
+// export { SwapToken } from "./swap-token";
 // export { Transfer } from "./transfer";
 export { TokenDetailsCard } from "./token-details";
 export { PostTweet } from "./post-tweet";
 export { PortfolioView } from "./portfolio-view";
-export { ResolveBasename } from "./resolve-basename";
+// export { ResolveBasename } from "./resolve-basename";
 
 export type ToolResultRenderer = (props: ActionComponentProps<any>) => React.ReactNode | null;
 
@@ -45,6 +45,10 @@ export const defaultTools: Record<string, {
   },
   "tokenDetails": {
     displayName: "Token Details",
+    component: DefaultToolResultRenderer,
+  },
+  "FetchTweets": {
+    displayName: "Fetch Tweets",
     component: DefaultToolResultRenderer,
   },
   "postTweet": {

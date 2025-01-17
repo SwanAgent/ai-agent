@@ -16,7 +16,7 @@ import { cn } from '@/lib/utils';
 import { Button } from './ui/button';
 import { Tooltip, TooltipContent, TooltipTrigger } from './ui/tooltip';
 import { MessageEditor } from './message-editor';
-import { SwapToken, FetchTweets, PostTweet, TokenDetailsCard, PortfolioView, ResolveBasename } from './actions';
+import { PostTweet, TokenDetailsCard, PortfolioView } from './actions';
 
 
 const PurePreviewMessage = ({
@@ -138,12 +138,12 @@ const PurePreviewMessage = ({
                           <PortfolioView result={result} />
                         // ) : toolName === 'transfer' ? (
                         //   <Transfer msgToolId={message.id + "-" + toolCallId} result={result} />
-                        ) : toolName === 'swapTokens' ? (
-                          <SwapToken msgToolId={message.id + "-" + toolCallId} result={result} />
-                        ) : toolName === 'resolveBasenames' ? (
-                          <ResolveBasename result={result} />
-                        ) : toolName === 'fetchTweets' ? (
-                          <FetchTweets result={result} />
+                        // ) : toolName === 'swapTokens' ? (
+                        //   <SwapToken msgToolId={message.id + "-" + toolCallId} result={result} />
+                        // ) : toolName === 'resolveBasenames' ? (
+                        //   <ResolveBasename result={result} />
+                        // ) : toolName === 'fetchTweets' ? (
+                        //   <FetchTweets result={result} />
                         ) : toolName === 'postTweet' ? (
                           <PostTweet result={result} />
                         ) : toolName === 'searchTokenDetails' ? (
@@ -162,19 +162,19 @@ const PurePreviewMessage = ({
                       })}
                     >
                       {toolName === 'getPortfolio' ? (
-                        <PortfolioView isLoading={true} />
-                      ) : toolName === 'swapTokens' ? (
-                        <SwapToken msgToolId={message.id + "-" + toolCallId} isLoading={true} />
+                        <PortfolioView result={{ isLoading: true }} />
+                      // ) : toolName === 'swapTokens' ? (
+                      //   <SwapToken msgToolId={message.id + "-" + toolCallId} result={{ isLoading: true }} />
                       // ) : toolName === 'transfer' ? (
                       //   <Transfer msgToolId={message.id + "-" + toolCallId} isLoading={true} />
-                      ) : toolName === 'resolveBasenames' ? (
-                        <ResolveBasename isLoading={true} />
-                      ) : toolName === 'fetchTweets' ? (  
-                        <FetchTweets isLoading={true} />
+                      // ) : toolName === 'resolveBasenames' ? (
+                      //   <ResolveBasename result={{ isLoading: true }} />
+                      // ) : toolName === 'fetchTweets' ? (  
+                      //   <FetchTweets result={{ isLoading: true }} />
                       ) : toolName === 'postTweet' ? (
-                        <PostTweet isLoading={true} />
+                        <PostTweet result={{ isLoading: true }} />
                       ) : toolName === 'searchTokenDetails' ? (
-                        <TokenDetailsCard isLoading={true} />
+                        <TokenDetailsCard result={{ isLoading: true }} />
                       ) : null}
                     </div>
                   );
