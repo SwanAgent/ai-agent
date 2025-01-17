@@ -1,3 +1,5 @@
+import { CoinStruct } from "@mysten/sui/client";
+
 declare global {
   interface Window {
     ethereum?: any;
@@ -27,3 +29,13 @@ export type TokenMetadata = {
   decimals: number;
   thumbnail: string;
 }
+
+export type CoinObject = {
+  objectId: string;
+  type: string;
+  symbol: string;
+  balance: bigint;
+  lockedUntilEpoch: number | null | undefined;
+  previousTransaction: string;
+  object: CoinStruct; 
+};

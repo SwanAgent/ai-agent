@@ -17,7 +17,7 @@ import { Button } from './ui/button';
 import { Tooltip, TooltipContent, TooltipTrigger } from './ui/tooltip';
 import { MessageEditor } from './message-editor';
 import { PostTweet, TokenDetailsCard, PortfolioView } from './actions';
-
+import { Transfer } from './actions/transfer';
 
 const PurePreviewMessage = ({
   chatId,
@@ -136,8 +136,8 @@ const PurePreviewMessage = ({
                       <div key={toolCallId}>
                         {toolName === 'getPortfolio' ? (
                           <PortfolioView result={result} />
-                        // ) : toolName === 'transfer' ? (
-                        //   <Transfer msgToolId={message.id + "-" + toolCallId} result={result} />
+                        ) : toolName === 'transfer' ? (
+                          <Transfer msgToolId={message.id + "-" + toolCallId} result={ result } />
                         // ) : toolName === 'swapTokens' ? (
                         //   <SwapToken msgToolId={message.id + "-" + toolCallId} result={result} />
                         // ) : toolName === 'resolveBasenames' ? (
@@ -165,8 +165,8 @@ const PurePreviewMessage = ({
                         <PortfolioView result={{ isLoading: true }} />
                       // ) : toolName === 'swapTokens' ? (
                       //   <SwapToken msgToolId={message.id + "-" + toolCallId} result={{ isLoading: true }} />
-                      // ) : toolName === 'transfer' ? (
-                      //   <Transfer msgToolId={message.id + "-" + toolCallId} isLoading={true} />
+                      ) : toolName === 'transfer' ? (
+                        <Transfer msgToolId={message.id + "-" + toolCallId} result={{ isLoading: true }} />
                       // ) : toolName === 'resolveBasenames' ? (
                       //   <ResolveBasename result={{ isLoading: true }} />
                       // ) : toolName === 'fetchTweets' ? (  

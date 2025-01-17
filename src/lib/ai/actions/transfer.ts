@@ -6,7 +6,7 @@ import { getTokenFromRegistry } from "../helpers/getTokenFromRegistry";
 export const transferSchema = z.object({
     walletAddress: z.string(),
     amount: z.string(),
-    tokenToSend: z.string().default('ETH').describe('The name/symbol/address of the token to transfer, for native token eth, just using ETH. If there is no token mentioned assume ETH. '),
+    tokenToSend: z.string().default('SUI').describe('The name/symbol/address of the token to transfer, for native token sui, just using SUI. If there is no token mentioned assume SUI.'),
 });
 
 export type TransferParams = z.infer<typeof transferSchema>;
@@ -17,7 +17,7 @@ export type TransferResponse = ActionResponse<{
 }>;
 
 export const transfer = {
-    description: 'Transfer funds from one wallet to another. TokenAddress is the address of the token to transfer, for native token eth, just using ETH.',
+    description: 'Transfer funds from one wallet to another. TokenAddress is the address of the token to transfer, for native token sui, just using SUI.',
     parameters: transferSchema,
     execute: async ({ walletAddress, amount, tokenToSend }: TransferParams): Promise<TransferResponse> => {
         try {
