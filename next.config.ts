@@ -17,6 +17,9 @@ const nextConfig: NextConfig = {
       {
         hostname: 'assets.coingecko.com',
       },
+      {
+        hostname: 'avatars.githubusercontent.com',
+      },
     ],
   },
 };

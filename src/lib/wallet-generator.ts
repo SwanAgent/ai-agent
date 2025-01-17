@@ -1,8 +1,9 @@
 'use server';
 
-import bs58 from 'bs58';
 import { createCipheriv, createDecipheriv } from 'crypto';
 import { randomBytes } from 'crypto';
+import { Ed25519Keypair } from '@mysten/sui/keypairs/ed25519';
+
 
 /**
  * Generate encrypted keypair
@@ -25,36 +26,16 @@ export async function decryptPrivateKey(encryptedPrivateKey: string) {
  */
 async function generateExposedKeyPair() {
   // Generate Ed25519 keypair
-  const keypair = await crypto.subtle.generateKey('Ed25519', true, [
-    'sign',
-    'verify',
-  ]);
+  const keypair = Ed25519Keypair.generate();
+  const publicKey = keypair.getPublicKey().toSuiAddress();
+  const privateKey = keypair.getSecretKey();
 
-  // Export public and private keys
-  const publicKeyBuffer = await crypto.subtle.exportKey(
-    'raw',
-    keypair.publicKey,
-  );
-  const privateKeyBuffer = await crypto.subtle.exportKey(
-    'pkcs8',
-    keypair.privateKey,
-  );
-
-  // Solana private key needs to include both 32 bytes of private key and 32 bytes of public key
-  const privateKeyBytes = new Uint8Array(privateKeyBuffer.slice(-32)); // Extract private key part
-  const publicKeyBytes = new Uint8Array(publicKeyBuffer); // Extract public key part
-  const solanaPrivateKey = new Uint8Array([
-    ...privateKeyBytes,
-    ...publicKeyBytes,
-  ]); // 64 bytes format
-
-  // Convert to Base58 format
-  const publicKeyBase58 = bs58.encode(publicKeyBytes);
-  const privateKeyBase58 = bs58.encode(solanaPrivateKey);
+  console.log("publicKey", publicKey);
+  console.log("privateKey", privateKey);
 
   return {
-    publicKey: publicKeyBase58,
-    privateKey: privateKeyBase58,
+    publicKey: publicKey,
+    privateKey: privateKey,
   };
 }
 
