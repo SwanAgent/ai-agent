@@ -20,37 +20,31 @@ export const transfer = {
     description: 'Transfer funds from one wallet to another. TokenAddress is the address of the token to transfer, for native token eth, just using ETH.',
     parameters: transferSchema,
     execute: async ({ walletAddress, amount, tokenToSend }: TransferParams): Promise<TransferResponse> => {
-        try{
-            let tokenDetails = {
-            blockchain: "base",
-            address: "ETH",
-            name: "Ether",
-            symbol: "ETH",
-            decimals: 18,
-            thumbnail: "https://assets.coingecko.com/coins/images/279/large/ethereum.png?1696501542",
-        };
-
-        if (tokenToSend !== "ETH") {
-            const tokenDetailsResult = await getTokenFromRegistry(tokenToSend);
-            if (tokenDetailsResult) {
-                tokenDetails = tokenDetailsResult;
-            } else {
+        try {
+            const tokenDetails = await getTokenFromRegistry(tokenToSend);
+            if (!tokenDetails) {
                 return {
-                    success: false,
-                    error: "Can not find token details for " + tokenToSend + " on Base chain. Please give a valid token name/symbol/address.",
-                };
-            }
-        }
+                        success: false,
+                        error: "Can not find token details for " + tokenToSend + " on SUI chain. Please give a valid token name/symbol/address.",
+                    };
+                }
 
-        return {
-            success: true,
-            signTransaction: true,
-            data: {
-                walletAddress,
-                amount,
-                tokenToSend: tokenDetails,
-            },
-        };
+            return {
+                success: true,
+                signTransaction: true, 
+                data: {
+                    walletAddress,
+                    amount,
+                    tokenToSend: {
+                        address: tokenDetails.address,
+                        name: tokenDetails.name,
+                        symbol: tokenDetails.symbol,
+                        decimals: tokenDetails.decimals,
+                        thumbnail: tokenDetails.thumbnail,
+                        blockchain: "sui",
+                    },
+                },
+            };
         } catch (error) {
             console.log(error, "error in transfer")
             return {

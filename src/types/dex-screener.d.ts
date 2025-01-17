@@ -4,10 +4,9 @@ export type TokenDetails = {
     symbol: string;
     imageUrl: string;
     websiteUrl: string;
-    socials: {
-        type: string;
-        url: string;
-    }[];
+    twitterUrl?: string;
+    telegramUrl?: string;
+    discordUrl?: string;
     priceUsd: number;
     liquidityUsd: number;
     marketCapUsd: number;

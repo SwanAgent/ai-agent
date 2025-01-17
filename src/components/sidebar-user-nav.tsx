@@ -20,6 +20,7 @@ import { ethers } from 'ethers';
 import { useRouter } from 'next/navigation';
 import { useWallet } from '@suiet/wallet-kit';
 import { AgentUser } from '@/types/db';
+import { Avatar, AvatarFallback, AvatarImage } from '@radix-ui/react-avatar';
 
 export function SidebarUserNav({ user }: { user: AgentUser }) {
   const { setTheme, theme } = useTheme();
@@ -82,13 +83,10 @@ export function SidebarUserNav({ user }: { user: AgentUser }) {
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <SidebarMenuButton className="data-[state=open]:bg-sidebar-accent bg-background data-[state=open]:text-sidebar-accent-foreground h-10">
-              <Image
-                src={`https://avatar.vercel.sh/${user.id}`}
-                alt={user.address ?? 'User Avatar'}
-                width={24}
-                height={24}
-                className="rounded-full"
-              />
+              <Avatar >
+                <AvatarImage className="w-28 h-8 rounded-full" src={`https://avatars.githubusercontent.com/u/1357181`} />
+                <AvatarFallback>0x</AvatarFallback>
+              </Avatar>
               <span className="truncate">{user.address}</span>
               <ChevronUp className="ml-auto" />
             </SidebarMenuButton>
