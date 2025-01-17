@@ -15,15 +15,15 @@ import {
   SidebarMenuItem,
 } from '@/components/ui/sidebar';
 import { useRouter } from 'next/navigation';
-import { useWallet } from '@suiet/wallet-kit';
+import { useDisconnectWallet } from '@mysten/dapp-kit';
 import { AgentUser } from '@/types/db';
 import { Avatar, AvatarFallback, AvatarImage } from '@radix-ui/react-avatar';
 
 export function SidebarUserNav({ user }: { user: AgentUser }) {
   const { setTheme, theme } = useTheme();
   const router = useRouter();
-  const { disconnect } = useWallet();
-
+  const { mutate: disconnect } = useDisconnectWallet();
+  
   return (
     <SidebarMenu>
       <SidebarMenuItem>

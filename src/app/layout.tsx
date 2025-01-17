@@ -5,12 +5,12 @@ import { ThemeProvider } from '@/components/theme-provider';
 
 import './globals.css';
 import SuiWalletProvider from './providers';
-import "@suiet/wallet-kit/style.css";
+import '@mysten/dapp-kit/dist/index.css';
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://leapwallet.io'),
-  title: 'SISI AI Agent',
-  description: 'SISI AI Agent',
+  metadataBase: new URL('https://foam.sh'),
+  title: 'FOAM DeFAI Agent',
+  description: 'FOAM DeFAI Agent',
 };
 
 export const viewport = {
