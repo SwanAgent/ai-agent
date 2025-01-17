@@ -1,7 +1,7 @@
 import { getPortfolio } from './getPortfolio';
 import { transfer } from './transfer';
 import { swapTokens } from './swapToken';
-// import { fetchTweets, postTweet } from './twitter';
+import { fetchTweets, postTweet } from './twitter';
 import { searchTokenDetails } from './searchTokenDetails';
 import { z } from 'zod';
 
@@ -18,8 +18,8 @@ export const tools = {
     getPortfolio,
     transfer,
     swapTokens,
-    // fetchTweets,
-    // postTweet,
+    fetchTweets,
+    postTweet,
     searchTokenDetails,
 };
 
