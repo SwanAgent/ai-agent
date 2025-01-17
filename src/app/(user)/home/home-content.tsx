@@ -17,6 +17,7 @@ import { Chat } from '@/components/chat';
 import { DEFAULT_MODEL_NAME } from '@/lib/ai/models';
 import { DataStreamHandler } from '@/components/data-stream-handler';
 import { useSWRConfig } from 'swr';
+import ChatInterface from '../chat/[id]/chat-interface';
 
 const EAP_PRICE = 1.0;
 const RECEIVE_WALLET_ADDRESS =
@@ -370,8 +371,9 @@ export function HomeContent() {
           showChat ? 'opacity-100' : 'pointer-events-none opacity-0',
         )}
       >
-        <Chat id={chatId} initialMessages={[]} selectedModelId={DEFAULT_MODEL_NAME} selectedVisibilityType="private" isReadonly={false} />
-        <DataStreamHandler id={chatId} />
+        <ChatInterface id={chatId} initialMessages={[]} />
+        {/* <Chat id={chatId} initialMessages={[]} selectedModelId={DEFAULT_MODEL_NAME} selectedVisibilityType="private" isReadonly={false} />
+        <DataStreamHandler id={chatId} /> */}
       </div>
     </div>
   );

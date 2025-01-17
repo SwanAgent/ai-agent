@@ -59,39 +59,39 @@
         --sidebar-ring: 220 50% 50%; /* Sidebar focus ring */
             }
     .dark {
-        --background: 220 8% 10%; /* Deep grayish-blue for a clean, subtle background */
-        --foreground: 0 0% 90%; /* Soft white for text */
-        --card: 220 7% 14%; /* Dark gray for cards to add depth */
-        --card-foreground: 0 0% 95%; /* Bright white text on cards */
-        --popover: 220 8% 12%; /* Slightly lighter gray for popovers */
-        --popover-foreground: 0 0% 90%; /* Soft white for popover text */
-        --primary: 200 98% 55%; /* Neon blue for primary actions */
-        --primary-foreground: 0 0% 98%; /* White for high contrast */
-        --secondary: 220 7% 20%; /* Muted gray for secondary elements */
-        --secondary-foreground: 200 95% 55%; /* Neon blue for secondary text */
-        --muted: 220 8% 18%; /* Medium gray for muted elements */
-        --muted-foreground: 220 6% 60%; /* Cool blue-gray for muted text */
-        --accent: 200 98% 55%; /* Neon blue for accent elements */
-        --accent-foreground: 0 0% 98%; /* White for accent text */
-        --destructive: 0 60% 40%; /* Deep red for warnings or destructive actions */
-        --destructive-foreground: 0 0% 95%; /* Bright white for destructive actions */
-        --border: 220 8% 15%; /* Subtle gray-blue for borders */
-        --input: 220 10% 15%; /* Light gray for inputs */
-        --ring: 200 98% 55%; /* Neon blue glow for focus rings */
-        --chart-1: 200 98% 55%; /* Neon blue for chart highlights */
-        --chart-2: 160 70% 50%; /* Neon green for diversity in charts */
-        --chart-3: 340 80% 55%; /* Vibrant pink for charts */
-        --chart-4: 60 100% 50%; /* Bright yellow-green for contrast */
-        --chart-5: 280 70% 60%; /* Neon purple for charts */
-        --sidebar-background: 220 8% 10%; /* Match the main background for consistency */
-        --sidebar-foreground: 0 0% 90%; /* Soft white for sidebar text */
-        --sidebar-primary: 200 98% 55%; /* Neon blue for primary sidebar elements */
-        --sidebar-primary-foreground: 0 0% 98%; /* White for contrast */
-        --sidebar-accent: 220 7% 14%; /* Dark gray for sidebar accents */
-        --sidebar-accent-foreground: 200 95% 55%; /* Neon blue for sidebar text */
-        --sidebar-border: 220 8% 15%; /* Subtle border color */
-        --sidebar-ring: 200 98% 55%; /* Neon blue focus ring for sidebar elements */
-            }
+        --background: 240 8% 10%; /* Deep grayish background */
+        --foreground: 0 0% 92%; /* Soft white for primary text */
+        --card: 240 7% 15%; /* Dark gray for cards to add depth */
+        --card-foreground: 0 0% 95%; /* Bright white for card text */
+        --popover: 240 8% 12%; /* Slightly lighter gray for popovers */
+        --popover-foreground: 0 0% 92%; /* Soft white for popover text */
+        --primary: 330 80% 55%; /* Neon magenta for primary actions (base color) */
+        --primary-foreground: 0 0% 100%; /* Pure white for high contrast */
+        --secondary: 240 6% 20%; /* Muted gray for secondary elements */
+        --secondary-foreground: 330 80% 60%; /* Neon magenta for secondary text */
+        --muted: 240 6% 18%; /* Medium gray for muted elements */
+        --muted-foreground: 240 5% 60%; /* Cool grayish-blue for muted text */
+        --accent: 330 80% 55%; /* Neon magenta for accents */
+        --accent-foreground: 0 0% 100%; /* White for accent text */
+        --destructive: 0 65% 45%; /* Vibrant red for destructive actions */
+        --destructive-foreground: 0 0% 95%; /* Bright white for destructive text */
+        --border: 240 8% 15%; /* Subtle gray-blue for borders */
+        --input: 240 10% 20%; /* Light gray for inputs */
+        --ring: 330 80% 55%; /* Neon magenta glow for focus rings */
+        --chart-1: 330 80% 55%; /* Neon magenta for charts */
+        --chart-2: 200 70% 50%; /* Bright teal for chart diversity */
+        --chart-3: 60 80% 50%; /* Neon green for contrast */
+        --chart-4: 280 70% 60%; /* Neon purple for variety */
+        --chart-5: 40 90% 60%; /* Vibrant yellow for charts */
+        --sidebar-background: 240 8% 12%; /* Slightly lighter gray for sidebar */
+        --sidebar-foreground: 0 0% 92%; /* Soft white for sidebar text */
+        --sidebar-primary: 330 80% 55%; /* Neon magenta for sidebar highlights */
+        --sidebar-primary-foreground: 0 0% 100%; /* White for contrast */
+        --sidebar-accent: 240 6% 18%; /* Dark gray for sidebar accents */
+        --sidebar-accent-foreground: 330 80% 55%; /* Neon magenta for sidebar text */
+        --sidebar-border: 240 8% 15%; /* Subtle border color */
+        --sidebar-ring: 330 80% 55%; /* Neon magenta focus ring for sidebar */
+                    }
         }
 
 @layer base {

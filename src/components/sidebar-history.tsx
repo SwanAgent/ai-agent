@@ -49,6 +49,7 @@ import { Chat } from '@/types/db';
 import { fetcher } from '@/lib/utils';
 import { useChatVisibility } from '@/hooks/use-chat-visibility';
 import { User } from 'next-auth';
+import { HistoryIcon } from 'lucide-react';
 
 type GroupedChats = {
   today: Chat[];
@@ -287,9 +288,12 @@ export function SidebarHistory({ user }: { user: User | null }) {
             {history &&
               (() => {
                 const groupedChats = groupChatsByDate(history);
-
                 return (
                   <>
+                    <div className="flex flex-row gap-2 items-center px-2 py-1 text-xs text-sidebar-foreground/50">
+                      <HistoryIcon size={12} />
+                      <span>Chat History</span>
+                    </div>
                     {groupedChats.today.length > 0 && (
                       <>
                         <div className="px-2 py-1 text-xs text-sidebar-foreground/50">
