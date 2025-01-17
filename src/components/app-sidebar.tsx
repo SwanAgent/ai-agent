@@ -50,6 +50,7 @@ export function AppSidebar() {
   const user = session?.user;
   const { setOpenMobile } = useSidebar();
 
+  console.log("session user", user);
   if (!user) {
     return null;
   }
