@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { usePathname } from 'next/navigation';
-
+import axios from 'axios';
 import { useChat } from 'ai/react';
 import { cn, generateUUID } from '@/lib/utils';
 
@@ -74,6 +74,13 @@ export function HomeContent() {
       mutate('/api/history');
     },
   });
+
+  useEffect(() => {
+    console.log("history check");
+    axios.get('https://api.suiai.fun/api/pools?populate=*&sort=volume_24h:desc&pagination[page]=1&pagination[pageSize]=24').then((res) => {
+      console.log("history check", res.data);
+    });
+  }, []);
 
   // Verification effect
   // useEffect(() => {
@@ -262,12 +269,12 @@ export function HomeContent() {
               </div>
             </BlurFade>
 
-            {/* <BlurFade delay={0.4}>
+            <BlurFade delay={0.4}>
               <div className="space-y-2">
                 <SectionTitle>Integrations</SectionTitle>
                 <IntegrationsGrid />
               </div>
-            </BlurFade> */}
+            </BlurFade>
           </div>
       </div>
     </div>

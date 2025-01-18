@@ -2,6 +2,8 @@ import { ActionComponentProps } from "@/types/actions";
 import { FetchTweets } from "./fetch-tweets";
 import { TokenDetailsCard } from "./token-details";
 import { PortfolioView } from "./portfolio-view";
+import { Transfer } from "./transfer";
+import { SuiAiPools } from "./sui-ai-pools";
 
 // export { SwapToken } from "./swap-token";
 // export { Transfer } from "./transfer";
@@ -10,7 +12,7 @@ export { PostTweet } from "./post-tweet";
 export { PortfolioView } from "./portfolio-view";
 // export { ResolveBasename } from "./resolve-basename";
 
-export type ToolResultRenderer = (props: ActionComponentProps<any>) => React.ReactNode | null;
+export type ToolResultRenderer = (props: ActionComponentProps<any> & { msgToolId: string }) => React.ReactNode | null;
 
 export function DefaultToolResultRenderer({ result }: { result: any }) {
   console.log("result", result);
@@ -62,6 +64,14 @@ export const defaultTools: Record<string, {
   "searchTokenDetails": {
     displayName: "Search Token Details",
     component: TokenDetailsCard,
+  },
+  "transfer": {
+    displayName: "Transfer Coins",
+    component: Transfer,
+  },
+  "getSuiAiPools": {
+    displayName: "Get Sui Ai Pools",
+    component: SuiAiPools,
   },
   // "resolveBasename": DefaultToolResultRenderer,
 }

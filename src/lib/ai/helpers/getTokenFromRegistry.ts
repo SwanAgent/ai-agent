@@ -21,7 +21,7 @@ export const getTokenFromRegistry = async (query: string) => {
     const token: CoinGeckoToken | undefined = data.tokens.find((token: CoinGeckoToken) => token.name.toLowerCase() === query.toLowerCase() || token.symbol.toLowerCase() === query.toLowerCase() || token.address.toLowerCase() === query.toLowerCase());
     if (token) {
         return {
-            blockchain: 'base',
+            blockchain: 'sui',
             address: token.address,
             name: token.name,
             symbol: token.symbol,

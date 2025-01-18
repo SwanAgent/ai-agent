@@ -38,6 +38,7 @@ export function TokenDetailsCard({ result }: TokenDetailsCardProps) {
                 <div className="border-b border-border/10">
                     <div className="flex items-center justify-between">
                         <div className="flex items-center gap-3">
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
                             <img
                                 src={tokenDetails?.imageUrl || '/fallback-token.png'}
                                 alt={tokenDetails?.name}
@@ -103,9 +104,9 @@ export function TokenDetailsCard({ result }: TokenDetailsCardProps) {
                         </div>
                     </div>
 
-                    <div className="grid grid-cols-4 border-b border-border/10">
+                    <div className="grid grid-cols-4 border-b border-border/10 space-x-2">
                         {timeframes.map(({ label, value }) => (
-                            <div key={value} className="p-3 text-center border-r last:border-r-0 border-border/10">
+                            <div key={value} className="p-3 text-center border-r bg-background/50 last:border-r-0 border-border/10 rounded-xl overflow-hidden">
                                 <div className="text-xs text-muted-foreground mb-1">{label}</div>
                                 <div className={`text-sm font-medium ${(tokenDetails?.priceChange?.[value] ?? 0) >= 0 ? 'text-green-500' : 'text-red-500'}`}>
                                     {(tokenDetails?.priceChange?.[value] ?? 0) >= 0 ? '+' : ''}{tokenDetails?.priceChange?.[value]?.toFixed(2) ?? '0.00'}%
