@@ -63,7 +63,11 @@ export function IntegrationCard({
         />
       </motion.div>
 
-      <div className="z-10 flex-1 space-y-0.5 text-left">
+      <div className="z-10 flex-1 space-y-0.5 text-left" onClick={() => {
+        if (item.url) {
+          window.open(item.url, '_blank');
+        }
+      }}> 
         <motion.div
           className="text-sm font-medium transition-colors duration-300"
           initial={false}

@@ -3,6 +3,7 @@ import { transfer } from './transfer';
 import { swapTokens } from './swapToken';
 import { fetchTweets, postTweet } from './twitter';
 import { searchTokenDetails } from './searchTokenDetails';
+import { getSuiAiPools } from './suiAi';
 import { z } from 'zod';
 
 export interface ToolConfig {
@@ -21,5 +22,6 @@ export const tools = {
     fetchTweets,
     postTweet,
     searchTokenDetails,
+    getSuiAiPools,
 };
 

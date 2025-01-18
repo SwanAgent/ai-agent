@@ -18,6 +18,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from './ui/tooltip';
 import { MessageEditor } from './message-editor';
 import { PostTweet, TokenDetailsCard, PortfolioView } from './actions';
 import { Transfer } from './actions/transfer';
+import { SuiAiPools } from './actions/sui-ai-pools';
 
 const PurePreviewMessage = ({
   chatId,
@@ -136,6 +137,8 @@ const PurePreviewMessage = ({
                       <div key={toolCallId}>
                         {toolName === 'getPortfolio' ? (
                           <PortfolioView result={result} />
+                        ) : toolName === 'getSuiAiPools' ? (
+                          <SuiAiPools result={result} />
                         ) : toolName === 'transfer' ? (
                           <Transfer msgToolId={message.id + "-" + toolCallId} result={ result } />
                         // ) : toolName === 'swapTokens' ? (
@@ -163,8 +166,8 @@ const PurePreviewMessage = ({
                     >
                       {toolName === 'getPortfolio' ? (
                         <PortfolioView result={{ isLoading: true }} />
-                      // ) : toolName === 'swapTokens' ? (
-                      //   <SwapToken msgToolId={message.id + "-" + toolCallId} result={{ isLoading: true }} />
+                      ) : toolName === 'getSuiAiPools' ? (
+                        <SuiAiPools result={{ isLoading: true }} />
                       ) : toolName === 'transfer' ? (
                         <Transfer msgToolId={message.id + "-" + toolCallId} result={{ isLoading: true }} />
                       // ) : toolName === 'resolveBasenames' ? (

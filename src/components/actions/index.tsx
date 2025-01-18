@@ -3,6 +3,7 @@ import { FetchTweets } from "./fetch-tweets";
 import { TokenDetailsCard } from "./token-details";
 import { PortfolioView } from "./portfolio-view";
 import { Transfer } from "./transfer";
+import { SuiAiPools } from "./sui-ai-pools";
 
 // export { SwapToken } from "./swap-token";
 // export { Transfer } from "./transfer";
@@ -67,6 +68,10 @@ export const defaultTools: Record<string, {
   "transfer": {
     displayName: "Transfer Coins",
     component: Transfer,
+  },
+  "getSuiAiPools": {
+    displayName: "Get Sui Ai Pools",
+    component: SuiAiPools,
   },
   // "resolveBasename": DefaultToolResultRenderer,
 }
