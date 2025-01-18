@@ -51,7 +51,8 @@ export function AppSidebar() {
   const { setOpenMobile } = useSidebar();
 
   console.log("session user", user);
-  if (!user) {
+  if (!user?.address) {
+    console.log("no user, sidebar");
     return null;
   }
 
