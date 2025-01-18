@@ -17,7 +17,7 @@ const SuiWalletProvider: FC<any> = ({ children }) => {
   return (
     <QueryClientProvider client={queryClient}>
       <SuiClientProvider networks={networkConfig} defaultNetwork="mainnet">
-        <WalletProvider>
+        <WalletProvider autoConnect={true}>
           <SessionProvider>{children}</SessionProvider>
         </WalletProvider>
       </SuiClientProvider>
