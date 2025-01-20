@@ -51,10 +51,6 @@ export function AppSidebar() {
   const { setOpenMobile } = useSidebar();
 
   console.log("session user", user);
-  if (!user?.address) {
-    console.log("no user, sidebar");
-    return null;
-  }
 
   return (
     <Sidebar className="bg-black group-data-[side=left]:border-r-0">
@@ -98,7 +94,7 @@ export function AppSidebar() {
             <Tooltip key={option.label}>
               <TooltipTrigger asChild>
                 <Link
-                  href={option.isActive ? option.href : '#'}
+                  href={option.isActive && user?.address ? option.href : '#'}
                   key={option.label}
                   className={cn(
                 buttonVariants({ variant: 'ghost' }),
@@ -116,7 +112,7 @@ export function AppSidebar() {
             </Tooltip>
           ))}
         </div>
-        <SidebarHistory user={user} />
+        <SidebarHistory user={user ?? null} />
       </SidebarContent>
       <SidebarFooter>{user && <SidebarUserNav user={user} />}</SidebarFooter>
     </Sidebar>

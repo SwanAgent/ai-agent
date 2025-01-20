@@ -18,12 +18,17 @@ import { useRouter } from 'next/navigation';
 import { useDisconnectWallet } from '@mysten/dapp-kit';
 import { AgentUser } from '@/types/db';
 import { Avatar, AvatarFallback, AvatarImage } from '@radix-ui/react-avatar';
+import { Skeleton } from './ui/skeleton';
 
-export function SidebarUserNav({ user }: { user: AgentUser }) {
+export function SidebarUserNav({ user }: { user: AgentUser | null }) {
   const { setTheme, theme } = useTheme();
   const router = useRouter();
   const { mutate: disconnect } = useDisconnectWallet();
   
+  if (!user) {
+    return <Skeleton className="h-10 w-full" />
+  }
+
   return (
     <SidebarMenu>
       <SidebarMenuItem>
