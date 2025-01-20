@@ -239,7 +239,7 @@ export function HomeContent() {
         <TypingAnimation
           className="mb-12 bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-center text-4xl font-semibold tracking-tight text-transparent md:text-4xl lg:text-5xl"
           duration={50}
-          text="How can I assist you?"
+          text="Get started with DefAI on Sui"
         />
       </BlurFade>
 
