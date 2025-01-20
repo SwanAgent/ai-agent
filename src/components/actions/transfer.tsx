@@ -16,9 +16,8 @@ import { getTransferCoinTxb } from '@/utils/create-transfer-coin-txb';
 import { toSmall } from '@/utils/token-converter';
 import { suiClient } from '@/lib/clients/sui-client';
 
-type TransferProps = ActionComponentProps<TransferResponse> & {
-    msgToolId: string;
-}
+type TransferProps = ActionComponentProps<TransferResponse>
+
 
 export function Transfer({ result: actionResult, msgToolId }: TransferProps) {
     const { toolResult: result, isLoading: isPageLoading, className } = actionResult;

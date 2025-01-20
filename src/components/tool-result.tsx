@@ -12,9 +12,10 @@ interface ToolResultProps {
   toolName: string;
   result: unknown;
   header: React.ReactNode;
+  msgToolId: string;
 }
 
-export function ToolResult({ toolName, result, header }: ToolResultProps) {
+export function ToolResult({ toolName, result, header, msgToolId }: ToolResultProps) {
   const config = getToolConfig(toolName)!;
   const isCollapsible = true
   // config.isCollapsible === true;
@@ -24,7 +25,7 @@ export function ToolResult({ toolName, result, header }: ToolResultProps) {
   );
 
   console.log("result", result);
-  const content = config.component({result: {toolResult: result as any}});
+  const content = config.component({result: {toolResult: result as any}, msgToolId: msgToolId});
   if (!content) return null;
 
   const headerContent = (

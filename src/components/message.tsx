@@ -129,18 +129,18 @@ const PurePreviewMessage = ({
               <div className="flex flex-col gap-4">
                 {message.toolInvocations.map((toolInvocation) => {
                   const { toolName, toolCallId, state, args } = toolInvocation;
-
+                  const msgToolId = `${message.id}-${toolCallId}`
                   if (state === 'result') {
                     const { result } = toolInvocation;
 
                     return (
                       <div key={toolCallId}>
                         {toolName === 'getPortfolio' ? (
-                          <PortfolioView result={result} />
+                          <PortfolioView result={result} msgToolId={msgToolId} />
                         ) : toolName === 'getSuiAiPools' ? (
-                          <SuiAiPools result={result} />
+                          <SuiAiPools result={result} msgToolId={msgToolId} />
                         ) : toolName === 'transfer' ? (
-                          <Transfer msgToolId={message.id + "-" + toolCallId} result={ result } />
+                          <Transfer msgToolId={msgToolId}  result={ result } />
                         // ) : toolName === 'swapTokens' ? (
                         //   <SwapToken msgToolId={message.id + "-" + toolCallId} result={result} />
                         // ) : toolName === 'resolveBasenames' ? (
@@ -148,9 +148,9 @@ const PurePreviewMessage = ({
                         // ) : toolName === 'fetchTweets' ? (
                         //   <FetchTweets result={result} />
                         ) : toolName === 'postTweet' ? (
-                          <PostTweet result={result} />
+                          <PostTweet result={result} msgToolId={msgToolId} />
                         ) : toolName === 'searchTokenDetails' ? (
-                          result.data ? <TokenDetailsCard result={result} /> : null
+                          result.data ? <TokenDetailsCard result={result} msgToolId={msgToolId} /> : null
                         ) : (
                           <pre>{JSON.stringify(result, null, 2)}</pre>
                         )}
@@ -165,19 +165,19 @@ const PurePreviewMessage = ({
                       })}
                     >
                       {toolName === 'getPortfolio' ? (
-                        <PortfolioView result={{ isLoading: true }} />
+                        <PortfolioView result={{ isLoading: true }} msgToolId={msgToolId} />
                       ) : toolName === 'getSuiAiPools' ? (
-                        <SuiAiPools result={{ isLoading: true }} />
+                        <SuiAiPools result={{ isLoading: true }} msgToolId={msgToolId} />
                       ) : toolName === 'transfer' ? (
-                        <Transfer msgToolId={message.id + "-" + toolCallId} result={{ isLoading: true }} />
+                        <Transfer msgToolId={msgToolId} result={{ isLoading: true }} />
                       // ) : toolName === 'resolveBasenames' ? (
                       //   <ResolveBasename result={{ isLoading: true }} />
                       // ) : toolName === 'fetchTweets' ? (  
                       //   <FetchTweets result={{ isLoading: true }} />
                       ) : toolName === 'postTweet' ? (
-                        <PostTweet result={{ isLoading: true }} />
+                        <PostTweet result={{ isLoading: true }} msgToolId={msgToolId} />
                       ) : toolName === 'searchTokenDetails' ? (
-                        <TokenDetailsCard result={{ isLoading: true }} />
+                        <TokenDetailsCard result={{ isLoading: true }} msgToolId={msgToolId} />
                       ) : null}
                     </div>
                   );

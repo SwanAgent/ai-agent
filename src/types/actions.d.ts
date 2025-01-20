@@ -11,7 +11,8 @@ export type ActionComponentProps<T> = {
       toolResult?: T;
       isLoading?: boolean;
       className?: string;
-    }
+    },
+    msgToolId: string;
 }
 
 export interface SwapQuote {

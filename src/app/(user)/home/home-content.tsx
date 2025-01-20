@@ -77,7 +77,7 @@ export function HomeContent() {
 
   useEffect(() => {
     console.log("history check");
-    axios.get('https://api.suiai.fun/api/pools?populate=*&sort=volume_24h:desc&pagination[page]=1&pagination[pageSize]=24').then((res) => {
+    axios.get('https://api.suiai.fun/api/pools?populate=*&sort=volume_24h:desc&pagination[page]=1&pagination[pageSize]=24').then((res: any) => {
       console.log("history check", res.data);
     });
   }, []);

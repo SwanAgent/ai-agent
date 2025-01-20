@@ -182,8 +182,10 @@ function MessageAttachments({
 
 function MessageToolInvocations({
   toolInvocations,
+  messageId,
 }: {
   toolInvocations: ToolInvocation[];
+  messageId: string;
 }) {
   return (
     <div className="space-y-px">
@@ -222,7 +224,7 @@ function MessageToolInvocations({
         return (
           <div key={toolCallId} className="group">
             {isCompleted ? (
-              <ToolResult toolName={toolName} result={result} header={header} />
+              <ToolResult toolName={toolName} result={result} header={header} msgToolId={`${messageId}-${toolCallId}`} />
             ) : (
               <>
                 {header}
@@ -362,7 +364,7 @@ function ChatMessage({
         )}
 
         {message.toolInvocations && (
-          <MessageToolInvocations toolInvocations={message.toolInvocations} />
+          <MessageToolInvocations toolInvocations={message.toolInvocations} messageId={message.id} />
         )}
       </div>
     </div>
