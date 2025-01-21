@@ -4,7 +4,6 @@ import { createCipheriv, createDecipheriv } from 'crypto';
 import { randomBytes } from 'crypto';
 import { Ed25519Keypair } from '@mysten/sui/keypairs/ed25519';
 
-
 /**
  * Generate encrypted keypair
  */
@@ -25,17 +24,13 @@ export async function decryptPrivateKey(encryptedPrivateKey: string) {
  * Generate exposed keypair
  */
 async function generateExposedKeyPair() {
-  // Generate Ed25519 keypair
   const keypair = Ed25519Keypair.generate();
   const publicKey = keypair.getPublicKey().toSuiAddress();
   const privateKey = keypair.getSecretKey();
 
-  console.log("publicKey", publicKey);
-  console.log("privateKey", privateKey);
-
   return {
-    publicKey: publicKey,
-    privateKey: privateKey,
+    publicKey,
+    privateKey,
   };
 }
 

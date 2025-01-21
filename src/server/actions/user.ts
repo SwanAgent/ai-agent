@@ -6,7 +6,7 @@ import prisma from "@/lib/prisma";
 import { ActionResponse, actionClient } from "@/lib/safe-action";
 import { generateEncryptedKeyPair } from "@/lib/wallet-generator";
 import { AgentUser, PrismaUser } from "@/types/db";
-import { getServerSession, Session } from "next-auth";
+import { getServerSession } from "next-auth";
 import { authOptions } from "@/utils/auth-options";
 
 export const getOrCreateUser = actionClient

@@ -1,7 +1,6 @@
 'use client';
 import { ChevronUp } from 'lucide-react';
 import { useTheme } from 'next-themes';
-import { signOut } from 'next-auth/react';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -14,16 +13,14 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from '@/components/ui/sidebar';
-import { useRouter } from 'next/navigation';
-import { useDisconnectWallet } from '@mysten/dapp-kit';
 import { AgentUser } from '@/types/db';
 import { Avatar, AvatarFallback, AvatarImage } from '@radix-ui/react-avatar';
 import { Skeleton } from './ui/skeleton';
+import { useUser } from '@/hooks/use-user';
 
 export function SidebarUserNav({ user }: { user: AgentUser | null }) {
   const { setTheme, theme } = useTheme();
-  const router = useRouter();
-  const { mutate: disconnect } = useDisconnectWallet();
+  const { logout } = useUser();
   
   if (!user) {
     return <Skeleton className="h-10 w-full" />
@@ -59,9 +56,7 @@ export function SidebarUserNav({ user }: { user: AgentUser | null }) {
                 type="button"
                 className="w-full cursor-pointer"
                 onClick={() => {
-                  disconnect();
-                  signOut()
-                  router.push("/");
+                  logout();
                 }}
               >
                 Sign out
