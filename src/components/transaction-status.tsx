@@ -8,7 +8,7 @@ interface TransactionStatusProps {
   explorerUrl?: string;
 }
 
-export function TransactionStatus({ transaction, isLoading, explorerUrl = "https://basescan.org/tx" }: TransactionStatusProps) {
+export function TransactionStatus({ transaction, isLoading, explorerUrl = "https://suiexplorer.com/txblock" }: TransactionStatusProps) {
   if (isLoading) {
     return <div className="flex flex-col">
       <Skeleton className="w-full h-8" />

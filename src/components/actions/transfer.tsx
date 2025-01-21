@@ -40,14 +40,14 @@ export function Transfer({ result: actionResult, msgToolId }: TransferProps) {
                     status: "SUBMITTED"
                 });
                 const receipt = await suiClient.waitForTransaction({ digest: digest });
-                if (receipt?.effects?.status.status === "success") {
+                if (receipt?.errors && receipt?.errors.length > 0) {
                     await updateTransaction({
-                        title: "Transferred " + amount + " " + tokenToSend.symbol.toUpperCase(),
-                        status: "SUCCESS"
+                        status: "FAILED"
                     });
                 } else {
                     await updateTransaction({
-                        status: "FAILED"
+                        title: "Transferred " + amount + " " + tokenToSend.symbol.toUpperCase(),
+                        status: "SUCCESS"
                     });
                 }
                 setIsLoading(false);

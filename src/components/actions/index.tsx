@@ -15,7 +15,7 @@ export { PortfolioView } from "./portfolio-view";
 export type ToolResultRenderer = (props: ActionComponentProps<any> & { msgToolId: string }) => React.ReactNode | null;
 
 export function DefaultToolResultRenderer({ result }: { result: any }) {
-  console.log("result", result);
+  // console.log("result", result);
   if (result && typeof result === 'object' && 'error' in result) {
     return (
       <div className="mt-2 pl-3.5 text-sm text-destructive">

@@ -24,7 +24,7 @@ export function ToolResult({ toolName, result, header, msgToolId }: ToolResultPr
     // config.isExpandedByDefault ?? !isCollapsible,
   );
 
-  console.log("result", result);
+  // console.log("result", result);
   const content = config.component({result: {toolResult: result as any}, msgToolId: msgToolId});
   if (!content) return null;
 

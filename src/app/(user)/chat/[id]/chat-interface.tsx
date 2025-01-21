@@ -196,7 +196,7 @@ function MessageToolInvocations({
           typeof result === 'object' &&
           result !== null &&
           'error' in result;
-        console.log("toolName", toolName, result);
+        // console.log("toolName", toolName, result);
         const config = getToolConfig(toolName)!;
         const finalDisplayName = displayName || config.displayName || "test";
 

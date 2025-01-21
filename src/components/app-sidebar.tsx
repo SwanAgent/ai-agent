@@ -50,8 +50,6 @@ export function AppSidebar() {
   const user = session?.user;
   const { setOpenMobile } = useSidebar();
 
-  console.log("session user", user);
-
   return (
     <Sidebar className="bg-black group-data-[side=left]:border-r-0">
       <SidebarHeader>
