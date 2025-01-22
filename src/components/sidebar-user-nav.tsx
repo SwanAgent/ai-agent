@@ -1,5 +1,5 @@
 'use client';
-import { ChevronUp } from 'lucide-react';
+import { ChevronUp, CreditCard, LogOut } from 'lucide-react';
 import { useTheme } from 'next-themes';
 import {
   DropdownMenu,
@@ -17,11 +17,13 @@ import { AgentUser } from '@/types/db';
 import { Avatar, AvatarFallback, AvatarImage } from '@radix-ui/react-avatar';
 import { Skeleton } from './ui/skeleton';
 import { useUser } from '@/hooks/use-user';
+import { useRouter } from 'next/navigation';
 
 export function SidebarUserNav({ user }: { user: AgentUser | null }) {
   const { setTheme, theme } = useTheme();
   const { logout } = useUser();
-  
+  const router = useRouter();
+
   if (!user) {
     return <Skeleton className="h-10 w-full" />
   }
@@ -44,11 +46,24 @@ export function SidebarUserNav({ user }: { user: AgentUser | null }) {
             side="top"
             className="w-[--radix-popper-anchor-width]"
           >
-            <DropdownMenuItem
+            {/* <DropdownMenuItem
               className="cursor-pointer"
               onSelect={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
             >
               {`Toggle ${theme === 'light' ? 'dark' : 'light'} mode`}
+            </DropdownMenuItem>
+            <DropdownMenuSeparator /> */}
+            <DropdownMenuItem asChild>
+              <button
+                type="button"
+                className="w-full cursor-pointer flex items-center"
+                onClick={() => {
+                  router.push('/account');
+                }}
+              >
+                <CreditCard className="mr-2 h-4 w-4" />
+                Accounts
+              </button>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem asChild>
@@ -59,6 +74,7 @@ export function SidebarUserNav({ user }: { user: AgentUser | null }) {
                   logout();
                 }}
               >
+                <LogOut className="mr-2 h-4 w-4" />
                 Sign out
               </button>
             </DropdownMenuItem>

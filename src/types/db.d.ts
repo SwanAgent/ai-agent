@@ -39,7 +39,14 @@ export type ActionWithUser = Prisma.ActionGetPayload<{
   include: {
     user: {
       include: {
-        wallets: true;
+        wallets: {
+          select: {
+            id: true,
+            ownerId: true,
+            name: true,
+            publicKey: true,
+          },
+        },
       };
     };
   };
