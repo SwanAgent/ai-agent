@@ -48,6 +48,7 @@ export default function LoginButton() {
     if (account && !session) {
       handleLogin();
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [account, session]);
 
   return (

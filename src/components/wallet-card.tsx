@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Banknote } from "lucide-react";
+import { Banknote, CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { CopyableText } from "@/components/ui/copyable-text";
@@ -45,16 +45,26 @@ export function WalletCard({ wallet }: WalletCardProps) {
                 <CardContent className="space-y-4 p-6">
                     {/* Balance Section */}
                     <div className="space-y-1">
-                        <Label className="text-xs font-normal text-muted-foreground">
-                            Available Balance
-                        </Label>
+                        <div className="flex items-center justify-between">
+                            <Label className="text-xs font-normal text-muted-foreground">
+                                Available Balance
+                            </Label>
+                            <div className="inline-flex items-center rounded-full bg-emerald-500/10 px-3 py-1 text-xs font-medium text-emerald-600 dark:text-emerald-400">
+                                <CheckCircle2 className="mr-1.5 h-3.5 w-3.5" />
+                                Active
+                            </div>
+                        </div>
+
                         <div className="flex items-baseline gap-2">
                             {!suiBalance ? (
                                 <Skeleton className="h-9 w-32" />
                             ) : (
                                 <>
                                     <span className="text-3xl font-bold tabular-nums tracking-tight">
-                                        {formatNumber(Number(suiBalance).toFixed(3), "number")}
+                                        {formatNumber(
+                                            Number(suiBalance).toFixed(3),
+                                            "number"
+                                        )}
                                     </span>
                                     <span className="text-sm font-medium text-muted-foreground">
                                         SUI
