@@ -117,7 +117,7 @@ export function PortfolioView({
     return (
       <Card
         className={cn(
-          "max-w-96 w-96 mt-3 overflow-hidden border-border/50 bg-gradient-to-br from-background to-muted/30",
+          "max-w-96 w-96 overflow-hidden border-border/50 bg-gradient-to-br from-background to-muted/30",
           className
         )}
       >
@@ -149,7 +149,7 @@ export function PortfolioView({
   return (
     <Card
       className={cn(
-        "mt-3 max-w-96 w-96 overflow-hidden border-border/50 bg-gradient-to-br from-background to-muted/30",
+        "max-w-96 w-96 overflow-hidden border-border/50 bg-gradient-to-br from-background to-muted/30",
         className
       )}
     >
@@ -158,7 +158,7 @@ export function PortfolioView({
           <div className="flex items-center gap-3">
             <div className="flex items-center gap-2">
               <Wallet className="h-5 w-5 text-primary" />
-              <span>Portfolio</span>
+              <span>My Coins</span>
             </div>
           </div>
           <span className="text-lg font-bold">

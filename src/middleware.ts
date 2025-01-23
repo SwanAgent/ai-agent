@@ -5,7 +5,7 @@ import type { NextRequest } from "next/server";
 export async function middleware(request: NextRequest) {
   const token = await getToken({ req: request });
   const isAuthPage = request.nextUrl.pathname === "/";
-  const isProtectedRoute = request.nextUrl.pathname.startsWith("/chat") || request.nextUrl.pathname.startsWith("/home");
+  const isProtectedRoute = request.nextUrl.pathname.startsWith("/chat") || request.nextUrl.pathname.startsWith("/home") || request.nextUrl.pathname.startsWith("/account");
 
   if (isProtectedRoute) {
     if (!token) {

@@ -11,13 +11,13 @@ import { Skeleton } from '../ui/skeleton';
 import { useTransaction } from '@/hooks/use-transaction';
 import { TransactionStatus } from '../transaction-status';
 import { formatAddress } from '@mysten/sui/utils';
-import { useCurrentAccount, useSignAndExecuteTransaction } from '@mysten/dapp-kit';
 import { getTransferCoinTxb } from '@/utils/create-transfer-coin-txb';
 import { toSmall } from '@/utils/token-converter';
 import { suiClient } from '@/lib/clients/sui-client';
+import { executeTransaction } from '@/server/wallet';
+import { useUser } from '@/hooks/use-user';
 
 type TransferProps = ActionComponentProps<TransferResponse>
-
 
 export function Transfer({ result: actionResult, msgToolId }: TransferProps) {
     const { toolResult: result, isLoading: isPageLoading, className } = actionResult;
@@ -27,9 +27,9 @@ export function Transfer({ result: actionResult, msgToolId }: TransferProps) {
     const [error, setError] = useState<string | null>(null);
     const [digest, setDigest] = useState<string>();
 
-    const { mutate: signAndExecuteTransaction } = useSignAndExecuteTransaction();
-    const currentAccount = useCurrentAccount();
-
+    const { user } = useUser();
+    const embeddedWallet = user?.wallets[0].publicKey;
+    
     const { transaction, isLoading: isTransactionLoading, createTransaction, updateTransaction } = useTransaction(msgToolId, "TRANSFER");
 
     useEffect(() => {
@@ -57,7 +57,7 @@ export function Transfer({ result: actionResult, msgToolId }: TransferProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [digest]);
 
-    if (isPageLoading || !currentAccount) {
+    if (isPageLoading || !user || !embeddedWallet) {
         return <div className="flex flex-col">
             <Skeleton className="w-full h-56" />
         </div>;
@@ -83,24 +83,15 @@ export function Transfer({ result: actionResult, msgToolId }: TransferProps) {
             })
 
             const amountToSend = toSmall(amount, tokenToSend.decimals);
-            const tx = await getTransferCoinTxb(tokenToSend.address, BigInt(amountToSend), walletAddress, currentAccount.address)
+            const tx = await getTransferCoinTxb(tokenToSend.address, BigInt(amountToSend), walletAddress, embeddedWallet)
+            const txJson = await tx.toJSON();
+            const result = await executeTransaction(txJson);
 
-            console.log("tx check", tx);
-            signAndExecuteTransaction(
-                {
-                    transaction: tx
-                },
-                {
-                    onSuccess: async (result) => {
-                        setDigest(result.digest);
-                        console.log("digest check", result.digest);
-                    },
-                    onError: (error) => {
-                        console.error(error);
-                        setError('Failed to process transfer');
-                    }
-                },
-            );
+            if (!result || (result.errors && result.errors.length > 0)) {
+                setError('Failed to process transfer');
+                return;
+            }
+            setDigest(result.digest);
         } catch (err: any) {
             setError(err.message || 'Failed to process transfer');
             // await updateTransaction({
@@ -130,7 +121,7 @@ export function Transfer({ result: actionResult, msgToolId }: TransferProps) {
                     <div className="flex items-center justify-between gap-4">
                         <div className="flex flex-col">
                             <span className="text-sm text-muted-foreground">From</span>
-                            <span className="font-medium">{formatAddress(currentAccount.address)}</span>
+                            <span className="font-medium">{formatAddress(embeddedWallet)}</span>
                         </div>
                         <ArrowRight className="h-4 w-4 text-muted-foreground" />
                         <div className="flex flex-col items-end">

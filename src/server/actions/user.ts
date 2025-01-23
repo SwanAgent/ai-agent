@@ -4,7 +4,7 @@ import { z } from "zod";
 
 import prisma from "@/lib/prisma";
 import { ActionResponse, actionClient } from "@/lib/safe-action";
-import { generateEncryptedKeyPair } from "@/lib/wallet-generator";
+import { generateEncryptedKeyPair } from "@/lib/wallet/wallet-generator";
 import { AgentUser, PrismaUser } from "@/types/db";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/utils/auth-options";
@@ -76,7 +76,14 @@ export const getUserData = actionClient.action<ActionResponse<PrismaUser>>(async
   const user = await prisma.user.findUnique({
     where: { id: userId },
     include: {
-      wallets: true,
+      wallets: {
+        select: {
+          id: true,
+          ownerId: true,
+          name: true,
+          publicKey: true,
+        },
+      },
     },
   });
 

@@ -87,7 +87,7 @@ export function AppSidebar() {
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
-        <div className="flex flex-col gap-2 py-3">
+        <div className="flex flex-col gap-2 py-3 px-2">
           {SidebarMenuOptions.map((option) => (
             <Tooltip key={option.label}>
               <TooltipTrigger asChild>
@@ -96,7 +96,7 @@ export function AppSidebar() {
                   key={option.label}
                   className={cn(
                 buttonVariants({ variant: 'ghost' }),
-                'flex flex-row gap-2 justify-start items-center',
+                'flex flex-row gap-2 justify-start items-center px-2',
                 pathname === option.href && 'bg-muted',
               )}
             >
