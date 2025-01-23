@@ -42,14 +42,6 @@ export function LoadingStateSkeleton() {
                                             <Skeleton className="h-6 w-full" />
                                         </div>
                                     </div>
-                                    <div>
-                                        <Label className="text-xs text-muted-foreground">
-                                            Synapses
-                                        </Label>
-                                        <div className="mt-1 flex flex-col items-center">
-                                            <Skeleton className="h-8 w-full" />
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                         </CardContent>

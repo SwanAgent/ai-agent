@@ -19,7 +19,6 @@ import { useUser } from '@/hooks/use-user';
 
 type TransferProps = ActionComponentProps<TransferResponse>
 
-
 export function Transfer({ result: actionResult, msgToolId }: TransferProps) {
     const { toolResult: result, isLoading: isPageLoading, className } = actionResult;
     const { data, error: toolError } = result ?? {};

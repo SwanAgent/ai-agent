@@ -19,6 +19,7 @@ import { MessageEditor } from './message-editor';
 import { PostTweet, TokenDetailsCard, PortfolioView } from './actions';
 import { Transfer } from './actions/transfer';
 import { SuiAiPools } from './actions/sui-ai-pools';
+import { SwapToken } from './actions/swap-token';
 
 const PurePreviewMessage = ({
   chatId,
@@ -50,7 +51,7 @@ const PurePreviewMessage = ({
         initial={{ y: 5, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         data-role={message.role}
-        id={`sisi-message-cell-${message.id}`}
+        id={`foam-message-cell-${message.id}`}
       >
         <div
           className={cn(
@@ -141,8 +142,8 @@ const PurePreviewMessage = ({
                           <SuiAiPools result={result} msgToolId={msgToolId} />
                         ) : toolName === 'transfer' ? (
                           <Transfer msgToolId={msgToolId}  result={ result } />
-                        // ) : toolName === 'swapTokens' ? (
-                        //   <SwapToken msgToolId={message.id + "-" + toolCallId} result={result} />
+                        ) : toolName === 'swapTokens' ? (
+                          <SwapToken msgToolId={message.id + "-" + toolCallId} result={result} />
                         // ) : toolName === 'resolveBasenames' ? (
                         //   <ResolveBasename result={result} />
                         // ) : toolName === 'fetchTweets' ? (
@@ -178,6 +179,8 @@ const PurePreviewMessage = ({
                         <PostTweet result={{ isLoading: true }} msgToolId={msgToolId} />
                       ) : toolName === 'searchTokenDetails' ? (
                         <TokenDetailsCard result={{ isLoading: true }} msgToolId={msgToolId} />
+                      ) : toolName === 'swapTokens' ? (
+                        <SwapToken msgToolId={message.id + "-" + toolCallId} result={{ isLoading: true }} />
                       ) : null}
                     </div>
                   );

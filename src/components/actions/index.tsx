@@ -4,6 +4,7 @@ import { TokenDetailsCard } from "./token-details";
 import { PortfolioView } from "./portfolio-view";
 import { Transfer } from "./transfer";
 import { SuiAiPools } from "./sui-ai-pools";
+import { SwapToken } from "./swap-token";
 
 // export { SwapToken } from "./swap-token";
 // export { Transfer } from "./transfer";
@@ -72,6 +73,10 @@ export const defaultTools: Record<string, {
   "getSuiAiPools": {
     displayName: "Get Sui Ai Pools",
     component: SuiAiPools,
+  },
+  "swapTokens": {
+    displayName: "Swap Tokens",
+    component: SwapToken,
   },
   // "resolveBasename": DefaultToolResultRenderer,
 }

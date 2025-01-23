@@ -2,15 +2,28 @@
 
 import { z } from "zod";
 import { ActionResponse, actionClient } from "@/lib/safe-action";
-import { blockVisionClient } from "@/lib/services/block-vision";
 import { PortfolioResponse, CoinDetailResponse } from "@/types/block-vision";
+
+const BASE_URL = 'https://api.blockvision.org/v2/sui';
+const API_KEY = process.env.BLOCK_VISION_API_KEY!;
+
+async function blockVisionFetch<T>(endpoint: string): Promise<T> {
+    const response = await fetch(`${BASE_URL}${endpoint}`, {
+        method: 'GET',
+        headers: {
+            'accept': 'application/json',
+            'x-api-key': API_KEY,
+        },
+    });
+    return response.json();
+}
 
 export const getWalletCoins = actionClient
   .schema(z.object({ walletAddress: z.string() }))
   .action<ActionResponse<PortfolioResponse['result']>>(
     async ({ parsedInput: { walletAddress } }) => {
       try {
-        const data = await blockVisionClient.getWalletCoins(walletAddress);
+        const data = await blockVisionFetch<PortfolioResponse>(`/account/coins?account=${walletAddress}`);
         if (!data?.result) {
           return {
             success: false,
@@ -53,7 +66,8 @@ export const getCoinDetail = actionClient
   .action<ActionResponse<CoinDetailResponse['result']>>(
     async ({ parsedInput: { coinType } }) => {
       try {
-        const data = await blockVisionClient.getCoinDetail(coinType);
+        const encodedCoinType = encodeURIComponent(coinType);
+        const data = await blockVisionFetch<CoinDetailResponse>(`/coin/detail?coinType=${encodedCoinType}`);
         if (!data?.result) {
           return {
             success: false,
