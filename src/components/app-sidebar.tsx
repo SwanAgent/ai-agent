@@ -96,7 +96,7 @@ export function AppSidebar() {
                   key={option.label}
                   className={cn(
                 buttonVariants({ variant: 'ghost' }),
-                'flex flex-row gap-2 justify-start items-center',
+                'flex flex-row gap-2 justify-start items-center px-2',
                 pathname === option.href && 'bg-muted',
               )}
             >

@@ -34,6 +34,7 @@ import { generateTitleFromUserMessage } from '@/server/actions/ai';
 import { tools } from '@/lib/ai/actions';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/utils/auth-options';
+import { getUserData } from '@/server/actions/user';
 
 export const maxDuration = 60;
 
@@ -80,6 +81,13 @@ export async function POST(request: Request) {
 
     const userMessageId = generateUUID();
 
+    const user = await getUserData()
+    if (!user?.data?.data) {
+      return new Response('User not found', { status: 404 });
+    }
+
+    const { publicKey } = user.data.data.wallets[0];
+
     await saveMessages({
       messages: [
         { id: userMessageId, role: userMessage.role, chatId: id, content: userMessage.content as unknown as any },
@@ -87,7 +95,7 @@ export async function POST(request: Request) {
     });
 
     const defaultSystemPrompt = systemPrompt +
-      `\n\nUser Base wallet public key: ${userAddress ?? "Unknown"}`;
+      `\n\nUser Base wallet public key: ${publicKey ?? "Unknown"}`;
 
     return createDataStreamResponse({
       execute: (dataStream) => {
