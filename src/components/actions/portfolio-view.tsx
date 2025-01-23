@@ -158,7 +158,7 @@ export function PortfolioView({
           <div className="flex items-center gap-3">
             <div className="flex items-center gap-2">
               <Wallet className="h-5 w-5 text-primary" />
-              <span>Portfolio</span>
+              <span>My Coins</span>
             </div>
           </div>
           <span className="text-lg font-bold">
