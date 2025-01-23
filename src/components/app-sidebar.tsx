@@ -87,7 +87,7 @@ export function AppSidebar() {
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
-        <div className="flex flex-col gap-2 py-3">
+        <div className="flex flex-col gap-2 py-3 px-2">
           {SidebarMenuOptions.map((option) => (
             <Tooltip key={option.label}>
               <TooltipTrigger asChild>

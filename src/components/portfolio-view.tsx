@@ -88,7 +88,7 @@ export function PortfolioView({
     return (
       <Card
         className={cn(
-          'max-w-48 mt-3 overflow-hidden border-border/50 bg-gradient-to-br from-background to-muted/30',
+          'max-w-48 overflow-hidden border-border/50 bg-gradient-to-br from-background to-muted/30',
           className,
         )}
       >

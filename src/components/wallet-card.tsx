@@ -12,6 +12,14 @@ import { getWalletCoins } from "@/server/actions/block-vision";
 import { SUI_TYPE_ARG } from "@/constant";
 import { fromSmall } from "@/utils/token-converter";
 import { formatNumber } from "@/utils/format";
+import {
+    Popover,
+    PopoverContent,
+    PopoverTrigger,
+} from "@/components/ui/popover";
+import { PortfolioView } from "@/components/actions/portfolio-view";
+import { useUser } from "@/hooks/use-user";
+import { PortfolioResponse } from "@/types/block-vision";
 
 interface WalletCardProps {
     wallet: EmbeddedWallet;
@@ -20,6 +28,24 @@ interface WalletCardProps {
 export function WalletCard({ wallet }: WalletCardProps) {
     const [isLoading, setIsLoading] = useState(false);
     const [suiBalance, setSuiBalance] = useState<string>();
+    const [showPortfolio, setShowPortfolio] = useState(false);
+    const { user } = useUser();
+    const address = user?.wallets[0]?.publicKey;
+
+    const [portfolio, setPortfolio] = useState<PortfolioResponse['result']>();
+
+    useEffect(() => {
+        if (portfolio) return;
+
+        async function fetchPortfolio() {
+            if (!address) return;
+            const response = await getWalletCoins({ walletAddress: address });
+            const data = response?.data?.data;
+            if (data) setPortfolio(data);
+        }
+
+        fetchPortfolio();
+    }, [address, portfolio]);
 
     useEffect(() => {
         if (!wallet) return;
@@ -87,14 +113,30 @@ export function WalletCard({ wallet }: WalletCardProps) {
                     </div>
                     {/* Action Buttons */}
                     <div className="grid grid-cols-2 gap-2 sm:flex sm:flex-wrap">
-                        <Button
-                            className="w-full sm:w-auto"
-                            // onClick={handleFundWallet}
-                            disabled={isLoading}
-                        >
-                            <Banknote className="mr-2 h-4 w-4" />
-                            Fund
-                        </Button>
+                        <Popover open={showPortfolio} onOpenChange={setShowPortfolio}>
+                            <PopoverTrigger asChild>
+                                <Button
+                                    className="w-full sm:w-auto"
+                                    disabled={isLoading}
+                                >
+                                    <Banknote className="mr-2 h-4 w-4" />
+                                    Portfolio
+                                </Button>
+                            </PopoverTrigger>
+                            <PopoverContent className="w-auto p-0 m-0 mb-3" align="start">
+                                <PortfolioView
+                                    result={{
+                                        toolResult: {
+                                            success: true,
+                                            data: {
+                                                coins: portfolio?.coins ?? [],
+                                                usdValue: portfolio?.usdValue ?? "0",
+                                            },
+                                        },
+                                        isLoading: !portfolio,
+                                    }} msgToolId={""} />
+                            </PopoverContent>
+                        </Popover>
                     </div>
                 </CardContent>
             </Card>
