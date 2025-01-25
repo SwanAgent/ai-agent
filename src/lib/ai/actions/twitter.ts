@@ -20,7 +20,6 @@ export const postTweet = {
     parameters: postTweetSchema,
     execute: async ({ text, replyToTweetId }: PostTweetSchema): Promise<PostTweetResponse> => {
         try {
-            console.log("posting tweet", text);
             const res = await TweetScraper.postTweet(text, replyToTweetId);
             const body = await res.json();
 

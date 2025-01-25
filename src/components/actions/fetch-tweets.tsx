@@ -8,12 +8,45 @@ import { ActionComponentProps } from "@/types/actions";
 type FetchTweetsProps = ActionComponentProps<FetchTweetsResponse>
 
 type TweetRowProps = {
-    tweet: string;
+    tweet: {
+        text: string;
+        tweetId: string | undefined;
+        createdAt?: Date;
+        isQuote?: boolean;
+    };
 }
 
 const TweetRow = ({ tweet }: TweetRowProps) => (
-  <div className="p-4 hover:bg-muted/50 transition-colors">
-    <p className="text-sm">{tweet}</p>
+  <div className={cn(
+    "p-4 hover:bg-muted/50 transition-colors group",
+    tweet.isQuote && "border-l-2 border-primary/30 bg-muted/20"
+  )}>
+    {tweet.createdAt && (
+      <span className="text-xs text-muted-foreground mb-1 block">
+        🕒 {new Intl.DateTimeFormat('en-US', {
+          hour: 'numeric',
+          minute: 'numeric',
+          hour12: true,
+          month: 'short',
+          day: 'numeric',
+          year: 'numeric'
+        }).format(new Date(tweet.createdAt))}
+      </span>
+    )}
+    <p className={cn(
+      "text-sm",
+      tweet.isQuote && "italic"
+    )}>{tweet.isQuote ? '💭 ' : '📝 '}{tweet.text}</p>
+    <div className="mt-2 transition-opacity">
+      <a 
+        href={`https://twitter.com/i/web/status/${tweet.tweetId}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-xs text-primary hover:underline"
+      >
+        🔗 View on Twitter
+      </a>
+    </div>
   </div>
 );
 
@@ -71,19 +104,27 @@ export function FetchTweets({ result }: FetchTweetsProps) {
             <CardHeader className="border-b border-border/40 bg-muted/20">
                 <CardTitle className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
-                        <MessageCircle className="h-5 w-5 text-primary" />
-                        <span>Tweets from @{data?.username}</span>
+                        {/* <MessageCircle className="h-5 w-5 text-primary" /> */}
+                        <span>✨ Tweets from <span className="text-primary">@{data?.username}</span></span>
                     </div>
                 </CardTitle>
             </CardHeader>
             <CardContent className="p-0">
-                <div className="h-[320px] overflow-auto">
+                <ScrollArea className="h-[420px]">
                     <div className="divide-y divide-border/40">
-                        {data?.tweets.map((tweet: { text: string; tweetId: string | undefined }, index) => (
-                            <TweetRow key={index} tweet={tweet.text} />
+                        {data?.tweets.map((tweet: { 
+                            text: string; 
+                            tweetId: string | undefined;
+                            createdAt?: Date;
+                            isQuote?: boolean;
+                        }, index: number) => (
+                            <TweetRow 
+                                key={tweet.tweetId || index} 
+                                tweet={tweet}
+                            />
                         ))}
                     </div>
-                </div>
+                </ScrollArea>
             </CardContent>
         </Card>
     );
