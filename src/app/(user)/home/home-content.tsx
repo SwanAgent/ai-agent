@@ -6,6 +6,7 @@ import { usePathname } from 'next/navigation';
 import axios from 'axios';
 import { useChat } from 'ai/react';
 import { cn, generateUUID } from '@/lib/utils';
+import { Bot } from 'lucide-react';
 
 import { IntegrationsGrid } from './components/integrations-grid';
 import { ConversationInput } from './conversation-input';
@@ -75,13 +76,6 @@ export function HomeContent() {
     },
   });
 
-  useEffect(() => {
-    console.log("history check");
-    axios.get('https://api.suiai.fun/api/pools?populate=*&sort=volume_24h:desc&pagination[page]=1&pagination[pageSize]=24').then((res: any) => {
-      console.log("history check", res.data);
-    });
-  }, []);
-
   // Verification effect
   // useEffect(() => {
   //   if (!verifyingTx) return;
@@ -130,7 +124,7 @@ export function HomeContent() {
     // }
 
     const fakeEvent = new Event('submit') as any;
-    fakeEvent.preventDefault = () => {};
+    fakeEvent.preventDefault = () => { };
 
     await handleSubmit(fakeEvent, { data: { content: value } });
     setShowChat(true);
@@ -236,14 +230,13 @@ export function HomeContent() {
       )}
     >
       <BlurFade delay={0.2}>
-        <TypingAnimation
-          className="mb-12 bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-center text-4xl font-semibold tracking-tight text-transparent md:text-4xl lg:text-5xl"
-          duration={50}
-          text="Get started with DefAI on Sui"
-        />
+        <div className="flex items-center justify-center gap-4">
+          <img src="/logo/foam.png" alt="logo" className="h-[100px]" />
+          <span className="text-6xl animate-wave">👋</span>
+        </div>
       </BlurFade>
 
-      <div className="mx-auto w-full max-w-3xl space-y-8">
+      <div className="mx-auto w-full max-w-3xl mt-10">
         <BlurFade delay={0.1}>
           <ConversationInput
             value={input}
@@ -251,31 +244,33 @@ export function HomeContent() {
             onSubmit={handleSend}
           />
         </BlurFade>
-
-          <div className="space-y-8">
-            <BlurFade delay={0.2}>
-              <div className="space-y-2">
-                <SectionTitle>Suggestions</SectionTitle>
-                <div className="grid grid-cols-2 gap-4">
-                  {suggestions.map((suggestion, index) => (
-                    <SuggestionCard
-                      key={suggestion.title}
-                      {...suggestion}
-                      delay={0.3 + index * 0.1}
-                      onSelect={setInput}
-                    />
-                  ))}
+        <div className="mt-2">
+          <BlurFade delay={0.2}>
+            <div className="space-y-2">
+              <div className="flex flex-row overflow-x-scroll overflow-y-hidden gap-4">
+                {suggestions.map((suggestion, index) => (
+                  <SuggestionCard
+                    key={suggestion.title}
+                    {...suggestion}
+                    delay={0.3 + index * 0.1}
+                    onSelect={setInput}
+                  />
+                ))}
+              </div>
+            </div>
+          </BlurFade>
+          <BlurFade delay={0.4}>
+            <div className="space-y-2 mt-10">
+              <div className="flex items-center gap-2 mb-4">
+                <div className="flex items-center justify-center w-8 h-8 rounded-md bg-primary">
+                  <Bot className="w-5 h-5 text-primary-foreground" />
                 </div>
+                <div className="text-2xl font-semibold">Agents</div>
               </div>
-            </BlurFade>
-
-            <BlurFade delay={0.4}>
-              <div className="space-y-2">
-                <SectionTitle>Integrations</SectionTitle>
-                <IntegrationsGrid />
-              </div>
-            </BlurFade>
-          </div>
+              <IntegrationsGrid />
+            </div>
+          </BlurFade>
+        </div>
       </div>
     </div>
   );
