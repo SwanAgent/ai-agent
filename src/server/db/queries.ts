@@ -306,3 +306,113 @@ export async function updateChatVisiblityById({
         throw error;
     }
 }
+
+/**
+ * Twitter DB methods
+ */
+export async function saveTwitterAccess({
+    userId,
+    oauthToken,
+    requestSecret,
+    accessToken,
+    accessSecret,
+    isValid,
+}: {
+    userId: string;
+    oauthToken: string;
+    requestSecret: string;
+    accessToken?: string;
+    accessSecret?: string;
+    isValid: boolean;
+}) {
+    try {
+        return await prisma.twitterAccess.upsert({
+            where: { userId },
+            update: {
+                requestSecret: requestSecret,
+                accessToken: accessToken ?? undefined,
+                accessSecret: accessSecret ?? undefined,
+                oauthToken,
+                isValid,
+            },
+            create: {
+                userId,
+                requestSecret: requestSecret,
+                accessToken: accessToken ?? null,
+                accessSecret: accessSecret ?? null,
+                oauthToken,
+                isValid,
+            },
+        });
+    } catch (error) {
+        console.error("Failed to save/update Twitter access in database");
+        throw error;
+    }
+}
+
+export async function updateTwitterAccess({
+    oauthToken,
+    accessToken,
+    accessSecret,
+    username,
+    isValid,
+}: {
+    oauthToken: string;
+    accessToken?: string;
+    accessSecret?: string;
+    username?: string;
+    isValid: boolean;
+}) {
+    try {
+        return await prisma.twitterAccess.update({
+            where: { oauthToken },
+            data: {
+                accessToken: accessToken ?? undefined,
+                accessSecret: accessSecret ?? undefined,
+                username: username ?? undefined,
+                isValid,
+            },
+        });
+    } catch (error) {
+        console.error("Failed to update Twitter access in database", error);
+        throw error;
+    }
+}
+
+export async function getTwitterAccessByUserId({ userId }: { userId: string }) {
+    try {
+        return await prisma.twitterAccess.findFirst({
+            where: { userId },
+        });
+    } catch (error) {
+        console.error("Failed to get Twitter access by user id from database", error);
+        return null;
+    }
+}
+
+export async function getTwitterAccessByOauthToken({
+    oauthToken,
+}: {
+    oauthToken: string;
+}) {
+    try {
+        return await prisma.twitterAccess.findFirst({
+            where: { oauthToken },
+        });
+    } catch (error) {
+        console.error("Failed to get Twitter access by user id from database");
+        throw error;
+    }
+}
+
+export async function invalidateTwitterAccess({ userId }: { userId: string }) {
+    try {
+        return await prisma.twitterAccess.update({
+            where: { userId },
+            data: { isValid: false },
+        });
+    } catch (error) {
+        console.error("Failed to invalidate Twitter access for user");
+        throw error;
+    }
+}

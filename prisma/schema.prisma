@@ -23,6 +23,7 @@ model User {
   Document      Document[]
   Suggestion    Suggestion[]
   transactions  Transaction[]
+  twitterAccess TwitterAccess[]
 
   @@unique([address])
   @@index([address])
@@ -216,4 +217,21 @@ model Transaction {
   user User @relation(fields: [userId], references: [id])
 
   @@map("transactions")
+}
+
+model TwitterAccess {
+  id            String   @id @default(uuid()) @map("id")
+  requestSecret String   @map("request_secret")
+  oauthToken    String   @unique @map("oauth_token")
+  accessToken   String?  @map("access_token")
+  accessSecret  String?  @map("access_secret")
+  userId        String   @unique @map("user_id")
+  username      String?  @map("username")
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+  isValid       Boolean  @default(true) // if credentials are valid or not (will help determine if we need to re-request access)
+
+  @@index([userId])
+  @@map("twitter_access")
 }
