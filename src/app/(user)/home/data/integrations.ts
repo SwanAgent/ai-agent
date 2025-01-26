@@ -13,34 +13,41 @@ export interface Integration {
 
 export const INTEGRATIONS: Integration[] = [
   {
-    icon: '/integrations/suiai_fun.jpg',
-    label: 'suiai.fun',
-    description: 'Discover new tokens, launch tokens',
+    icon: '/integrations/foam-logo.png',
+    label: 'Foam',
+    description: 'Leading the future of decentralized finance on sui – the master agent orchestrating all others.',
     theme: {
-      primary: '#0EA5E9', // Blue
-      secondary: '#38BDF8', // Light blue
+      primary: '#e8308c', // Green
+      secondary: '#e8308c', // Light green
     },
-    url: 'https://suiai.fun',
   },
   {
-    icon: '/integrations/7k_aggregator.png',
-    label: '7K Aggregator',
-    description: 'Swap tokens & DCA, Limit orders',
+    icon: '/integrations/ai.webp',
+    label: 'AIgnite',
+    description: 'Spot, analyze and secure the best ai tokens instantly.',
     theme: {
-      primary: '#B0EECF', // Green
-      secondary: '#B0EECF', // Light green
+      primary: '#e8308c', // Blue
+      secondary: '#e8308c', // Light blue
     },
-    url: 'https://port.7k.ag',
   },
-  // {
-  //   icon: 'integrations/magic_eden.svg',
-  //   label: 'Magic Eden',
-  //   description: 'Explore the best NFT collections',
-  //   theme: {
-  //     primary: '#9333EA', // Purple
-  //     secondary: '#A855F7', // Light purple
-  //   },
-  // },
+  {
+    icon: '/integrations/dexter.png',
+    label: 'Dexter',
+    description: 'Search for a token and swap it as best prices just by typing.',
+    theme: {
+      primary: '#e8308c', // Green
+      secondary: '#e8308c', // Light green
+    },
+  },
+  {
+    icon: '/integrations/sage.png',
+    label: 'Sage',
+    description: 'Unveiling trends, decoding influencers, and crafting impactful tweets.',
+    theme: {
+      primary: '#e8308c', // Purple
+      secondary: '#e8308c', // Light purple
+    },
+  },
   // {
   //   icon: 'integrations/dialect.svg',
   //   label: 'Dialect',
@@ -51,14 +58,13 @@ export const INTEGRATIONS: Integration[] = [
   //   },
   // },
   {
-    icon: '/integrations/dexscreener.svg',
-    label: 'DexScreener',
-    description: 'Discover trending tokens',
+    icon: '/integrations/hunter.png',
+    label: 'Hunter',
+    description: 'Discover, analyze, and invest in trending tokens',
     theme: {
-      primary: '#64748B', // Gray
-      secondary: '#94A3B8', // Light gray
+      primary: '#e8308c', // Gray
+      secondary: '#e8308c', // Light gray
     },
-    url: 'https://dexscreener.com',
   },
   // {
   //   icon: 'integrations/defined_fi.svg',

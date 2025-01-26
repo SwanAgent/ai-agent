@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { useUser } from "@/hooks/use-user";
 import { cn } from "@/lib/utils";
+import { WalletIcon } from "lucide-react";
 
 import { LoadingStateSkeleton } from "./loading-skeleton";
 import { formatPrivyId, formatUserCreationDate } from "@/utils/format";
@@ -44,15 +45,9 @@ export function AccountContent() {
               <div className="space-y-4">
                 {/* User basic information */}
                 <div className="flex items-center space-x-4">
-                  <Avatar className="h-10 w-10 rounded-lg">
-                    <AvatarImage
-                      src={avatarLabel}
-                      className="rounded-lg bg-sidebar-accent"
-                    />
-                    <AvatarFallback className="rounded-lg bg-sidebar-accent">
-                      {avatarLabel}
-                    </AvatarFallback>
-                  </Avatar>
+                  <div className="h-10 w-10 rounded-lg bg-primary/20 flex items-center justify-center">
+                    <WalletIcon className="h-5 w-5 text-primary-foreground" />
+                  </div>
                   <div>
                     <p className="text-xs text-muted-foreground">
                       Wallet Connected

@@ -63,10 +63,10 @@ export function ConversationInput({
             onKeyDown={handleKeyDown}
             maxLength={MAX_CHARS}
             placeholder="Start a new conversation..."
-            className="min-h-[110px] w-full resize-none overflow-hidden border-0 bg-transparent px-4 py-3 text-base focus-visible:ring-0"
+            className="min-h-[80px] w-full resize-none overflow-hidden border-0 focus-visible:outline-none bg-transparent px-4 py-3 text-base focus-visible:ring-0 focus-visible:ring-offset-0"
           />
 
-          <div className="flex items-center justify-between border-t px-4 py-2">
+          <div className="flex items-center justify-between px-4 py-2">
             <span className="text-xs text-muted-foreground">
               {value.length}/{MAX_CHARS}
             </span>
@@ -80,7 +80,7 @@ export function ConversationInput({
                 justify-center rounded-lg 
                 transition-all 
                 duration-200 ease-in-out
-                hover:bg-primary hover:text-primary-foreground active:scale-95 disabled:cursor-not-allowed disabled:opacity-50"
+                bg-primary text-primary-foreground active:scale-95 disabled:cursor-not-allowed disabled:opacity-50"
             >
               <SendHorizontal
                 className="h-4 w-4 transition-transform duration-200 
@@ -90,7 +90,7 @@ export function ConversationInput({
           </div>
         </form>
 
-        <BorderBeam size={250} duration={8} delay={9} />
+        {/* <BorderBeam size={250} duration={8} delay={9} /> */}
       </div>
     </div>
   );

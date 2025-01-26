@@ -4,6 +4,8 @@ import config from "./config";
 export interface TweetData {
     text: string;
     tweetId: string | undefined;
+    isQuoted: boolean | undefined;
+    createdAt: Date | undefined;
 }
 
 export interface ITweetScraper {
@@ -101,9 +103,12 @@ class TweetScraper implements ITweetScraper {
             const formattedTweet = {
                 text: this.formatTweetsForContext(tweet),
                 tweetId: tweet.id,
+                isQuoted: (tweet.isQuoted && tweet.quotedStatus && tweet.quotedStatus.text) ? true : false,
+                createdAt: tweet.timeParsed
             };
             parsedTweets.push(formattedTweet);
         }
+        console.log("parsedTweets", parsedTweets.length);
         return parsedTweets.slice(0, maxTweets);
     }
 

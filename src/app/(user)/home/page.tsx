@@ -3,7 +3,7 @@ import { Metadata } from 'next';
 import { HomeContent } from './home-content';
 
 export const metadata: Metadata = {
-  title: 'Home',
+  title: 'Foam',
   description: 'Your DeFAI Agent on SUI',
 };
 

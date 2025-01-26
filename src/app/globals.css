@@ -226,3 +226,20 @@
     }
   }
   
+@keyframes wave {
+  0% { transform: rotate(0deg); }
+  5% { transform: rotate(14deg); }
+  10% { transform: rotate(-8deg); }
+  15% { transform: rotate(14deg); }
+  20% { transform: rotate(-4deg); }
+  25% { transform: rotate(10deg); }
+  30% { transform: rotate(0deg); }
+  100% { transform: rotate(0deg); } /* Long pause from 30% to 100% */
+}
+
+.animate-wave {
+  animation: wave 6s ease-in-out infinite; /* Increased duration to 6s to make the pause more noticeable */
+  transform-origin: 70% 70%;
+  display: inline-block;
+}
+  

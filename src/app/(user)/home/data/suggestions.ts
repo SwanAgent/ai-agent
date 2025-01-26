@@ -1,6 +1,7 @@
 export interface Suggestion {
   id: string;
   title: string;
+  content: string;
   subtitle: string;
 }
 
@@ -11,18 +12,27 @@ export const SUGGESTIONS: Suggestion[] = [
   //   subtitle: 'deploy a new token on pump.fun',
   // },
   {
+    id: 'check-my-wallet',
+    title: '💼 Portfolio',
+    content: 'Check my wallet',
+    subtitle: 'check the portfolio of your Sui wallet',
+  },
+  {
     id: 'swap-sui-usdc',
-    title: 'Swap 1 SUI for USDC',
+    title: '🔄 Swap',
+    content: 'Swap 1 SUI for USDC',
     subtitle: 'use 7k aggregator to swap on Sui',
   },
   {
     id: 'sui-trends',
-    title: "What's trending on Sui?",
+    title: '📊 Trending Tokens',
+    content: "What's trending on Sui?",
     subtitle: 'find the current market trends',
   },
   {
     id: 'price-feed',
-    title: "What's the price of SUI?",
+    title: "💰 Token Price",
+    content: "What's the price of SUI?",
     subtitle: 'find the current price of SUI',
   },
   // {
@@ -30,11 +40,7 @@ export const SUGGESTIONS: Suggestion[] = [
   //   title: 'Top gainers in the last 24h',
   //   subtitle: 'find the top gainers in the last 24 hours',
   // },
-  {
-    id: 'check-my-wallet',
-    title: 'Check my wallet',
-    subtitle: 'check the portfolio of your Sui wallet',
-  },
+
   // {
   //   id: 'sell-everything-buy-neur',
   //   title: 'Sell everything and buy $NEUR',
@@ -54,15 +60,17 @@ export const SUGGESTIONS: Suggestion[] = [
 
 export function getRandomSuggestions(count: number): Suggestion[] {
   // Ensure we don't request more items than available
-  const safeCount = Math.min(count, SUGGESTIONS.length);
-  const startIndex = Math.floor(Date.now() / 1000) % SUGGESTIONS.length;
+  // const safeCount = Math.min(count, SUGGESTIONS.length);
+  // const startIndex = Math.floor(Date.now() / 1000) % SUGGESTIONS.length;
 
-  // Create a rotated copy of the array starting from startIndex
-  const rotatedSuggestions = [
-    ...SUGGESTIONS.slice(startIndex),
-    ...SUGGESTIONS.slice(0, startIndex),
-  ];
+  // // Create a rotated copy of the array starting from startIndex
+  // const rotatedSuggestions = [
+  //   ...SUGGESTIONS.slice(startIndex),
+  //   ...SUGGESTIONS.slice(0, startIndex),
+  // ];
 
-  // Return only the first safeCount items
-  return rotatedSuggestions.slice(0, safeCount);
+  // // Return only the first safeCount items
+  // return rotatedSuggestions.slice(0, safeCount);
+  
+  return SUGGESTIONS;
 }

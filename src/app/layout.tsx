@@ -9,8 +9,8 @@ import '@mysten/dapp-kit/dist/index.css';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://foam.sh'),
-  title: 'FOAM DeFAI Agent',
-  description: 'FOAM DeFAI Agent',
+  title: 'Foam',
+  description: 'Your DeFAI Agent on SUI',
 };
 
 export const viewport = {

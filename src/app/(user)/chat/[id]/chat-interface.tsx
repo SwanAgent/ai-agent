@@ -735,7 +735,7 @@ export default function ChatInterface({
                     isLoading ||
                     attachments.some((att) => att.uploading)
                   }
-                  className="h-8 w-8 hover:bg-muted"
+                  className="h-8 w-8 bg-primary text-primary-foreground"
                 >
                   <SendHorizontal className="h-5 w-5" />
                 </Button>
