@@ -1,6 +1,11 @@
 import TweetScraper, { TweetData } from "@/lib/tweet-client";
 import { ActionResponse } from "@/types/actions";
+import { decryptString } from "@/utils/encryption";
+import { TwitterApi } from "twitter-api-v2";
+import { getTwitterAccessByUserId } from "@/server/db/queries";
 import { z } from "zod";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/utils/auth-options";
 
 const postTweetSchema = z.object({
     text: z.string().min(1).max(140).describe("The tweet text to post. Must be between 1 and 140 characters."),
@@ -20,20 +25,49 @@ export const postTweet = {
     parameters: postTweetSchema,
     execute: async ({ text, replyToTweetId }: PostTweetSchema): Promise<PostTweetResponse> => {
         try {
-            const res = await TweetScraper.postTweet(text, replyToTweetId);
-            const body = await res.json();
 
-            if(body.errors && body.errors.length > 0) {
-                console.log(body.errors);
-                return {
-                    success: false,
-                    error: "Failed to post tweet",
-                }
+            const session = await getServerSession(authOptions);
+            if (!session || !session.user || !session.user.id) {
+                throw new Error("User not verified");
             }
 
-            const tweetId = body.data.create_tweet.tweet_results.result.rest_id;
-            const username = body.data.create_tweet.tweet_results.result.core.user_results.result.legacy.screen_name;
+            const userId = session.user.id;
 
+            const twitterAccess = await getTwitterAccessByUserId({ userId });
+
+            if (
+                !twitterAccess ||
+                !twitterAccess.accessToken ||
+                !twitterAccess.accessSecret ||
+                !twitterAccess.username
+            ) {
+                throw new Error("Twitter connection does not exist.");
+            }
+
+            if (!process.env.TWITTER_APP_SECRET || !process.env.TWITTER_APP_KEY) {
+                throw new Error("Twitter developers keys not found");
+            }
+
+            const decryptedAccessToken = decryptString(twitterAccess?.accessToken);
+            const decryptedAccessSecret = decryptString(twitterAccess?.accessSecret);
+
+            const apiClient = new TwitterApi({
+                appKey: process.env.TWITTER_APP_KEY,
+                appSecret: process.env.TWITTER_APP_SECRET,
+                accessToken: decryptedAccessToken,
+                accessSecret: decryptedAccessSecret,
+            });
+
+            let tweetId = "";
+            if (replyToTweetId) {
+                const tweet = await apiClient.v2.reply(text, replyToTweetId);
+                tweetId = tweet.data.id;
+            } else {
+                const tweet = await apiClient.v2.tweet(text);
+                tweetId = tweet.data.id;
+            }
+
+            const username = twitterAccess.username;
             return {
                 success: true,
                 data: {
@@ -42,7 +76,7 @@ export const postTweet = {
                     replyToTweetId: replyToTweetId,
                     tweetId: tweetId,
                 },
-            }    
+            };
         } catch (error) {
             console.error(error);
             return {

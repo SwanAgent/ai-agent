@@ -8,6 +8,8 @@ import { generateEncryptedKeyPair } from "@/lib/wallet/wallet-generator";
 import { AgentUser, PrismaUser } from "@/types/db";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/utils/auth-options";
+import { getTwitterAccessByUserId } from "@/server/db/queries";
+import { TwitterAccess } from "@prisma/client";
 
 export const getOrCreateUser = actionClient
   .schema(z.object({ address: z.string() }))
@@ -114,5 +116,41 @@ export const getUserSessionData = actionClient.action<ActionResponse<AgentUser>>
       id: session.user.id,
       address: session.user.address,
     },
+  };
+});
+
+export const removeTwitterAccess = actionClient.action<ActionResponse<boolean>>(async () => {
+  const session = await getServerSession(authOptions);
+  if (!session || !session.user || !session.user.id) {
+    return {
+      success: false,
+      error: "User not authenticated",
+    };
+  }
+
+  await prisma.twitterAccess.deleteMany({
+    where: { userId: session.user.id },
+  });
+
+  return {
+    success: true,
+    data: true,
+  };
+});
+
+export const getTwitterAccess = actionClient.action<ActionResponse<TwitterAccess | null>>(async () => {
+  const session = await getServerSession(authOptions);
+  if (!session || !session.user || !session.user.id) {
+    return {
+      success: false,
+      error: "User not authenticated",
+    };
+  }
+
+  const twitterAccess = await getTwitterAccessByUserId({ userId: session.user.id });
+
+  return {
+    success: true,
+    data: twitterAccess,
   };
 });
