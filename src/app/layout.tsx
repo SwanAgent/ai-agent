@@ -9,8 +9,31 @@ import '@mysten/dapp-kit/dist/index.css';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://foam.sh'),
-  title: 'Foam',
-  description: 'Your DeFAI Agent on SUI',
+  title: 'Foam | Your DeFAI Agent on SUI',
+  description: 'Experience the Future of DeFAI on Sui, powered by Intelligent Agents ✨',
+  openGraph: {
+    title: 'Foam - Your DeFAI Agent on SUI',
+    description: 'Experience the Future of DeFAI on Sui, powered by Intelligent Agents ✨',
+    url: 'https://foam.sh',
+    siteName: 'Foam',
+    images: [
+      {
+        url: '/product.png', // Make sure to add this image to your public folder
+        width: 1200,
+        height: 630,
+        alt: 'Foam DeFAI Agent Interface',
+      },
+    ],
+    locale: 'en_US',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Foam - Your DeFAI Agent on SUI',
+    description: 'Experience the Future of DeFAI on Sui, powered by Intelligent Agents ✨',
+    images: ['/product.png'],
+    creator: '@foamsh',
+  },
 };
 
 export const viewport = {
