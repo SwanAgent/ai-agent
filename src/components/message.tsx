@@ -20,6 +20,8 @@ import { PostTweet, TokenDetailsCard, PortfolioView } from './actions';
 import { Transfer } from './actions/transfer';
 import { SuiAiPools } from './actions/sui-ai-pools';
 import { SwapToken } from './actions/swap-token';
+import { TrendingTokens } from './actions/trending-tokens';
+import { TopGainers } from './actions/top-gainers';
 
 const PurePreviewMessage = ({
   chatId,
@@ -144,10 +146,10 @@ const PurePreviewMessage = ({
                           <Transfer msgToolId={msgToolId}  result={ result } />
                         ) : toolName === 'swapTokens' ? (
                           <SwapToken msgToolId={message.id + "-" + toolCallId} result={result} />
-                        // ) : toolName === 'resolveBasenames' ? (
-                        //   <ResolveBasename result={result} />
-                        // ) : toolName === 'fetchTweets' ? (
-                        //   <FetchTweets result={result} />
+                        ) : toolName === 'getTrendingTokens' ? (
+                          <TrendingTokens result={result} msgToolId={msgToolId} />
+                        ) : toolName === 'getTopGainers' ? (
+                          <TopGainers result={result} msgToolId={msgToolId} />
                         ) : toolName === 'postTweet' ? (
                           <PostTweet result={result} msgToolId={msgToolId} />
                         ) : toolName === 'searchTokenDetails' ? (
@@ -171,10 +173,10 @@ const PurePreviewMessage = ({
                         <SuiAiPools result={{ isLoading: true }} msgToolId={msgToolId} />
                       ) : toolName === 'transfer' ? (
                         <Transfer msgToolId={msgToolId} result={{ isLoading: true }} />
-                      // ) : toolName === 'resolveBasenames' ? (
-                      //   <ResolveBasename result={{ isLoading: true }} />
-                      // ) : toolName === 'fetchTweets' ? (  
-                      //   <FetchTweets result={{ isLoading: true }} />
+                      ) : toolName === 'getTrendingTokens' ? (
+                        <TrendingTokens result={{ isLoading: true }} msgToolId={msgToolId} />
+                      ) : toolName === 'getTopGainers' ? (
+                        <TopGainers result={{ isLoading: true }} msgToolId={msgToolId} />
                       ) : toolName === 'postTweet' ? (
                         <PostTweet result={{ isLoading: true }} msgToolId={msgToolId} />
                       ) : toolName === 'searchTokenDetails' ? (

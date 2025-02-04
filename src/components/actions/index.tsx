@@ -5,6 +5,8 @@ import { PortfolioView } from "./portfolio-view";
 import { Transfer } from "./transfer";
 import { SuiAiPools } from "./sui-ai-pools";
 import { SwapToken } from "./swap-token";
+import { TrendingTokens } from "./trending-tokens";
+import { TopGainers } from "./top-gainers";
 
 // export { SwapToken } from "./swap-token";
 // export { Transfer } from "./transfer";
@@ -77,6 +79,14 @@ export const defaultTools: Record<string, {
   "swapTokens": {
     displayName: "Swap Tokens",
     component: SwapToken,
+  },
+  "getTrendingTokens": {
+    displayName: "Trending Tokens",
+    component: TrendingTokens,
+  },
+  "getTopGainers": {
+    displayName: "Top Gainers",
+    component: TopGainers,
   },
   // "resolveBasename": DefaultToolResultRenderer,
 }
