@@ -22,6 +22,7 @@ import { SuiAiPools } from './actions/sui-ai-pools';
 import { SwapToken } from './actions/swap-token';
 import { TrendingTokens } from './actions/trending-tokens';
 import { TopGainers } from './actions/top-gainers';
+import Stake from './stake/stake';
 
 const PurePreviewMessage = ({
   chatId,
@@ -154,6 +155,8 @@ const PurePreviewMessage = ({
                           <PostTweet result={result} msgToolId={msgToolId} />
                         ) : toolName === 'searchTokenDetails' ? (
                           result.data ? <TokenDetailsCard result={result} msgToolId={msgToolId} /> : null
+                        ) : toolName === 'stakeToken' ? (
+                          <Stake msgToolId={message.id + "-" + toolCallId} result={result} />
                         ) : (
                           <pre>{JSON.stringify(result, null, 2)}</pre>
                         )}
@@ -183,6 +186,8 @@ const PurePreviewMessage = ({
                         <TokenDetailsCard result={{ isLoading: true }} msgToolId={msgToolId} />
                       ) : toolName === 'swapTokens' ? (
                         <SwapToken msgToolId={message.id + "-" + toolCallId} result={{ isLoading: true }} />
+                      ) : toolName === 'stakeToken' ? (
+                         <Stake msgToolId={message.id + "-" + toolCallId} result={{ isLoading: true }} />
                       ) : null}
                     </div>
                   );

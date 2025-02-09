@@ -7,6 +7,7 @@ import { SuiAiPools } from "./sui-ai-pools";
 import { SwapToken } from "./swap-token";
 import { TrendingTokens } from "./trending-tokens";
 import { TopGainers } from "./top-gainers";
+import Stake from "../stake/stake";
 
 // export { SwapToken } from "./swap-token";
 // export { Transfer } from "./transfer";
@@ -87,6 +88,10 @@ export const defaultTools: Record<string, {
   "getTopGainers": {
     displayName: "Top Gainers",
     component: TopGainers,
+  },
+  "stakeToken": {
+    displayName: "Stake Tokens",
+    component: Stake,
   },
   // "resolveBasename": DefaultToolResultRenderer,
 }

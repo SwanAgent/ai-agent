@@ -5,6 +5,7 @@ import { SessionProvider } from "next-auth/react";
 import { createNetworkConfig, SuiClientProvider, WalletProvider } from '@mysten/dapp-kit';
 import { getFullnodeUrl } from '@mysten/sui/client';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { SpringSuiContextProvider } from "@/contexts/spring-sui";
 
 // Config options for the networks you want to connect to
 const { networkConfig } = createNetworkConfig({
@@ -25,4 +26,12 @@ const SuiWalletProvider: FC<any> = ({ children }) => {
   );
 };
 
-export default SuiWalletProvider;
+const SpringSuiProvider: FC<any> = ({ children }) => {
+  return (
+    <SpringSuiContextProvider>
+      {children}
+    </SpringSuiContextProvider>
+  );
+};
+
+export { SuiWalletProvider, SpringSuiProvider };

@@ -2,9 +2,8 @@ import type { Metadata } from 'next';
 import { Toaster } from 'sonner';
 
 import { ThemeProvider } from '@/components/theme-provider';
-
 import './globals.css';
-import SuiWalletProvider from './providers';
+import { SpringSuiProvider, SuiWalletProvider } from './providers';
 import '@mysten/dapp-kit/dist/index.css';
 
 export const metadata: Metadata = {
@@ -89,7 +88,11 @@ export default async function RootLayout({
           disableTransitionOnChange
         >
           <Toaster position="top-center" />
-          <SuiWalletProvider>{children}</SuiWalletProvider>
+          <SuiWalletProvider>
+            <SpringSuiProvider>
+              {children}
+            </SpringSuiProvider>
+          </SuiWalletProvider>
         </ThemeProvider>
       </body>
     </html>
