@@ -2,6 +2,7 @@ import { ActionResponse } from "@/types/actions";
 import { DexScreenerSearchResponse, TokenDetails } from "@/types/dex-screener";
 import { z } from "zod";
 import { getTokenFromRegistry } from "../helpers/getTokenFromRegistry";
+import { ToolConfig } from ".";
 
 export const searchTokenDetailsSchema = z.object({
     query: z.string().describe('The query to search for token details, it can be part of token name, symbol, or address'),
@@ -38,7 +39,8 @@ export const exactTokenMatch = (query: string, token: TokenMetadata) => {
     return token.name.toLowerCase() === query.toLowerCase() || token.symbol.toLowerCase() === query.toLowerCase() || token.address.toLowerCase() === query.toLowerCase();
 }
 
-export const searchTokenDetails = {
+export const searchTokenDetails: ToolConfig = {
+    displayName: '🔍 Search Token Details',
     description: 'Search for token details like name, symbol, address, image, website, socials, price, volume, price change, fdv, market cap using either token name, symbol, or address.',
     parameters: searchTokenDetailsSchema,
     execute: async ({ query: _query }: SearchTokenDetailsParams): Promise<SearchTokenDetailsResult> => {

@@ -20,6 +20,18 @@ export const models: Array<Model> = [
     apiIdentifier: 'gpt-4o',
     description: 'For complex, multi-step tasks',
   },
+  {
+    id: 'deepseek-chat',
+    label: 'DeepSeek',
+    apiIdentifier: 'deepseek-chat',
+    description: 'For complex, multi-step tasks',
+  },
+  {
+    id: 'llama-3.3-70B-instruct',
+    label: 'Llama 3.3 ( Powered By Atoma Network )',
+    apiIdentifier: 'llama-3.3-70B-instruct',
+    description: 'For simple tasks',
+  }
 ] as const;
 
-export const DEFAULT_MODEL_NAME: string = 'gpt-4o';
+export const DEFAULT_MODEL_NAME: string = 'llama-3.3-70B-instruct';

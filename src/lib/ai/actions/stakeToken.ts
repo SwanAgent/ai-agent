@@ -26,6 +26,7 @@ export type StakeTokenResponse = ActionResponse<{
 }>;
 
 export const stakeToken = {
+    displayName: 'Stake Token',
     description: `Liquid stake SUI to earn staking rewards, or convert between different liquid staking tokens (LSTs).
     
 Supported tokens: SUI and ${Object.values(LstId).join(', ')}

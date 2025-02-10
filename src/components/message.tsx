@@ -21,7 +21,9 @@ import { Transfer } from './actions/transfer';
 import { SuiAiPools } from './actions/sui-ai-pools';
 import { SwapToken } from './actions/swap-token';
 import { TrendingTokens } from './actions/trending-tokens';
+import { FetchTweets } from './actions/fetch-tweets';
 import { TopGainers } from './actions/top-gainers';
+import { LiquidityPools } from './actions/liquidity-pools';
 import Stake from './stake/stake';
 
 const PurePreviewMessage = ({
@@ -133,30 +135,36 @@ const PurePreviewMessage = ({
               <div className="flex flex-col gap-4">
                 {message.toolInvocations.map((toolInvocation) => {
                   const { toolName, toolCallId, state, args } = toolInvocation;
-                  const msgToolId = `${message.id}-${toolCallId}`
+                  // const msgToolId = `${message.id}-${toolCallId}`
                   if (state === 'result') {
                     const { result } = toolInvocation;
 
                     return (
                       <div key={toolCallId}>
                         {toolName === 'getPortfolio' ? (
-                          <PortfolioView result={result} msgToolId={msgToolId} />
+                          <PortfolioView result={result} msgToolId={toolCallId} />
                         ) : toolName === 'getSuiAiPools' ? (
-                          <SuiAiPools result={result} msgToolId={msgToolId} />
+                          <SuiAiPools result={result} msgToolId={toolCallId} />
                         ) : toolName === 'transfer' ? (
-                          <Transfer msgToolId={msgToolId}  result={ result } />
+                          <Transfer msgToolId={toolCallId}  result={ result } />
                         ) : toolName === 'swapTokens' ? (
-                          <SwapToken msgToolId={message.id + "-" + toolCallId} result={result} />
+                          <SwapToken msgToolId={toolCallId} result={result} />
                         ) : toolName === 'getTrendingTokens' ? (
-                          <TrendingTokens result={result} msgToolId={msgToolId} />
+                          <TrendingTokens result={result} msgToolId={toolCallId} />
                         ) : toolName === 'getTopGainers' ? (
-                          <TopGainers result={result} msgToolId={msgToolId} />
+                          <TopGainers result={result} msgToolId={toolCallId} />
+                        ) : toolName === 'fetchTweets' ? (
+                          <FetchTweets result={result} msgToolId={toolCallId} />
+                        ) : toolName === 'fetchTweetsTillTimestamp' ? (
+                          <FetchTweets result={result} msgToolId={toolCallId} />
                         ) : toolName === 'postTweet' ? (
-                          <PostTweet result={result} msgToolId={msgToolId} />
+                          <PostTweet result={result} msgToolId={toolCallId} />
                         ) : toolName === 'searchTokenDetails' ? (
-                          result.data ? <TokenDetailsCard result={result} msgToolId={msgToolId} /> : null
+                          result.data ? <TokenDetailsCard result={result} msgToolId={toolCallId} /> : null
                         ) : toolName === 'stakeToken' ? (
-                          <Stake msgToolId={message.id + "-" + toolCallId} result={result} />
+                          <Stake msgToolId={toolCallId} result={result} />
+                        ) : toolName === 'getLiquidityPools' ? (
+                          <LiquidityPools result={result} msgToolId={toolCallId} />
                         ) : (
                           <pre>{JSON.stringify(result, null, 2)}</pre>
                         )}
@@ -171,23 +179,27 @@ const PurePreviewMessage = ({
                       })}
                     >
                       {toolName === 'getPortfolio' ? (
-                        <PortfolioView result={{ isLoading: true }} msgToolId={msgToolId} />
+                        <PortfolioView result={{ isLoading: true }} msgToolId={toolCallId} />
                       ) : toolName === 'getSuiAiPools' ? (
-                        <SuiAiPools result={{ isLoading: true }} msgToolId={msgToolId} />
+                        <SuiAiPools result={{ isLoading: true }} msgToolId={toolCallId} />
                       ) : toolName === 'transfer' ? (
-                        <Transfer msgToolId={msgToolId} result={{ isLoading: true }} />
-                      ) : toolName === 'getTrendingTokens' ? (
-                        <TrendingTokens result={{ isLoading: true }} msgToolId={msgToolId} />
-                      ) : toolName === 'getTopGainers' ? (
-                        <TopGainers result={{ isLoading: true }} msgToolId={msgToolId} />
+                        <Transfer msgToolId={toolCallId} result={{ isLoading: true }} />
+                      // ) : toolName === 'resolveBasenames' ? (
+                      //   <ResolveBasename result={{ isLoading: true }} />
+                    ) : toolName === 'fetchTweets' ? (  
+                      <FetchTweets result={{ isLoading: true }} msgToolId={toolCallId} />
+                      ) : toolName === 'fetchTweetsTillTimestamp' ? (  
+                        <FetchTweets result={{ isLoading: true }} msgToolId={toolCallId} />
                       ) : toolName === 'postTweet' ? (
-                        <PostTweet result={{ isLoading: true }} msgToolId={msgToolId} />
+                        <PostTweet result={{ isLoading: true }} msgToolId={toolCallId} />
                       ) : toolName === 'searchTokenDetails' ? (
-                        <TokenDetailsCard result={{ isLoading: true }} msgToolId={msgToolId} />
+                        <TokenDetailsCard result={{ isLoading: true }} msgToolId={toolCallId} />
                       ) : toolName === 'swapTokens' ? (
-                        <SwapToken msgToolId={message.id + "-" + toolCallId} result={{ isLoading: true }} />
+                        <SwapToken msgToolId={toolCallId} result={{ isLoading: true }} />
                       ) : toolName === 'stakeToken' ? (
-                         <Stake msgToolId={message.id + "-" + toolCallId} result={{ isLoading: true }} />
+                         <Stake msgToolId={toolCallId} result={{ isLoading: true }} />
+                      ) : toolName === 'getLiquidityPools' ? (
+                        <LiquidityPools result={{ isLoading: true }} msgToolId={toolCallId} />
                       ) : null}
                     </div>
                   );

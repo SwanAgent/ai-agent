@@ -31,7 +31,7 @@ class Wallet {
      * Sign and execute a transaction
      */
     async signAndExecuteTransaction(transaction: Transaction): Promise<SuiTransactionBlockResponse> {
-        const result = await this.client.signAndExecuteTransaction({ signer: this.keypair, transaction: transaction });
+        const result = await this.client.signAndExecuteTransaction({ signer: this.keypair, transaction: transaction as any });
         return result;
     }
 }

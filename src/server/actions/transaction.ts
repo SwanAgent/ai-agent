@@ -6,6 +6,7 @@ import { actionClient } from '@/lib/safe-action';
 import { TransactionStatus, TransactionType, Transaction } from '@prisma/client';
 import { z } from 'zod';
 import { getUserSessionData } from './user';
+import { getUserById } from '../db/queries';
 
 export type CreateTransactionInput = {
   msgToolId: string;
@@ -22,21 +23,17 @@ export type UpdateTransactionInput = {
 };
 
 export const getOrCreateTransaction = actionClient
-  .schema(z.object({ msgToolId: z.string(), type: z.nativeEnum(TransactionType), title: z.string().optional(), metadata: z.any().optional() }))
-  .action<ActionResponse<Transaction>>(async ({ parsedInput: { msgToolId, type, title, metadata } }) => {
-    const user = await getUserSessionData();
-    const success = user?.data?.success;
-    const userData = user?.data?.data;
-    const error = user?.data?.error;
-
-    if (!success || !userData) {
+  .schema(z.object({ usedId: z.string(), msgToolId: z.string(), type: z.nativeEnum(TransactionType), title: z.string().optional(), metadata: z.any().optional() }))
+  .action<ActionResponse<Transaction>>(async ({ parsedInput: { usedId, msgToolId, type, title, metadata } }) => {
+    const user = await getUserById({ id: usedId });
+    if (!user || !user.id) {
       return {
         success: false,
-        error: error,
+        error: 'User not found',
       };
     }
 
-    const userId = userData.id;
+    const userId = user.id;
 
     const existing = await prisma.transaction.findUnique({
       where: { msgToolId },

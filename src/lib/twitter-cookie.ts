@@ -7,7 +7,7 @@ export type TwitterCookie = {
 export type TwitterCookies = TwitterCookie[];
 
 export const twitterProdClientCookies: TwitterCookies = [
-    { key: 'auth_token', value: 'c9912a47aaf2dc10a39593cda143ec1ab9e4ff70', domain: '.twitter.com' },
-    { key: 'ct0', value: 'a6395d9ea9845c9fd7724274be5e93c4234ff3ce3ae209c3382d264e4a07d5f0e39adc6490eb1ee0c5d4705d83cfdaa42d149c742e0430a95d11f63098234df552cf6ac3f714647248f48c0a0499bc9b', domain: '.twitter.com' },
-    { key: 'guest_id', value: 'v1%3A173530637900822823', domain: '.twitter.com' },
+    { key: 'auth_token', value: 'ea90d02e672a1b76dcbebf4926cfa039b19abc95', domain: '.twitter.com' },
+    { key: 'ct0', value: '2338f29b114322b1676f391d0c2f58bd1fbc1fbdbbf8ded1c6e8f7b49ddd7818eb75b99b7d3da872755f601d2a7f7ce61e99435fba660d99c69ad81518fed4a2d9aa2fabc46bb778c26eb5f447fdd782', domain: '.twitter.com' },
+    { key: 'guest_id', value: 'v1:173893587954054893', domain: '.twitter.com' },
 ];

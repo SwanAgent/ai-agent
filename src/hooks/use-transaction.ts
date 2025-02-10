@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { Transaction, TransactionStatus, TransactionType } from '@prisma/client';
 import { getOrCreateTransaction, getTransaction, updateTransactionStatus } from '@/server/actions/transaction';
+import { useUser } from './use-user';
 
 const POLLING_INTERVAL = 5000; // 5 seconds
 
@@ -10,6 +11,7 @@ export function useTransaction(msgToolId: string, type: TransactionType) {
   const [transaction, setTransaction] = useState<Transaction | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const user = useUser();
 
   const fetchTransaction = async () => {
     try {
@@ -29,7 +31,11 @@ export function useTransaction(msgToolId: string, type: TransactionType) {
     metadata: any;
   }) => {
     try {
-      const response = await getOrCreateTransaction({ msgToolId, type, title: input.title, metadata: input.metadata });
+      if (!user?.user?.id) {
+        throw new Error('User not found');
+      }
+
+      const response = await getOrCreateTransaction({ usedId: user?.user?.id, msgToolId, type, title: input.title, metadata: input.metadata });
 
       if (!response?.data?.success) {
         throw new Error('Failed to create transaction');

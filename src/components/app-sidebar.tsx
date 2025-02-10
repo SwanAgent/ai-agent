@@ -33,13 +33,13 @@ export const SidebarMenuOptions = [
     label: 'Tasks',
     icon: <ListTodo size={12} />,
     href: '/tasks',
-    isActive: false,
+    isActive: true,
   },
   {
     label: 'Agents',
     icon: <Bot size={12} />,
     href: '/agents',
-    isActive: false,
+    isActive: true,
   },
 ];
 

@@ -5,9 +5,11 @@ import { PortfolioView } from "./portfolio-view";
 import { Transfer } from "./transfer";
 import { SuiAiPools } from "./sui-ai-pools";
 import { SwapToken } from "./swap-token";
+import { ActionResult } from "./action";
 import { TrendingTokens } from "./trending-tokens";
 import { TopGainers } from "./top-gainers";
 import Stake from "../stake/stake";
+import { LiquidityPools } from "./liquidity-pools";
 
 // export { SwapToken } from "./swap-token";
 // export { Transfer } from "./transfer";
@@ -55,7 +57,7 @@ export const defaultTools: Record<string, {
   },
   "FetchTweets": {
     displayName: "Fetch Tweets",
-    component: DefaultToolResultRenderer,
+    component: FetchTweets,
   },
   "postTweet": {
     displayName: "Post Tweet",
@@ -81,6 +83,10 @@ export const defaultTools: Record<string, {
     displayName: "Swap Tokens",
     component: SwapToken,
   },
+  "createActionTool": {
+    displayName: "Create Action",
+    component: ActionResult,
+  },
   "getTrendingTokens": {
     displayName: "Trending Tokens",
     component: TrendingTokens,
@@ -92,6 +98,14 @@ export const defaultTools: Record<string, {
   "stakeToken": {
     displayName: "Stake Tokens",
     component: Stake,
+  },
+  "getLiquidityPools": {
+    displayName: "Get Liquidity Pools",
+    component: LiquidityPools,
+  },
+  "fetchTweetsTillTimestamp": {
+    displayName: "Fetch Tweets Till Timestamp",
+    component: FetchTweets,
   },
   // "resolveBasename": DefaultToolResultRenderer,
 }

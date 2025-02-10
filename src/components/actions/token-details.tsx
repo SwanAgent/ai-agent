@@ -184,13 +184,13 @@ export function TokenDetailsCard({ result }: TokenDetailsCardProps) {
                         <div>
                             <div className="text-xs text-muted-foreground mb-1">FDV</div>
                             <div className="font-medium">
-                                ${((tokenDetails?.fdv ?? 0) / 1000000).toLocaleString(undefined, { maximumFractionDigits: 2 })}M
+                                ${tokenDetails?.fdv ?? 0}
                             </div>
                         </div>
                         <div>
                             <div className="text-xs text-muted-foreground mb-1">MARKET CAP</div>
                             <div className="font-medium">
-                                ${((tokenDetails?.marketCap ?? 0) / 1000000).toLocaleString(undefined, { maximumFractionDigits: 2 })}M
+                                ${tokenDetails?.marketCap ?? 0}
                             </div>
                         </div>
                     </div>

@@ -13,8 +13,8 @@ export interface Integration {
 
 export const INTEGRATIONS: Integration[] = [
   {
-    icon: '/integrations/foam-logo.png',
-    label: 'Foam',
+    icon: '/integrations/flash.jpeg',
+    label: 'Flash',
     description: 'Leading the future of decentralized finance on sui – the master agent orchestrating all others.',
     theme: {
       primary: '#e8308c', // Green
@@ -40,6 +40,15 @@ export const INTEGRATIONS: Integration[] = [
     },
   },
   {
+    icon: '/integrations/bolt.jpeg',
+    label: 'Bolt',
+    description: 'Bolt automates DeFi, managing your portfolio while you sleep.',
+    theme: {
+      primary: '#e8308c', // Purple
+      secondary: '#e8308c', // Light purple
+    },
+  },
+  {
     icon: '/integrations/sage.png',
     label: 'Sage',
     description: 'Unveiling trends, decoding influencers, and crafting impactful tweets.',
@@ -48,15 +57,6 @@ export const INTEGRATIONS: Integration[] = [
       secondary: '#e8308c', // Light purple
     },
   },
-  // {
-  //   icon: 'integrations/dialect.svg',
-  //   label: 'Dialect',
-  //   description: 'Create and share blinks',
-  //   theme: {
-  //     primary: '#0EA5E9', // Blue
-  //     secondary: '#38BDF8', // Light blue
-  //   },
-  // },
   {
     icon: '/integrations/hunter.png',
     label: 'Hunter',

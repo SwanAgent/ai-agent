@@ -14,6 +14,7 @@ model User {
   updatedAt DateTime @updatedAt
 
   earlyAccess Boolean @default(false)
+  metadata    Json?
 
   wallets       Wallet[]
   conversations Chat[]
@@ -138,27 +139,31 @@ model Rule {
 }
 
 model Action {
-  id             String    @id @default(uuid())
+  id             String    @id @default(cuid())
   userId         String
-  conversationId String
+  chatId         String
   triggeredBy    Int[] // Array of rule IDs required to trigger this action
   stoppedBy      Int[] // Array of rule IDs required to stop this action
-  frequency      Int? // Frequency in seconds (e.g., 3600 for 1 hour, 86400 for 1 day)
-  maxExecutions  Int? // Times to execute before stopping
+  frequency      Int // Frequency in seconds (e.g., 3600 for 1 hour, 86400 for 1 day)
+  maxExecutions  Int       @default(0) // Times to execute before stopping
+  name           String    @db.VarChar(255) // User defined name for the action
   description    String    @db.VarChar(255) // Human readable description of the action, or message to send to AI
   actionType     String    @db.VarChar(255) // Type of action (e.g., "call_function", "invoke_api")
   params         Json? // JSON object for action parameters (e.g., inputs for the function)
   timesExecuted  Int       @default(0)
   lastExecutedAt DateTime?
+  lastFailureAt  DateTime?
+  lastSuccessAt  DateTime?
   triggered      Boolean   @default(false) // Whether the action has been triggered. True if triggeredBy is empty
   paused         Boolean   @default(false)
   completed      Boolean   @default(false)
   priority       Int       @default(0) // Priority level for execution, higher numbers execute first
   createdAt      DateTime  @default(now())
   updatedAt      DateTime  @updatedAt
+  startTime      DateTime // Time to start executing the action
 
-  user         User @relation(fields: [userId], references: [id], onDelete: Cascade)
-  conversation Chat @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  chat Chat @relation(fields: [chatId], references: [id], onDelete: Cascade)
 
   @@index([triggeredBy], name: "triggeredBy_idx")
   @@index([stoppedBy], name: "stoppedBy_idx")
@@ -183,6 +188,7 @@ model TokenStat {
 enum Visibility {
   private @map("private")
   public  @map("public")
+  task    @map("task")
 }
 
 enum Kind {
@@ -193,6 +199,7 @@ enum Kind {
 enum TransactionType {
   TRANSFER @map("transfer")
   SWAP     @map("swap")
+  STAKE    @map("stake")
 }
 
 enum TransactionStatus {

@@ -224,7 +224,7 @@ function MessageToolInvocations({
         return (
           <div key={toolCallId} className="group">
             {isCompleted ? (
-              <ToolResult toolName={toolName} result={result} header={header} msgToolId={`${messageId}-${toolCallId}`} />
+              <ToolResult toolName={toolName} result={result} header={header} msgToolId={toolCallId} />
             ) : (
               <>
                 {header}
@@ -551,9 +551,11 @@ function useImageUpload() {
 
 export default function ChatInterface({
   id,
+  visiblilty,
   initialMessages = [],
 }: {
   id: string;
+  visiblilty: 'private' | 'public' | 'task';
   initialMessages?: Message[];
 }) {
   const { messages, input, handleSubmit, handleInputChange, isLoading } =
@@ -655,7 +657,7 @@ export default function ChatInterface({
         </div>
       </div>
 
-      <div className="sticky bottom-0 z-10">
+      {visiblilty !== "task" && <div className="sticky bottom-0 z-10">
         <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-background via-background/95 to-background/0" />
         <div className="relative mx-auto w-full max-w-3xl px-4 py-4">
           {/* Floating Wallet */}
@@ -747,7 +749,7 @@ export default function ChatInterface({
             </div>
           </form>
         </div>
-      </div>
+      </div>}
 
       <ImagePreviewDialog
         previewImage={previewImage}

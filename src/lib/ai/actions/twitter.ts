@@ -6,6 +6,7 @@ import { getTwitterAccessByUserId } from "@/server/db/queries";
 import { z } from "zod";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/utils/auth-options";
+import { ToolConfig } from ".";
 
 const postTweetSchema = z.object({
     text: z.string().min(1).max(140).describe("The tweet text to post. Must be between 1 and 140 characters."),
@@ -20,7 +21,8 @@ export type PostTweetResponse = ActionResponse<{
     tweetId?: string;
 }>;
 
-export const postTweet = {
+export const postTweet: ToolConfig = {
+    displayName: '🐦 Post Tweet',
     description: "Post a tweet to Twitter on behalf of the user. Always confirm the tweet text from user before posting. If you want to reply to a tweet, provide the tweet id in the replyToTweetId field.",
     parameters: postTweetSchema,
     execute: async ({ text, replyToTweetId }: PostTweetSchema): Promise<PostTweetResponse> => {
@@ -99,12 +101,46 @@ export type FetchTweetsResponse = ActionResponse<{
     username: string;
 }>;
 
-export const fetchTweets = {
-    description: "Fetch tweets from a given user's Twitter account",
+export const fetchTweets: ToolConfig = {
+    displayName: '🐦 Fetch Tweets',
+    description: "Fetch recent tweets from a given user's Twitter account",
     parameters: fetchTweetsSchema,
     execute: async ({ username, count = 10 }: FetchTweetsSchema): Promise<FetchTweetsResponse> => {
         try {
             const tweets = await TweetScraper.getTweets(username, count * 4);
+            return {
+                success: true,
+                data: {
+                    tweets: tweets,
+                    username: username,
+                },
+            }
+        } catch (error) {
+            console.error(error);
+            return {
+                success: false,
+                error: "Failed to fetch tweets",
+            }
+        }
+    }
+}
+
+const fetchTweetsTillTimestampSchema = z.object({
+    username: z.string(),
+    minutes: z.number(),
+});
+
+export type FetchTweetsTillTimestampSchema = z.infer<typeof fetchTweetsTillTimestampSchema>;
+
+export const fetchTweetsTillTimestamp: ToolConfig = {
+    displayName: '🐦 Fetch Tweets Till Timestamp',
+    description: "Fetch recent tweets from a given user's Twitter account until a specific timestamp",
+    parameters: fetchTweetsTillTimestampSchema,
+    execute: async ({ username, minutes }: FetchTweetsTillTimestampSchema): Promise<FetchTweetsResponse> => {
+        try {
+            const timestampInSeconds = Math.floor(Date.now() / 1000);
+            const timestampInMinutes = timestampInSeconds - (minutes * 60);
+            const tweets = await TweetScraper.getSearchTweetsTillTimestamp(username, timestampInMinutes);
             return {
                 success: true,
                 data: {

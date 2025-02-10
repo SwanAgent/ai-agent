@@ -2,6 +2,7 @@ import { ActionResponse } from "@/types/actions";
 import { TokenMetadata } from "@/types/assets";
 import { z } from "zod";
 import { getTokenFromRegistry } from "../helpers/getTokenFromRegistry";
+import { ToolConfig } from ".";
 
 export const transferSchema = z.object({
     walletAddress: z.string(),
@@ -16,7 +17,8 @@ export type TransferResponse = ActionResponse<{
     tokenToSend: TokenMetadata;
 }>;
 
-export const transfer = {
+export const transfer: ToolConfig = {
+    displayName: '💸 Transfer',
     description: 'Transfer funds from one wallet to another. TokenAddress is the address of the token to transfer, for native token sui, just using SUI.',
     parameters: transferSchema,
     execute: async ({ walletAddress, amount, tokenToSend }: TransferParams): Promise<TransferResponse> => {

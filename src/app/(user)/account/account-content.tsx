@@ -18,6 +18,8 @@ import { WalletCard } from "@/components/wallet-card";
 import { EmbeddedWallet } from "@/types/db";
 import { useRouter } from "next/navigation";
 import { getTwitterAccess, removeTwitterAccess } from "@/server/actions/user";
+import { ModelSelector } from "@/components/model-selector";
+import { DEFAULT_MODEL_NAME } from "@/lib/ai/models";
 
 export function AccountContent() {
     const { isLoading: isUserLoading, user } = useUser();
@@ -109,6 +111,15 @@ export function AccountContent() {
                         <WalletCard key={wallet.id} wallet={wallet} />
                     ))}
                 </section>
+
+                <Card>
+                    <CardContent className="p-6">
+                        <div className="flex justify-between w-full items-center">
+                            <p className="text-sm text-primary font-bold">Model</p>
+                            <ModelSelector selectedModelId={DEFAULT_MODEL_NAME} />
+                        </div>
+                    </CardContent>
+                </Card>
 
                 {/* New Integrations Section */}
                 <section className="space-y-4">

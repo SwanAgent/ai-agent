@@ -3,6 +3,7 @@ import { z } from "zod";
 import { Coin } from "@/types/block-vision";
 import { PortfolioResponse } from "@/types/block-vision";
 import { getWalletCoins } from "@/server/actions/block-vision";
+import { ToolConfig } from ".";
 
 export const getPortfolioSchema = z.object({
     walletAddress: z.string(),
@@ -11,7 +12,8 @@ export const getPortfolioSchema = z.object({
 export type GetPortfolioParams = z.infer<typeof getPortfolioSchema>;
 export type GetPortfolioResult = ActionResponse<PortfolioResponse['result']>;
 
-export const getPortfolio = {
+export const getPortfolio: ToolConfig = {
+    displayName: '💰 Get Portfolio',
     description: 'Get the portfolio of a wallet on sui chain',
     parameters: getPortfolioSchema,
     execute: async ({ walletAddress }: GetPortfolioParams): Promise<GetPortfolioResult> => {

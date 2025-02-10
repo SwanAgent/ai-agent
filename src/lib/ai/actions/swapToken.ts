@@ -1,6 +1,7 @@
 import { z } from 'zod';
 import { searchTokenDetails } from '@/lib/ai/actions/searchTokenDetails';
 import { ActionResponse } from '@/types/actions';
+import { ToolConfig } from '.';
 
 export const swapSchema = z.object({
     fromAmount: z.number(),
@@ -14,7 +15,8 @@ export type SwapTokenResponse = ActionResponse<{
     fromAmount: number;
 }>;
 
-export const swapTokens = {
+export const swapTokens: ToolConfig = {
+    displayName: '🔄 Swap Token',
     description: 'Swap tokens on SUI chains. The fromAmount parameter is required. If no fromToken is specified, SUI will be used as the default. You can provide token name, symbol, or address for both fromToken and toToken parameters. For buying any token, it\'s recommended to use SUI as the fromToken.',
     parameters: swapSchema,
     execute: async ({ fromAmount, fromToken, toToken }: SwapTokenSchema): Promise<SwapTokenResponse> => {

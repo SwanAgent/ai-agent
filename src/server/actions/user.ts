@@ -154,3 +154,39 @@ export const getTwitterAccess = actionClient.action<ActionResponse<TwitterAccess
     data: twitterAccess,
   };
 });
+
+export const updateUserBlobId = actionClient
+  .schema(z.object({ blobId: z.string() }))
+  .action<ActionResponse<PrismaUser>>(async ({ parsedInput: { blobId } }) => {
+    const session = await getServerSession(authOptions);
+    if (!session || !session.user || !session.user.id) {
+      return {
+        success: false,
+        error: "User not authenticated",
+      };
+    }
+
+    const updatedUser = await prisma.user.update({
+      where: { id: session.user.id },
+      data: {
+        metadata: {
+          blobId: blobId
+        },
+      },
+      include: {
+        wallets: {
+          select: {
+            id: true,
+            ownerId: true,
+            name: true,
+            publicKey: true,
+          },
+        },
+      },
+    });
+
+    return {
+      success: true,
+      data: updatedUser,
+    };
+  });

@@ -1,6 +1,6 @@
 import { Prisma, User as _PrismaUser, Transaction as _PrismaTransaction } from '@prisma/client';
 import type { Action, Wallet as _PrismaWallet } from '@prisma/client';
-import type { Chat as _PrismaChat, Document as _PrismaDocument, Suggestion as _PrismaSuggestion, Message as _PrismaMessage, Vote as _PrismaVote } from '@prisma/client';
+import type { Chat as _PrismaChat, Document as _PrismaDocument, Suggestion as _PrismaSuggestion, Message as _PrismaMessage, Vote as _PrismaVote, Action as _PrismaAction } from '@prisma/client';
 
 export type EmbeddedWallet = Pick<
   _PrismaWallet,
@@ -57,4 +57,4 @@ export type ActionFull = Prisma.ActionGetPayload<{
 }>;
 
 export type Transaction = _PrismaTransaction;
-
+export type Action = _PrismaAction;

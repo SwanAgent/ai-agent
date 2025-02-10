@@ -6,13 +6,11 @@ import {
   streamText,
 } from 'ai';
 import { z } from 'zod';
-
+// import { createDeepSeek } from '@ai-sdk/deepseek';
 import { customModel } from '@/lib/ai';
 import { DEFAULT_MODEL_NAME, models } from '@/lib/ai/models';
 import {
-  codePrompt,
-  systemPrompt,
-  updateDocumentPrompt,
+  defaultSystemPrompt,
 } from '@/lib/ai/prompts';
 import {
   deleteChatById,
@@ -31,16 +29,17 @@ import {
 } from '@/lib/utils';
 
 import { generateTitleFromUserMessage } from '@/server/actions/ai';
-import { tools } from '@/lib/ai/actions';
+import { defaultTools } from '@/lib/ai/actions';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/utils/auth-options';
 import { getUserData } from '@/server/actions/user';
+import { atomaNetworkModelProvider } from '@/utils/custom-chat-provider';
 
 export const maxDuration = 60;
 
-type AllowedTools = keyof typeof tools;
+type AllowedTools = keyof typeof defaultTools;
 
-const allTools: AllowedTools[] = [...Object.keys(tools) as AllowedTools[]];
+const allTools: AllowedTools[] = [...Object.keys(defaultTools) as AllowedTools[]];
 
 export async function POST(request: Request) {
   try {
@@ -93,9 +92,10 @@ export async function POST(request: Request) {
         { id: userMessageId, role: userMessage.role, chatId: id, content: userMessage.content as unknown as any },
       ],
     });
-
-    const defaultSystemPrompt = systemPrompt +
-      `\n\nUser Base wallet public key: ${publicKey ?? "Unknown"}`;
+    const systemPrompt = defaultSystemPrompt +
+      `\n\nUser SUI wallet public key: ${publicKey ?? "Unknown"}` +
+      `\nUser ID: ${userId}` +
+      `\nChat ID: ${id}`;
 
     return createDataStreamResponse({
       execute: (dataStream) => {
@@ -105,13 +105,15 @@ export async function POST(request: Request) {
         });
 
         const result = streamText({
-          model: customModel(model.apiIdentifier),
-          system: defaultSystemPrompt,
+          // model: customModel("gpt-4o"),
+          // set custom model with base url and api key
+          model: atomaNetworkModelProvider('meta-llama/Llama-3.3-70B-Instruct'),
+          system: systemPrompt,
           messages: coreMessages,
           maxSteps: 5,
           experimental_activeTools: allTools,
           tools: {
-            ...tools,
+            ...defaultTools,
           },
           onFinish: async ({ response }) => {
             if (userId) {
@@ -140,7 +142,7 @@ export async function POST(request: Request) {
                   ),
                 });
               } catch (error) {
-                console.error('Failed to save chat');
+                console.log('Failed to save chat', error);
               }
             }
           },
@@ -154,7 +156,7 @@ export async function POST(request: Request) {
       },
     });
   } catch (error) {
-    console.error(error);
+    console.log("error in chat route", error);
     return new Response('An error occurred while processing your request', {
       status: 500,
     });
@@ -191,10 +193,11 @@ export async function DELETE(request: Request) {
       return new Response('Unauthorized', { status: 401 });
     }
 
-    await deleteChatById({ id });
+    await deleteChatById({ id: chat.id });
 
     return new Response('Chat deleted', { status: 200 });
   } catch (error) {
+    console.log('error in delete chat', error);
     return new Response('An error occurred while processing your request', {
       status: 500,
     });

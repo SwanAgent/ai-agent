@@ -39,7 +39,7 @@ export function SwapToken({ result: actionResult, msgToolId }: SwapProps) {
         msgToolId,
     });
 
-    const isInitializing = isTokenDetailsLoading || isPageLoading || isUserLoading;
+    const isInitializing = isTokenDetailsLoading || isPageLoading || isUserLoading || isTransactionLoading;
     const isActionDisabled = isLoading || isQuoteLoading || isInitializing || !quote;
 
     if (isInitializing) {

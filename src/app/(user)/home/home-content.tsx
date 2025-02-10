@@ -373,7 +373,7 @@ export function HomeContent() {
           showChat ? 'opacity-100' : 'pointer-events-none opacity-0',
         )}
       >
-        <ChatInterface id={chatId} initialMessages={[]} />
+        <ChatInterface id={chatId} visiblilty={"private"} initialMessages={[]} />
         {/* <Chat id={chatId} initialMessages={[]} selectedModelId={DEFAULT_MODEL_NAME} selectedVisibilityType="private" isReadonly={false} />
         <DataStreamHandler id={chatId} /> */}
       </div>

@@ -2,6 +2,7 @@ import { z } from "zod";
 import { ActionResponse } from "@/types/actions";
 import { SuiAiPools } from "@/types/suiai";
 import { getSuiAiPools as getSuiAiPoolsAction } from "@/server/actions/sui-ai";
+import { ToolConfig } from ".";
 
 const getSuiAiTopPoolsSchema = z.object({
     sortBy: z.enum(["marketcap", "volume_24h"]).default("volume_24h").describe("Sort pools by market cap or 24-hour volume"),
@@ -14,7 +15,8 @@ export type GetSuiAiTopPoolsResponse = ActionResponse<{
     sortedBy: string;
 }>;
 
-export const getSuiAiPools = {
+export const getSuiAiPools: ToolConfig = {
+    displayName: '🔍 Get SUI AI Pools',
     description: "Get top SUI AI pools sorted by market cap or 24-hour volume. By default, pools are sorted by 24-hour volume when no sorting preference is specified. Use this to analyze trending AI tokens on the SUI network.",
     parameters: getSuiAiTopPoolsSchema,
     execute: async ({ sortBy }: GetSuiAiTopPoolsSchema): Promise<GetSuiAiTopPoolsResponse> => {

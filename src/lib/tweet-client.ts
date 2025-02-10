@@ -3,9 +3,9 @@ import config from "./config";
 
 export interface TweetData {
     text: string;
-    tweetId: string | undefined;
+    tweetId: string;
     isQuoted: boolean | undefined;
-    createdAt: Date | undefined;
+    timestamp: number;
 }
 
 export interface ITweetScraper {
@@ -36,7 +36,7 @@ class TweetScraper implements ITweetScraper {
     public static getInstance(): TweetScraper {
         if (!TweetScraper.instance) {
             TweetScraper.instance = new TweetScraper();
-            // TweetScraper.instance.init();
+            TweetScraper.instance.init();
         }
         return TweetScraper.instance;
     }
@@ -99,12 +99,12 @@ class TweetScraper implements ITweetScraper {
         const parsedTweets = [];
         const tweets = this.scraper.getTweets(username, maxTweets);
         for await (const tweet of tweets) {
-            if (tweet.isReply) continue;
+            if (tweet.isReply || !tweet.id) continue;
             const formattedTweet = {
                 text: this.formatTweetsForContext(tweet),
                 tweetId: tweet.id,
                 isQuoted: (tweet.isQuoted && tweet.quotedStatus && tweet.quotedStatus.text) ? true : false,
-                createdAt: tweet.timeParsed
+                timestamp: tweet.timestamp ?? Math.floor(Date.now() / 1000)
             };
             parsedTweets.push(formattedTweet);
         }
@@ -149,6 +149,52 @@ class TweetScraper implements ITweetScraper {
 
     async postTweet(tweet: string, replyToTweetId?: string): Promise<Response> {
         return this.scraper.sendTweet(tweet, replyToTweetId);
+    }
+
+
+    async getSearchTweetsTillTimestamp(username: string, timestamp: number): Promise<TweetData[]> {
+        let nextToken: string | undefined = undefined;
+        let fetchCompleted = false;
+        const parsedTweets = [];
+        const query = `from:${username}`;
+
+        console.log(`Getting tweets with query ${query} till ${timestamp}`);
+        let errorCount = 0;
+        while (true && errorCount < 3) {
+            console.log("errorCount", errorCount);
+            try {
+                console.log("query", query, this.maxSearchTweets, SearchMode.Latest, nextToken);
+                const topMentionsAndInteractions = await this.scraper.fetchSearchTweets(query, this.maxSearchTweets, SearchMode.Latest, nextToken);
+                console.log(`Found ${topMentionsAndInteractions.tweets.length} tweets`);
+                if (topMentionsAndInteractions.tweets.length === 0) {
+                    break;
+                }
+                for (const tweet of topMentionsAndInteractions.tweets) {
+                    if (tweet.timestamp && tweet.timestamp < timestamp && tweet.id) {
+                        fetchCompleted = true;
+                        break;
+                    }
+                    const formattedTweet = this.formatTweetsForContext(tweet);
+                    parsedTweets.push({
+                        text: formattedTweet,
+                        tweetId: tweet.id!,
+                        timestamp: tweet.timestamp ?? Math.floor(Date.now() / 1000),
+                        isQuoted: (tweet.isQuoted && tweet.quotedStatus && tweet.quotedStatus.text) ? true : false,
+                    });
+                }
+                nextToken = topMentionsAndInteractions.next;
+                if (fetchCompleted) {
+                    break;
+                }
+                await new Promise(resolve => setTimeout(resolve, 1000));
+            } catch (error) {
+                console.log("error", error);
+                console.log(`Error fetching tweets: ${error}`);
+                errorCount++;
+                await new Promise(resolve => setTimeout(resolve, 1000));
+            }
+        }
+        return parsedTweets;
     }
 }
 

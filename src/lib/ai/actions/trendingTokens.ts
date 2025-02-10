@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { ActionResponse } from "@/types/actions";
+import { ToolConfig } from ".";
 
 export interface TrendingToken {
     coinPrice: string;
@@ -27,7 +28,8 @@ export type GetTrendingTokensResponse = ActionResponse<{
     tokens: TrendingToken[];
 }>;
 
-export const getTrendingTokens = {
+export const getTrendingTokens: ToolConfig = {
+    displayName: '🔍 Get Trending Tokens',
     description: "Get trending tokens on the SUI network sorted by various metrics like volume, price change, and market cap.",
     parameters: getTrendingTokensSchema,
     execute: async ({ limit }: GetTrendingTokensSchema): Promise<GetTrendingTokensResponse> => {

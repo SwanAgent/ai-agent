@@ -57,7 +57,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
         isReadonly={userId !== chat.userId}
       />
       <DataStreamHandler id={id} /> */}
-      <ChatInterface id={id} initialMessages={convertToUIMessages(messagesFromDb)} />
+      <ChatInterface id={id} visiblilty={chat.visibility} initialMessages={convertToUIMessages(messagesFromDb)} />
     </>
   );
 }
