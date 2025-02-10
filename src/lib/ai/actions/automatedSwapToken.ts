@@ -29,6 +29,13 @@ export const automatedSwapToken: ToolConfig = {
     description: 'Automatically swap tokens on SUI chains without requiring user interaction. The fromAmount and walletAddress parameters are required. If no fromToken is specified, SUI will be used as the default. You can provide token name, symbol, or address for both fromToken and toToken parameters.',
     parameters: automatedSwapSchema,
     execute: async ({ fromAmount, fromToken, toToken, walletAddress }: AutomatedSwapSchema, options?: ToolExecutionOptions): Promise<AutomatedSwapResponse> => {
+        if (!options?.toolCallId) {
+            return {
+                success: false,
+                error: 'Could not initialize transaction',
+            };
+        }
+
         try {
             const getUser = await getUserByWalletAddress({ walletAddress });
             if (!getUser) {
@@ -66,7 +73,7 @@ export const automatedSwapToken: ToolConfig = {
 
             const _transaction = await getOrCreateTransaction({
                 usedId: getUser.id,
-                msgToolId: options?.toolCallId!,
+                msgToolId: options?.toolCallId,
                 type: 'SWAP',
                 title: `Swapping ${fromAmount} ${tokenDetails.fromToken.symbol} for ${quote.returnAmount} ${tokenDetails.toToken.symbol}`,
                 metadata: {
@@ -89,7 +96,7 @@ export const automatedSwapToken: ToolConfig = {
 
             if (!swapResult.success) {
                 await updateTransactionStatus({
-                    msgToolId: options?.toolCallId!,
+                    msgToolId: options?.toolCallId,
                     input: {
                         status: 'FAILED',
                         hash: swapResult.digest,
@@ -104,7 +111,7 @@ export const automatedSwapToken: ToolConfig = {
             }
 
             await updateTransactionStatus({
-                msgToolId: options?.toolCallId!,
+                msgToolId: options?.toolCallId,
                 input: {
                     status: 'SUCCESS',
                     hash: swapResult.digest,
@@ -131,7 +138,7 @@ export const automatedSwapToken: ToolConfig = {
             };
         } catch (error: any) {
             await updateTransactionStatus({
-                msgToolId: options?.toolCallId!,
+                msgToolId: options?.toolCallId,
                 input: {
                     status: 'FAILED',
                     title: `Failed to execute the swap`,
