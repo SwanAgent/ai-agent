@@ -105,9 +105,9 @@ export async function POST(request: Request) {
         });
 
         const result = streamText({
-          // model: customModel("gpt-4o"),
+          model: customModel("gpt-4o"),
           // set custom model with base url and api key
-          model: atomaNetworkModelProvider('meta-llama/Llama-3.3-70B-Instruct'),
+          // model: atomaNetworkModelProvider('meta-llama/Llama-3.3-70B-Instruct'),
           system: systemPrompt,
           messages: coreMessages,
           maxSteps: 5,
