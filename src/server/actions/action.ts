@@ -197,16 +197,17 @@ export async function processAction(action: ActionWithUser) {
     successfulExecution = false;
   } finally {
     // Increment the action's execution count and state
-    const now = new Date();
+    // round off to the nearest 15th minute like 15, 30, 45, 60
+    const completeTime = new Date(Math.floor(new Date().getTime() / 900000) * 900000);
 
     const update = {
       timesExecuted: { increment: 1 },
-      lastExecutedAt: now,
+      lastExecutedAt: completeTime,
       completed:
         !!action.maxExecutions &&
         action.timesExecuted + 1 >= action.maxExecutions,
-      lastSuccessAt: successfulExecution ? now : undefined,
-      lastFailureAt: !successfulExecution ? now : undefined,
+      lastSuccessAt: successfulExecution ? completeTime : undefined,
+      lastFailureAt: !successfulExecution ? completeTime : undefined,
       paused: action.paused,
     };
 
