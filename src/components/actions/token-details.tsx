@@ -10,10 +10,10 @@ import { formatTimeSince } from "@/lib/utils";
 
 export type TokenDetailsCardProps = ActionComponentProps<SearchTokenDetailsResult>
 
-export function TokenDetailsCard({ result }: TokenDetailsCardProps) {
+export function TokenDetailsCard({ result, msgToolId }: TokenDetailsCardProps) {
     const { isLoading, toolResult } = result ?? {};
     const [selectedTimeframe, setSelectedTimeframe] = useState('h24');
-
+    console.log('tokenDetails', toolResult, isLoading, msgToolId);
     if (isLoading) {
         return <div className="space-y-4">
             <Skeleton className="h-[200px] w-full rounded-lg" />
