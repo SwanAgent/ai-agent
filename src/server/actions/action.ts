@@ -197,8 +197,8 @@ export async function processAction(action: ActionWithUser) {
     successfulExecution = false;
   } finally {
     // Increment the action's execution count and state
-    // round off to the nearest 15th minute like 15, 30, 45, 60
-    const completeTime = new Date(Math.floor(new Date().getTime() / 900000) * 900000);
+    // round off to the nearest minute based on frequency, for example if frequency is 900 seconds, then round off to the nearest 15th minute
+    const completeTime = new Date(Math.floor(new Date().getTime() / (action.frequency * 1000)) * (action.frequency * 1000));
 
     const update = {
       timesExecuted: { increment: 1 },
