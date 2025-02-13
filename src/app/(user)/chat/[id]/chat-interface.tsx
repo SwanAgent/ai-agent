@@ -260,6 +260,7 @@ function ChatMessage({
     (_, alt, src, width, height) => `![${alt}](${src}#size=${width}x${height})`,
   );
 
+  console.log('message', message.id, message.toolInvocations);
   return (
     <div
       className={cn(
@@ -634,6 +635,7 @@ export default function ChatInterface({
 
   useAnimationEffect();
 
+  console.log('messages', messages);
   return (
     <div className="flex h-full flex-col">
       <div className="no-scrollbar relative flex-1 overflow-y-auto">
