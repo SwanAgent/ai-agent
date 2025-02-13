@@ -92,7 +92,7 @@ export async function processAction(action: ActionWithUser) {
     const tools = toolsRequired
       ? getToolsFromRequiredTools(toolsRequired)
       : defaultToolsWithoutConfirmation;
-
+    console.log('tools', tools);
     const clonedTools = _.cloneDeep(tools);
     for (const toolName in clonedTools) {
       const tool = clonedTools[toolName as keyof typeof clonedTools];
