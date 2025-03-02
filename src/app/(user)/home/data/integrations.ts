@@ -13,66 +13,57 @@ export interface Integration {
 
 export const INTEGRATIONS: Integration[] = [
   {
-    icon: '/integrations/flash.jpeg',
-    label: 'Flash',
-    description: 'Leading the future of decentralized finance on sui – the master agent orchestrating all others.',
+    icon: '/integrations/flash.webp',
+    label: 'Nova',
+    description: 'Commanding the future of decentralized finance on Near—Nova orchestrates all agents with precision.',
     theme: {
-      primary: '#e8308c', // Green
-      secondary: '#e8308c', // Light green
+      primary: '#00ea9a', // Pink
+      secondary: '#00ea9a', // Light pink
     },
   },
   {
-    icon: '/integrations/ai.webp',
-    label: 'AIgnite',
-    description: 'Spot, analyze and secure the best ai tokens instantly.',
+    icon: '/integrations/neuron.png',
+    label: 'Neuron',
+    description: 'Detect, analyze, and seize top AI tokens in real time—Neuron keeps you ahead of the AI revolution.',
     theme: {
-      primary: '#e8308c', // Blue
-      secondary: '#e8308c', // Light blue
+      primary: '#00ea9a', // Blue
+      secondary: '#00ea9a', // Light blue
     },
   },
   {
-    icon: '/integrations/dexter.png',
-    label: 'Dexter',
-    description: 'Search for a token and swap it as best prices just by typing.',
+    icon: '/integrations/scout.png',
+    label: 'Scout',
+    description: 'Type, search, and swap at the best rates—Scout ensures seamless DeFi trades.',
     theme: {
-      primary: '#e8308c', // Green
-      secondary: '#e8308c', // Light green
+      primary: '#00ea9a', // Green
+      secondary: '#00ea9a', // Light green
     },
   },
   {
     icon: '/integrations/bolt.jpeg',
-    label: 'Bolt',
-    description: 'Bolt automates DeFi, managing your portfolio while you sleep.',
+    label: 'Storm',
+    description: 'Storm automates your DeFi strategies—optimizing trades and managing your portfolio 24/7.',
     theme: {
-      primary: '#e8308c', // Purple
-      secondary: '#e8308c', // Light purple
+      primary: '#00ea9a', // Purple
+      secondary: '#00ea9a', // Light purple
     },
   },
   {
-    icon: '/integrations/sage.png',
-    label: 'Sage',
-    description: 'Unveiling trends, decoding influencers, and crafting impactful tweets.',
+    icon: '/integrations/oracle.webp',
+    label: 'Oracle',
+    description: 'Decipher market trends, track influencers, and craft high-impact tweets with Oracle’s intelligence.',
     theme: {
-      primary: '#e8308c', // Purple
-      secondary: '#e8308c', // Light purple
+      primary: '#00ea9a', // Purple
+      secondary: '#00ea9a', // Light purple
     },
   },
   {
-    icon: '/integrations/hunter.png',
-    label: 'Hunter',
-    description: 'Discover, analyze, and invest in trending tokens',
+    icon: '/integrations/sentinel.webp',
+    label: 'Sentinel',
+    description: 'Scan, analyze, and invest in the hottest tokens before the crowd—Sentinel spots opportunities first.',
     theme: {
-      primary: '#e8308c', // Gray
-      secondary: '#e8308c', // Light gray
+      primary: '#00ea9a', // Gray
+      secondary: '#00ea9a', // Light gray
     },
   },
-  // {
-  //   icon: 'integrations/defined_fi.svg',
-  //   label: 'Defined Fi',
-  //   description: 'Discover unbiassed trending tokens',
-  //   theme: {
-  //     primary: '#B0EECF', // Orange
-  //     secondary: '#181432', // White
-  //   },
-  // },
 ];

@@ -187,7 +187,7 @@ function Brand({ className }: BrandProps) {
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
                 src="/logo/foam-logo.png"
-                alt="Foam.sh"
+                alt="swan.sh"
                 className="w-8 h-8 rounded-lg"
             />
         </div>

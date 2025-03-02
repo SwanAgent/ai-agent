@@ -7,20 +7,20 @@ import { NearWalletProvider } from './providers';
 import '@mysten/dapp-kit/dist/index.css';
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://foam.sh'),
-  title: 'Foam | Your DeFAI Agent on SUI',
+  metadataBase: new URL('https://swan.sh'),
+  title: 'Swan | Your DeFAI Agent on SUI',
   description: 'Experience the Future of DeFAI on Sui, powered by Intelligent Agents ✨',
   openGraph: {
-    title: 'Foam - Your DeFAI Agent on SUI',
+    title: 'Swan - Your DeFAI Agent on SUI',
     description: 'Experience the Future of DeFAI on Sui, powered by Intelligent Agents ✨',
-    url: 'https://foam.sh',
-    siteName: 'Foam',
+    url: 'https://swan.sh',
+    siteName: 'Swan',
     images: [
       {
         url: '/product.png', // Make sure to add this image to your public folder
         width: 1200,
         height: 630,
-        alt: 'Foam DeFAI Agent Interface',
+        alt: 'Swan DeFAI Agent Interface',
       },
     ],
     locale: 'en_US',
@@ -28,10 +28,10 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Foam - Your DeFAI Agent on SUI',
+    title: 'Swan - Your DeFAI Agent on SUI',
     description: 'Experience the Future of DeFAI on Sui, powered by Intelligent Agents ✨',
     images: ['/product.png'],
-    creator: '@foamsh',
+    creator: '@swansh',
   },
 };
 
