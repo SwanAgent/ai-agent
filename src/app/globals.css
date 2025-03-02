@@ -1,0 +1,264 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+    --foreground-rgb: 0, 0, 0;
+    --background-start-rgb: 214, 219, 220;
+    --background-end-rgb: 255, 255, 255;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --foreground-rgb: 255, 255, 255;
+        --background-start-rgb: 0, 0, 0;
+        --background-end-rgb: 0, 0, 0;
+    }
+}
+
+@layer utilities {
+    .text-balance {
+        text-wrap: balance;
+    }
+}
+
+@layer base {
+    :root {
+        --background: 220 40% 97%; /* Light bluish background */
+        --foreground: 220 15% 20%; /* Mild grayish-blue for text */
+        --card: 0 0% 100%; /* Keep cards white */
+        --card-foreground: 220 15% 20%; /* Matches foreground */
+        --popover: 220 40% 97%; /* Match the background */
+        --popover-foreground: 220 15% 20%; /* Match text */
+        --primary: 220 60% 40%; /* Soft blue for primary actions */
+        --primary-foreground: 0 0% 98%; /* White for contrast */
+        --secondary: 220 30% 92%; /* Light bluish-gray for secondary elements */
+        --secondary-foreground: 220 15% 20%; /* Text on secondary elements */
+        --muted: 220 30% 92%; /* Same as secondary for muted */
+        --muted-foreground: 220 10% 50%; /* Subtle gray-blue for muted text */
+        --accent: 220 60% 40%; /* Accent matches primary */
+        --accent-foreground: 0 0% 98%; /* White for contrast */
+        --destructive: 0 70% 60%; /* Mild red for destructive actions */
+        --destructive-foreground: 0 0% 98%; /* White for contrast */
+        --border: 220 20% 90%; /* Light gray-blue for borders */
+        --input: 220 20% 90%; /* Match border for inputs */
+        --ring: 220 40% 50%; /* Blue ring for focus states */
+        --chart-1: 12 70% 55%; /* Mild red for charts */
+        --chart-2: 173 50% 35%; /* Light green */
+        --chart-3: 197 35% 30%; /* Muted blue */
+        --chart-4: 43 65% 60%; /* Soft yellow-green */
+        --chart-5: 27 75% 65%; /* Brighter yellow-green */
+        --radius: 0.5rem; /* Keep the same border radius */
+        --sidebar-background: 220 30% 95%; /* Slightly darker bluish background */
+        --sidebar-foreground: 220 20% 40%; /* Text in the sidebar */
+        --sidebar-primary: 220 60% 40%; /* Match primary */
+        --sidebar-primary-foreground: 0 0% 98%; /* White for contrast */
+        --sidebar-accent: 220 30% 92%; /* Match secondary */
+        --sidebar-accent-foreground: 220 15% 20%; /* Text on accent */
+        --sidebar-border: 220 20% 85%; /* Slightly darker border */
+        --sidebar-ring: 220 50% 50%; /* Sidebar focus ring */
+            }
+    .dark {
+/* BASE COLORS */
+--background: 220 10% 10%; /* Deep dark grayish-blue */
+--foreground: 0 0% 92%; /* Off-white for primary text */
+
+/* CARD & PANEL COLORS */
+--card: 220 10% 12%; /* Slightly lighter dark gray */
+--card-foreground: 0 0% 95%; /* White text for readability */
+
+/* POPUPS & MODALS */
+--popover: 220 10% 14%; /* Subtle dark background */
+--popover-foreground: 0 0% 92%; /* White for contrast */
+
+/* PRIMARY ACCENT COLOR (Neon Green - #00EA9A) */
+--primary: 160 90% 55%; /* Vibrant neon green */
+--primary-foreground: 0 0% 100%; /* Pure white for contrast */
+
+/* SECONDARY COLORS */
+--secondary: 220 7% 20%; /* Muted dark gray-blue */
+--secondary-foreground: 160 90% 55%; /* Neon green for subtle highlights */
+
+/* MUTED & SUBTLE ELEMENTS */
+--muted: 220 7% 18%; /* Dark gray for muted elements */
+--muted-foreground: 220 6% 55%; /* Muted cyan for readability */
+
+/* ACCENTS */
+--accent: 160 90% 55%; /* Neon green accents */
+--accent-foreground: 0 0% 100%; /* White text */
+
+/* DESTRUCTIVE (Red Alert) */
+--destructive: 0 65% 45%; /* High-contrast red */
+--destructive-foreground: 0 0% 95%; /* White for visibility */
+
+/* BORDERS, INPUTS, AND RINGS */
+--border: 220 10% 20%; /* Subtle dark gray */
+--input: 220 10% 25%; /* Lighter dark gray for inputs */
+--ring: 160 90% 55%; /* Neon green focus ring */
+
+/* CHART COLORS (Futuristic Look) */
+--chart-1: 160 90% 55%; /* Neon green */
+--chart-2: 200 70% 55%; /* Electric blue */
+--chart-3: 60 90% 50%; /* Neon yellow-green */
+--chart-4: 280 75% 60%; /* Cyberpunk purple */
+--chart-5: 20 95% 60%; /* Bright orange-red */
+
+/* SIDEBAR & MENU */
+--sidebar-background: 220 10% 12%; /* Deep dark gray-blue */
+--sidebar-foreground: 0 0% 92%; /* Soft white */
+--sidebar-primary: 160 90% 55%; /* Neon green highlights */
+--sidebar-primary-foreground: 0 0% 100%; /* White for contrast */
+--sidebar-border: 220 10% 20%; /* Subtle dark border */
+--sidebar-ring: 160 90% 55%; /* Neon green glow */
+                    }
+        }
+
+@layer base {
+    * {
+        @apply border-border;
+    }
+
+    body {
+        @apply bg-background text-foreground;
+    }
+
+    @font-face {
+        font-family: "geist";
+        font-style: normal;
+        font-weight: 100 900;
+        src: url(/fonts/geist.woff2) format("woff2");
+    }
+
+    @font-face {
+        font-family: "geist-mono";
+        font-style: normal;
+        font-weight: 100 900;
+        src: url(/fonts/geist-mono.woff2) format("woff2");
+    }
+}
+
+.skeleton {
+    * {
+        pointer-events: none !important;
+    }
+
+    *[class^="text-"] {
+        color: transparent;
+        @apply rounded-md bg-foreground/20 select-none animate-pulse;
+    }
+
+    .skeleton-bg {
+        @apply bg-foreground/10;
+    }
+
+    .skeleton-div {
+        @apply bg-foreground/20 animate-pulse;
+    }
+}
+
+.ProseMirror {
+    outline: none;
+}
+
+.cm-editor,
+.cm-gutters {
+    @apply bg-background dark:bg-zinc-800 outline-none selection:bg-zinc-900 !important;
+}
+
+.ͼo.cm-focused > .cm-scroller > .cm-selectionLayer .cm-selectionBackground,
+.ͼo.cm-selectionBackground,
+.ͼo.cm-content::selection {
+    @apply bg-zinc-200 dark:bg-zinc-900 !important;
+}
+
+.cm-activeLine,
+.cm-activeLineGutter {
+    @apply bg-transparent !important;
+}
+
+.cm-activeLine {
+    @apply rounded-r-sm !important;
+}
+
+.cm-lineNumbers {
+    @apply min-w-7;
+}
+
+.cm-foldGutter {
+    @apply min-w-3;
+}
+
+.cm-lineNumbers .cm-activeLineGutter {
+    @apply rounded-l-sm !important;
+}
+
+.suggestion-highlight {
+    @apply bg-blue-200 hover:bg-blue-300 dark:hover:bg-blue-400/50 dark:text-blue-50 dark:bg-blue-500/40;
+}
+
+
+#dexscreener-embed {
+    height: 600px
+}
+
+#dexscreener-embed iframe {
+    width: 100%;
+    height: 100%;
+}
+
+
+@keyframes gradient {
+    0% {
+      background-position: 0% 50%;
+    }
+  
+    50% {
+      background-position: 100% 50%;
+    }
+  
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  
+  .animate-fade-in {
+    animation: fadeIn 0.3s ease-in-out;
+  }
+  
+  @layer utilities {
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+  
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  }
+  
+@keyframes wave {
+  0% { transform: rotate(0deg); }
+  5% { transform: rotate(14deg); }
+  10% { transform: rotate(-8deg); }
+  15% { transform: rotate(14deg); }
+  20% { transform: rotate(-4deg); }
+  25% { transform: rotate(10deg); }
+  30% { transform: rotate(0deg); }
+  100% { transform: rotate(0deg); } /* Long pause from 30% to 100% */
+}
+
+.animate-wave {
+  animation: wave 6s ease-in-out infinite; /* Increased duration to 6s to make the pause more noticeable */
+  transform-origin: 70% 70%;
+  display: inline-block;
+}
+  
