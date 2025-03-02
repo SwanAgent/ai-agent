@@ -34,7 +34,7 @@ export function SidebarUserNav({ user }: { user: AgentUser | null }) {
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <SidebarMenuButton className="data-[state=open]:bg-sidebar-accent bg-background data-[state=open]:text-sidebar-accent-foreground h-10">
-              <img src={`/logo/foam-rm-logo.png`} className="w-8 h-8 rounded-full" />
+              <img src={`/logo/foam-logo.png`} className="w-6 h-6 rounded-full" />
               {/* <Avatar >
                 <AvatarImage className="w-28 h-8 rounded-full" src={`https://avatars.githubusercontent.com/u/1357181`} />
                 <AvatarFallback>0x</AvatarFallback>
