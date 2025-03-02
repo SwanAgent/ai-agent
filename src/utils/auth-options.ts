@@ -1,16 +1,21 @@
 import { AuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { getCsrfToken } from "next-auth/react";
-import { verifyPersonalMessageSignature } from "@mysten/sui/verify";
 import { getOrCreateUser } from "@/server/actions/user";
+import { authenticateSignedMessage } from "./siwn";
 
 export const authOptions: AuthOptions = {
     providers: [
         CredentialsProvider({
-            name: "Ethereum",
+            name: "Near",
             credentials: {
-                address: {
-                    label: "Address",
+                accountId: {
+                    label: "Account ID",
+                    type: "text",
+                    placeholder: "0x0",
+                },
+                publicKey: {
+                    label: "Public Key",
                     type: "text",
                     placeholder: "0x0",
                 },
@@ -27,28 +32,34 @@ export const authOptions: AuthOptions = {
             },
             async authorize(credentials, req) {
                 try {
-                    if (!credentials?.address || !credentials?.signature || !credentials?.message) {
+                    if (!credentials?.accountId || !credentials?.publicKey || !credentials?.signature || !credentials?.message) {
                         return null;
                     }
 
-                    const { address, signature, message } = credentials
+                    const { accountId, publicKey, signature, message } = credentials
 
                     const token = await getCsrfToken({ req: { headers: req.headers } });
-                    const encodedMessage = new TextEncoder().encode(JSON.stringify({ message, nonce: token }));
-
-                    const verifyResult = await verifyPersonalMessageSignature(
-                        encodedMessage,
-                        signature,
+                    const encoder = new TextEncoder();
+                    const csrfBytes = encoder.encode(token);
+                    const nonce = new Uint8Array(32);
+                    nonce.set(csrfBytes.slice(0, 32)); // Ensure 32 byte length
+        
+                    const verifyResult = await authenticateSignedMessage(
                         {
-                            address: address,
+                            accountId,
+                            publicKey,
+                            signature,
+                            message,
+                            recipient: "http://localhost:3000",
+                            nonce
                         }
                     );
-                    
-                    if (!verifyResult.verifyAddress(address)) {
+
+                    if (!verifyResult) {
                         return null;
                     }
 
-                    const user = await getOrCreateUser({ address });
+                    const user = await getOrCreateUser({ address: accountId });
                     const userId = user?.data?.data?.id;
 
                     if (!userId) {
@@ -57,7 +68,7 @@ export const authOptions: AuthOptions = {
 
                     return {
                         id: userId,
-                        address: address,
+                        address: accountId,
                     };
                 } catch (e) {
                     console.log("auth error", e);

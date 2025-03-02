@@ -35,10 +35,10 @@ export const defaultToolsWithoutConfirmation: Record<string, ToolConfig> = {
 
 export const defaultTools: Record<string, ToolConfig> = {
   ...defaultToolsWithoutConfirmation,
-  swapTokens: swapTokens,
-  createActionTool,
-  transfer,
-  stakeToken
+  // swapTokens: swapTokens,
+  // createActionTool,
+  // transfer,
+  //stakeToken
 };
 
 // export function getToolConfig(toolName: string): ToolConfig | undefined {

@@ -2,7 +2,7 @@
 
 import { createCipheriv, createDecipheriv } from 'crypto';
 import { randomBytes } from 'crypto';
-import { Ed25519Keypair } from '@mysten/sui/keypairs/ed25519';
+import { KeyPair } from "near-api-js";
 
 /**
  * Generate encrypted keypair
@@ -23,10 +23,10 @@ export async function decryptPrivateKey(encryptedPrivateKey: string) {
 /**
  * Generate exposed keypair
  */
-async function generateExposedKeyPair() {
-  const keypair = Ed25519Keypair.generate();
-  const publicKey = keypair.getPublicKey().toSuiAddress();
-  const privateKey = keypair.getSecretKey();
+export async function generateExposedKeyPair() {
+  const keypair = KeyPair.fromRandom('ed25519');
+  const publicKey = keypair.getPublicKey().toString();
+  const privateKey = keypair.toString();
 
   return {
     publicKey,

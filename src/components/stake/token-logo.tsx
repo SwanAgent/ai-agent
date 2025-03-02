@@ -1,43 +1,43 @@
-import Image from "next/image";
+// import Image from "next/image";
 
-import { ClassValue } from "clsx";
+// import { ClassValue } from "clsx";
 
-import { Token } from "@suilend/frontend-sui";
+// import { Token } from "@suilend/frontend-sui";
 
 
-import { cn } from "@/lib/utils";
-import { Skeleton } from "../ui/skeleton";
+// import { cn } from "@/lib/utils";
+// import { Skeleton } from "../ui/skeleton";
 
-interface TokenLogoProps {
-  className?: ClassValue;
-  token: Token | null;
-  size: number;
-}
+// interface TokenLogoProps {
+//   className?: ClassValue;
+//   token: Token | null;
+//   size: number;
+// }
 
-export function TokenLogo({ className, token, size }: TokenLogoProps) {
-  if (token === null)
-    return (
-      <Skeleton
-        className={cn("rounded-[50%]", className)}
-        style={{ width: size, height: size }}
-      />
-    );
-  if (!token.iconUrl)
-    return (
-      <div
-        className={cn("rounded-[50%] bg-navy-100", className)}
-        style={{ width: size, height: size }}
-      />
-    );
-  return (
-    <Image
-      className={cn("rounded-[50%]", className)}
-      src={token.iconUrl}
-      alt={`${token.symbol} logo`}
-      width={size}
-      height={size}
-      style={{ width: size, height: size }}
-      quality={100}
-    />
-  );
-}
+// export function TokenLogo({ className, token, size }: TokenLogoProps) {
+//   if (token === null)
+//     return (
+//       <Skeleton
+//         className={cn("rounded-[50%]", className)}
+//         style={{ width: size, height: size }}
+//       />
+//     );
+//   if (!token.iconUrl)
+//     return (
+//       <div
+//         className={cn("rounded-[50%] bg-navy-100", className)}
+//         style={{ width: size, height: size }}
+//       />
+//     );
+//   return (
+//     <Image
+//       className={cn("rounded-[50%]", className)}
+//       src={token.iconUrl}
+//       alt={`${token.symbol} logo`}
+//       width={size}
+//       height={size}
+//       style={{ width: size, height: size }}
+//       quality={100}
+//     />
+//   );
+// }

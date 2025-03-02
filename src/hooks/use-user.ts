@@ -1,21 +1,16 @@
 'use client';
 
-
 import { useCallback, useEffect, useState } from 'react';
-
 import { useRouter } from 'next/navigation';
-
 import useSWR from 'swr';
-
 import { debugLog } from '@/lib/debug';
 import { getUserData } from '@/server/actions/user';
 import { PrismaUser } from '@/types/db';
 import { signOut } from 'next-auth/react';
-import { useDisconnectWallet } from '@mysten/dapp-kit';
+import { useNearWallet } from '@/contexts/near-wallet';
 
 /**
- * Extended interface for AgentUser that includes Privy functionality
- * Omits 'user' and 'ready' from PrivyInterface to avoid conflicts
+ * Extended interface for AgentUser
  */
 type AgentUserInterface = {
     user: PrismaUser | null;
@@ -113,14 +108,14 @@ async function fetchAgentUserData(): Promise<PrismaUser | null> {
 
 /**
  * Custom hook for managing AgentUser data fetching, caching, and synchronization
- * Combines Privy authentication with our user data management system
- * @returns {AgentUserInterface} Object containing user data, loading state, and Privy interface methods
+ * Combines NEAR authentication with our user data management system
+ * @returns {AgentUserInterface} Object containing user data, loading state, and interface methods
  */
 export function useUser(): AgentUserInterface {
     const [initialCachedUser, setInitialCachedUser] = useState<PrismaUser | null>(
         null,
     );
-    const { mutate: disconnect } = useDisconnectWallet();
+    const { signOut: disconnectNear } = useNearWallet();
     const router = useRouter();
 
     // Load cached user data on component mount
@@ -129,9 +124,8 @@ export function useUser(): AgentUserInterface {
         setInitialCachedUser(cachedUser);
     }, []);
 
-
     /**
-     * SWR fetcher function that combines server data with Privy user data
+     * SWR fetcher function that combines server data with user data
      * @returns {Promise<PrismaUser | null>} Combined user data or null
      */
     const fetcher = useCallback(async (): Promise<PrismaUser | null> => {
@@ -172,7 +166,7 @@ export function useUser(): AgentUserInterface {
     debugLog('Loading state', { isLoading }, { module: 'useUser' });
 
     /**
-     * Enhanced logout function that handles both Privy logout and local cache clearing
+     * Enhanced logout function that handles both NEAR logout and local cache clearing
      * Includes navigation to refresh page and redirect to home
      */
     const extendedLogout = useCallback(async () => {
@@ -182,7 +176,7 @@ export function useUser(): AgentUserInterface {
         });
 
         try {
-            disconnect();
+            await disconnectNear();
             await signOut();
             saveToCache(null);
             debugLog('User logged out and cache cleared', null, {
@@ -197,7 +191,7 @@ export function useUser(): AgentUserInterface {
             });
             router.replace('/');
         }
-    }, [router]);
+    }, [router, disconnectNear]);
 
     return {
         isLoading: isLoading,

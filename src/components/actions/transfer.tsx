@@ -11,7 +11,6 @@ import { Skeleton } from '../ui/skeleton';
 import { useTransaction } from '@/hooks/use-transaction';
 import { TransactionStatus } from '../transaction-status';
 import { formatAddress } from '@mysten/sui/utils';
-import { getTransferCoinTxb } from '@/utils/create-transfer-coin-txb';
 import { toSmall } from '@/utils/token-converter';
 import { suiClient } from '@/lib/clients/sui-client';
 import { executeTransaction } from '@/server/wallet';
@@ -83,15 +82,15 @@ export function Transfer({ result: actionResult, msgToolId }: TransferProps) {
             })
 
             const amountToSend = toSmall(amount, tokenToSend.decimals);
-            const tx = await getTransferCoinTxb(tokenToSend.address, BigInt(amountToSend), walletAddress, embeddedWallet)
-            const txJson = await tx.toJSON();
-            const result = await executeTransaction(txJson);
+            // const tx = await getTransferCoinTxb(tokenToSend.address, BigInt(amountToSend), walletAddress, embeddedWallet)
+            // const txJson = await tx.toJSON();
+            // const result = await executeTransaction(txJson);
 
-            if (!result || (result.errors && result.errors.length > 0)) {
-                setError('Failed to process transfer');
-                return;
-            }
-            setDigest(result.digest);
+            // if (!result || (result.errors && result.errors.length > 0)) {
+            //     setError('Failed to process transfer');
+            //     return;
+            // }
+            setDigest('result.digest');
         } catch (err: any) {
             setError(err.message || 'Failed to process transfer');
             // await updateTransaction({

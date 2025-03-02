@@ -13,8 +13,8 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  earlyAccess Boolean @default(false)
-  metadata    Json?
+  accountCreated Boolean @default(false)
+  metadata       Json?
 
   wallets       Wallet[]
   conversations Chat[]

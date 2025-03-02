@@ -1,166 +1,108 @@
-# Foam - DefAI Agent on Sui 🌊
+# NEAR Agent
 
-Foam redefines blockchain interaction by combining AI-driven tools with the Sui ecosystem. Whether you’re managing DeFi assets, exploring NFTs, or engaging on social platforms, Foam makes everything seamless with natural language commands.
+A DeFAI (Decentralized Finance AI) application built on the NEAR Protocol.
 
-## *Vision & Mission*
+## Features
 
-### *Our Vision*
-Foam is redefining Web3 trading and asset management through a network of intelligent, self-learning AI agents. These agents autonomously execute strategies, adapt to market conditions, and unlock new frontiers in decentralized finance.
+- NEAR Wallet integration using Wallet Selector
+- Authentication with NEAR accounts
+- Portfolio management
+- AI-powered financial insights
 
-### *Our Mission*
-- *Merging AI & Blockchain* – Propel decentralized technology forward by integrating AI for smarter, more efficient on-chain interactions.
-- *Intuitive AI-Powered UX* – Leverage advanced language models to make blockchain interactions seamless and accessible.
-- *Empowering Builders* – Cultivate a developer-friendly ecosystem that fosters collaboration and innovation in AI-driven DeFi.
+## Getting Started
 
----
+### Prerequisites
 
-## *Foam Features*
+- Node.js 16.x or higher
+- npm or yarn
 
-### *1. AI-Powered Blockchain Management*
-- *Portfolio Overview*: Track and manage assets across the Sui blockchain.
-- *Token Swaps & Transfers*: Seamlessly exchange and send assets.
-- *Automated Trading*: Schedule buys and sells based on market conditions.
+### Installation
 
-### *2. DeFi Operations*
-- *Token Swaps*: Integrated with 7k aggregator, Aftermath and Cetus ( coming soon ) for the best rates.
-- *Liquid Staking & Lending*: Stake & lend with multiple LST options (sSUI, mSUI, fudSUI, etc.).
-- *Portfolio Analytics*: Monitor performance with AI-powered insights.
-- *Real-Time Market Insights*: Identify trends and opportunities instantly.
+1. Clone the repository:
+```bash
+git clone https://github.com/yourusername/near-agent.git
+cd near-agent
+```
 
-### *3. Automated Actions*
-- *Scheduled Trades & Portfolio Rebalancing*
-- *Automated Liquidity Provision*
-- *Custom Trading Strategies*
+2. Install dependencies:
+```bash
+npm install
+# or
+yarn install
+```
 
-### *4. Market Intelligence*
-- *Token Price Tracking & Analysis*
-- *Market Trend Identification*
-- *Top Gainers & Volume Analysis*
-- *AI-Powered Token Discovery*
+3. Set up environment variables:
+Create a `.env.local` file in the root directory with the following variables:
+```
+# NEAR Configuration
+NEXT_PUBLIC_NEAR_NETWORK=testnet
+NEXT_PUBLIC_NEAR_CONTRACT_ID=guest-book.testnet
+NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID=your-wallet-connect-project-id
 
-### *5. Social Media Integration*
-- *Twitter Commands*: Post updates, fetch latest tweets, and track social trends.
-- *Community Engagement*: Stay connected with blockchain discussions.
+# Next Auth Configuration
+NEXTAUTH_URL=http://localhost:3000
+NEXTAUTH_SECRET=your-nextauth-secret-key
 
----
+# Other Configuration
+NEXT_PUBLIC_API_URL=http://localhost:3000/api
+```
 
-## *Why Foam on Sui?*
-1. *Optimized for Sui*: Leverage Sui’s high-speed, low-cost infrastructure.
-2. *Effortless Operations*: Simplify blockchain activities like swaps and transfers.
-3. *Social Integration*: Engage seamlessly with Web3 social media.
-4. *Real-Time Data Insights*: Make informed decisions with AI-powered analytics.
+> Note: We're using `guest-book.testnet` as the default contract ID since it's a well-known example contract on the NEAR testnet. You can replace it with your own contract ID if needed.
 
----
+4. Run the development server:
+```bash
+npm run dev
+# or
+yarn dev
+```
 
-## *Ecosystem Integrations*
-Foam seamlessly integrates with top blockchain protocols:
-- *DeFi*: insiDex, 7K aggregator, SpringSui, SuiLend, Bluefin, SuiAi.fun, Cetus, Aftermath.
-- *Infra*: Atoma Network, Walrus.
-- *Socials*: Twitter for real-time engagement.
-- *Future Expansions*: Continuous integration with new DeFi and NFT protocols.
+5. Open [http://localhost:3000](http://localhost:3000) in your browser.
 
----
+## NEAR Wallet Selector Integration
 
-## *Getting Started*
+This project uses the NEAR Wallet Selector to provide a seamless wallet connection experience. The Wallet Selector is a library that allows users to connect to your application using their preferred NEAR wallet.
 
-### *Prerequisites*
-- Node.js (Latest LTS version)
-- pnpm package manager
-- Sui wallet
+### Supported Wallets
 
-### *Installation*
-bash
-# Clone the repository
-git clone https://github.com/yourusername/foam.git
-cd foam
+- NEAR Wallet
+- MyNEAR Wallet
+- Sender Wallet
+- Here Wallet
+- Math Wallet
+- Nightly
+- Meteor Wallet
+- Ledger
+- Nightly Connect
+- Coin98 Wallet
+- WalletConnect
 
-# Install dependencies
-pnpm install
+### Usage
 
-# Set up environment variables
-cp .env.example .env.local
+The wallet integration is handled through the `NearWalletProvider` context. To use it in your components:
 
-# Run the development server
-pnpm dev
+```tsx
+import { useNearWallet } from "@/contexts/near-wallet";
 
-Open [http://localhost:3000](http://localhost:3000) to view the application.
+function MyComponent() {
+  const { accountId, signIn, signOut, signMessage } = useNearWallet();
+  
+  // Check if user is signed in
+  if (accountId) {
+    return <div>Connected as: {accountId}</div>;
+  }
+  
+  return <button onClick={signIn}>Connect Wallet</button>;
+}
+```
 
----
+### Authentication Flow
 
-## *Tech Stack*
-- *Frontend*: Next.js 14, TypeScript, TailwindCSS
-- *AI Integration*: GPT-4, Llama-3.3 ( Atoma Network ), Deepseek ( coming soon )
-- *Blockchain*: Sui Network
-- *Authentication*: Sui Wallet Connect
+1. User clicks "Login with NEAR"
+2. Wallet Selector modal appears, allowing the user to choose their preferred wallet
+3. User approves the connection in their wallet
+4. The application signs a message with the user's account to verify ownership
+5. User is authenticated and can access the application features
 
----
+## License
 
-## *Project Structure*
-bash
-src/
-├── app/            # Next.js app directory
-├── components/     # React components
-├── lib/            # Utility functions and services
-│   ├── ai/        # AI integration logic
-│   ├── services/  # Backend services
-│   └── swap/      # Token swap implementation
-├── hooks/         # Custom React hooks
-├── types/         # TypeScript definitions
-└── server/        # Server-side code
-
-
----
-
-## *Development Commands*
-bash
-pnpm dev      # Start development server
-pnpm build    # Build for production
-pnpm start    # Start production server
-pnpm lint     # Run linting
-pnpm format   # Format code
-
-
----
-
-## *Contributing*
-1. Fork the repository
-2. Create your feature branch (git checkout -b feature/amazing-feature)
-3. Commit your changes (git commit -m 'Add some amazing feature')
-4. Push to the branch (git push origin feature/amazing-feature)
-5. Open a Pull Request
-
----
-
-## *Roadmap*
-
-### 🚀 *Q1 2025 – Laying the Foundation*
-- *Foam Goes Live* – Launch Foam on Sui with core DeFi and social features.
-- *Early Access Program* – Invite users for testing and feedback.
-- *$Foam Token Launch* – Introduce token utility for fees and platform perks.
-
-### ⚡ *Q2-Q3 2025 – Expanding Capabilities*
-- *Agent Kit Launch* – Custom AI trading agents.
-- *Automated LPing (High APY Pairs)* – Maximize yield with smart liquidity provision.
-- *NLP-Powered Bonding Curve Autobuy* – AI-driven token launch optimization.
-- *NFT Integration* – Expand Foam’s AI into the NFT market.
-
----
-
-## *Tokenomics*
-Coming soon...
-
----
-
-## *License*
-This project is proprietary software. All rights reserved.
-
----
-
-## *Acknowledgments*
-- Sui Foundation
-- OpenAI
-- All the amazing contributors and community members
-
----
-
-For more information, visit [foam.sh](https://foam.sh).
+This project is licensed under the MIT License - see the LICENSE file for details.

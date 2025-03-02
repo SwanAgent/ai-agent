@@ -24,7 +24,6 @@ import { TrendingTokens } from './actions/trending-tokens';
 import { FetchTweets } from './actions/fetch-tweets';
 import { TopGainers } from './actions/top-gainers';
 import { LiquidityPools } from './actions/liquidity-pools';
-import Stake from './stake/stake';
 
 const PurePreviewMessage = ({
   chatId,
@@ -161,8 +160,6 @@ const PurePreviewMessage = ({
                           <PostTweet result={result} msgToolId={toolCallId} />
                         ) : toolName === 'searchTokenDetails' ? (
                           result.data ? <TokenDetailsCard result={result} msgToolId={toolCallId} /> : null
-                        ) : toolName === 'stakeToken' ? (
-                          <Stake msgToolId={toolCallId} result={result} />
                         ) : toolName === 'getLiquidityPools' ? (
                           <LiquidityPools result={result} msgToolId={toolCallId} />
                         ) : (
@@ -196,8 +193,6 @@ const PurePreviewMessage = ({
                         <TokenDetailsCard result={{ isLoading: true }} msgToolId={toolCallId} />
                       ) : toolName === 'swapTokens' ? (
                         <SwapToken msgToolId={toolCallId} result={{ isLoading: true }} />
-                      ) : toolName === 'stakeToken' ? (
-                         <Stake msgToolId={toolCallId} result={{ isLoading: true }} />
                       ) : toolName === 'getLiquidityPools' ? (
                         <LiquidityPools result={{ isLoading: true }} msgToolId={toolCallId} />
                       ) : null}

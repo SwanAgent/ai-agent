@@ -2,36 +2,20 @@
 
 import { FC } from "react";
 import { SessionProvider } from "next-auth/react";
-import { createNetworkConfig, SuiClientProvider, WalletProvider } from '@mysten/dapp-kit';
-import { getFullnodeUrl } from '@mysten/sui/client';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { SpringSuiContextProvider } from "@/contexts/spring-sui";
-
-// Config options for the networks you want to connect to
-const { networkConfig } = createNetworkConfig({
-  mainnet: { url: getFullnodeUrl('mainnet') },
-});
+import { NearWalletProvider } from "@/contexts/near-wallet";
+import "@near-wallet-selector/modal-ui/styles.css";
 
 const queryClient = new QueryClient();
 
-const SuiWalletProvider: FC<any> = ({ children }) => {
+const NearWalletProviderWrapper: FC<any> = ({ children }) => {
   return (
     <QueryClientProvider client={queryClient}>
-      <SuiClientProvider networks={networkConfig} defaultNetwork="mainnet">
-        <WalletProvider autoConnect={true}>
-          <SessionProvider>{children}</SessionProvider>
-        </WalletProvider>
-      </SuiClientProvider>
+      <NearWalletProvider>
+        <SessionProvider>{children}</SessionProvider>
+      </NearWalletProvider>
     </QueryClientProvider>
   );
 };
 
-const SpringSuiProvider: FC<any> = ({ children }) => {
-  return (
-    <SpringSuiContextProvider>
-      {children}
-    </SpringSuiContextProvider>
-  );
-};
-
-export { SuiWalletProvider, SpringSuiProvider };
+export { NearWalletProviderWrapper as NearWalletProvider };

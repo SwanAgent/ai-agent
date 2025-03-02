@@ -12,6 +12,7 @@ const useRefreshOnBalancesChange = (refresh: () => Promise<void>, address: strin
         previousBalancesRef.current = undefined;
         const interval = setInterval(async () => {
             try {
+                console.log("====================================== refresh faltu ======================================");
                 const balances = await suiClient.getAllBalances({
                     owner: address,
                 });
@@ -26,7 +27,7 @@ const useRefreshOnBalancesChange = (refresh: () => Promise<void>, address: strin
             } catch (err) {
                 console.error(err);
             }
-        }, 1000 * 5);
+        }, 1000 * 30);
 
         return () => {
             if (interval !== undefined) clearInterval(interval);
