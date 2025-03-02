@@ -35,12 +35,12 @@ export const SUGGESTIONS: Suggestion[] = [
     content: "What's the price of SUI?",
     subtitle: 'find the current price of SUI',
   },
-  {
-    id: 'stake-sui',
-    title: "💧 Liquid Stake SUI",
-    content: "Stake 1 SUI for sSUI",
-    subtitle: 'stake 1 SUI to earn rewards',
-  },
+  // {
+  //   id: 'stake-sui',
+  //   title: "💧 Liquid Stake SUI",
+  //   content: "Stake 1 SUI for sSUI",
+  //   subtitle: 'stake 1 SUI to earn rewards',
+  // },
   // {
   //   id: 'top-gainers-last-24h',
   //   title: 'Top gainers in the last 24h',
