@@ -35,7 +35,7 @@ function TokenCardSkeleton() {
 }
 
 function TokenCard({ token, className }: TokenCardProps) {
-  const priceChange = parseFloat(token.percentagePriceChange24h);
+  const priceChange = parseFloat(token.change_24);
   
   return (
     <div
@@ -54,19 +54,19 @@ function TokenCard({ token, className }: TokenCardProps) {
         <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-lg">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src={token.coinMetadata.iconUrl || `https://avatar.vercel.sh/${token.coinMetadata.name}??text=${token.coinMetadata.name[0].toUpperCase()}`}
-            alt={token.coinMetadata.name}
+            src={token.icon || `https://avatar.vercel.sh/${token.name}??text=${token.name[0].toUpperCase()}`}
+            alt={token.name}
             className="h-10 w-10 object-cover transition-transform duration-300 group-hover:scale-110"
           />
         </div>
         <div className="min-w-0 flex-1">
           <div className="flex items-center gap-2">
-            <h3 className="truncate text-sm font-medium">{token.coinMetadata.name}</h3>
-            <span className="text-xs text-muted-foreground">({token.coinMetadata.symbol})</span>
+            <h3 className="truncate text-sm font-medium">{token.name}</h3>
+            <span className="text-xs text-muted-foreground">({token.symbol})</span>
           </div>
           <div className="mt-1 flex items-center gap-2">
             <span className="text-xs font-medium">
-              {formatNumber(parseFloat(token.coinPrice), 'currency')}
+              {token.price ? formatNumber(parseFloat(token.price), 'currency') : 'N/A'}
             </span>
             <span className={cn(
               'text-xs font-medium',
@@ -85,7 +85,7 @@ function TokenCard({ token, className }: TokenCardProps) {
             Market Cap
           </p>
           <p className="mt-0.5 text-sm font-medium">
-            {formatNumber(parseFloat(token.marketCap), 'currency')}
+            {formatNumber(parseFloat(token.market_cap), 'currency')}
           </p>
         </div>
         <div className="bg-background/50 p-3">
@@ -93,7 +93,7 @@ function TokenCard({ token, className }: TokenCardProps) {
             24h Volume
           </p>
           <p className="mt-0.5 text-sm font-medium">
-            {formatNumber(parseFloat(token.volume24h), 'currency')}
+            {formatNumber(parseFloat(token.volume_24h), 'currency')}
           </p>
         </div>
       </div>
@@ -101,9 +101,9 @@ function TokenCard({ token, className }: TokenCardProps) {
       {/* Additional Info */}
       <div className="flex items-center justify-between border-t border-border/50 px-3 py-2 text-[10px] text-muted-foreground">
         <div className="flex items-center gap-2">
-          <span>Top 10 Holders: {parseFloat(token.top10HolderPercentage).toFixed(2)}%</span>
+          <span>Contract: {token.contract.substring(0, 8)}...{token.contract.substring(token.contract.length - 6)}</span>
           <span className="h-3 w-px bg-border/50" />
-          <span>Liquidity: {formatNumber(parseFloat(token.totalLiquidityUsd), 'currency')}</span>
+          <span>Supply: {formatNumber(parseFloat(token.total_supply), 'currency')}</span>
         </div>
       </div>
     </div>
@@ -145,7 +145,7 @@ export function TrendingTokens({
       )}
     >
       {tokens.map((token) => (
-        <TokenCard key={token.coinMetadata.coinType} token={token} />
+        <TokenCard key={token.contract} token={token} />
       ))}
     </div>
   );

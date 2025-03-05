@@ -33,7 +33,6 @@ import { defaultTools } from '@/lib/ai/actions';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/utils/auth-options';
 import { getUserData } from '@/server/actions/user';
-import { atomaNetworkModelProvider } from '@/utils/custom-chat-provider';
 
 export const maxDuration = 60;
 
@@ -73,6 +72,7 @@ export async function POST(request: Request) {
 
     const chat = await getChatById({ id });
 
+    console.log("chat", chat?.id);
     if (!chat) {
       const title = await generateTitleFromUserMessage({ message: userMessage });
       await saveChat({ id, userId: userId, title });
@@ -87,13 +87,14 @@ export async function POST(request: Request) {
 
     const { publicKey } = user.data.data.wallets[0];
 
+    console.log(publicKey, "publicKey");
     await saveMessages({
       messages: [
         { id: userMessageId, role: userMessage.role, chatId: id, content: userMessage.content as unknown as any },
       ],
     });
     const systemPrompt = defaultSystemPrompt +
-      `\n\nUser SUI wallet public key: ${publicKey ?? "Unknown"}` +
+      `\n\nUser Near wallet public key: ${publicKey ?? "Unknown"}` +
       `\nUser ID: ${userId}` +
       `\nChat ID: ${id}`;
 

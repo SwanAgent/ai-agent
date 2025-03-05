@@ -1,11 +1,11 @@
 import { z } from 'zod';
-import { searchTokenDetails } from '@/lib/ai/actions/searchTokenDetails';
 import { ActionResponse } from '@/types/actions';
-import { fetchTokenDetails, fetchQuote, executeSwap } from '@/lib/swap';
+import { executeSwap, fetchQuote } from '@/lib/swap';
 import { ToolConfig } from '.';
 import { ToolExecutionOptions } from 'ai';
 import { getOrCreateTransaction, updateTransactionStatus } from '@/server/actions/transaction';
 import { getUserByWalletAddress } from '@/server/db/queries';
+import { searchToken } from '@/lib/swap/searchToken';
 
 export const automatedSwapSchema = z.object({
     fromAmount: z.number(),
@@ -26,7 +26,7 @@ export type AutomatedSwapResponse = ActionResponse<{
 
 export const automatedSwapToken: ToolConfig = {
     displayName: '🔄 Swap Token',
-    description: 'Automatically swap tokens on SUI chains without requiring user interaction. The fromAmount and walletAddress parameters are required. If no fromToken is specified, SUI will be used as the default. You can provide token name, symbol, or address for both fromToken and toToken parameters.',
+    description: 'Automatically swap tokens on NEAR chain without requiring user interaction. The fromAmount and walletAddress parameters are required. If no fromToken is specified, NEAR will be used as the default. You can provide token name, symbol, or address for both fromToken and toToken parameters.',
     parameters: automatedSwapSchema,
     execute: async ({ fromAmount, fromToken, toToken, walletAddress }: AutomatedSwapSchema, options?: ToolExecutionOptions): Promise<AutomatedSwapResponse> => {
         if (!options?.toolCallId) {
@@ -45,25 +45,17 @@ export const automatedSwapToken: ToolConfig = {
                 };
             }
 
-            const fromTokenDetailsResult = fromToken === 'SUI' ? '0x2::sui::SUI' : (await searchTokenDetails?.execute({ query: fromToken }))?.data?.address;
-            const toTokenDetailsResult = toToken === 'SUI' ? '0x2::sui::SUI' : (await searchTokenDetails?.execute({ query: toToken }))?.data?.address;
+            const fromTokenDetailsResult = searchToken(fromToken)[0];
+            const toTokenDetailsResult = searchToken(toToken)[0];
 
             if (!fromTokenDetailsResult || !toTokenDetailsResult) {
                 return {
                     success: false,
-                    error: !fromTokenDetailsResult ? `Failed to find details about ${fromToken} on SUI chain` : `Failed to find details about ${toToken} on SUI chain`,
+                    error: !fromTokenDetailsResult ? `Failed to find details about ${fromToken} on NEAR chain` : `Failed to find details about ${toToken} on NEAR chain`,
                 };
             }
 
-            const tokenDetails = await fetchTokenDetails(fromTokenDetailsResult, toTokenDetailsResult);
-            if (!tokenDetails) {
-                return {
-                    success: false,
-                    error: 'Failed to fetch token details',
-                };
-            }
-
-            const quote = await fetchQuote(tokenDetails.fromToken, tokenDetails.toToken, fromAmount.toString());
+            const quote = await fetchQuote(fromTokenDetailsResult, toTokenDetailsResult, fromAmount.toString(), walletAddress);
             if (!quote) {
                 return {
                     success: false,
@@ -75,23 +67,22 @@ export const automatedSwapToken: ToolConfig = {
                 usedId: getUser.id,
                 msgToolId: options?.toolCallId,
                 type: 'SWAP',
-                title: `Swapping ${fromAmount} ${tokenDetails.fromToken.symbol} for ${quote.returnAmount} ${tokenDetails.toToken.symbol}`,
+                title: `Swapping ${fromAmount} ${fromTokenDetailsResult.symbol} for ${quote.totalAmountOut} ${toTokenDetailsResult.symbol}`,
                 metadata: {
                     fromAmount,
-                    fromToken: tokenDetails.fromToken.address,
-                    fromSymbol: tokenDetails.fromToken.symbol,
-                    toAmount: quote.returnAmount,
-                    toToken: tokenDetails.toToken.address,
-                    toSymbol: tokenDetails.toToken.symbol,
+                    fromToken: fromTokenDetailsResult.id,
+                    fromSymbol: fromTokenDetailsResult.symbol,
+                    toAmount: quote.totalAmountOut,
+                    toToken: toTokenDetailsResult.id,
+                    toSymbol: toTokenDetailsResult.symbol,
                 },
             });
 
             const swapResult = await executeSwap(
-                quote,
+                quote.tokenIn,
+                quote.tokenOut,
                 walletAddress,
-                tokenDetails.fromToken,
-                tokenDetails.toToken,
-                fromAmount
+                fromAmount.toString()
             );
 
             if (!swapResult.success) {
@@ -99,8 +90,8 @@ export const automatedSwapToken: ToolConfig = {
                     msgToolId: options?.toolCallId,
                     input: {
                         status: 'FAILED',
-                        hash: swapResult.digest,
-                        title: `Failed to swap ${fromAmount} ${tokenDetails.fromToken.symbol} for ${quote.returnAmount} ${tokenDetails.toToken.symbol}`,
+                        hash: swapResult.hash,
+                        title: `Failed to swap ${fromAmount} ${fromTokenDetailsResult.symbol} for ${quote.totalAmountOut} ${toTokenDetailsResult.symbol}`,
                     },
                 });
 
@@ -114,26 +105,26 @@ export const automatedSwapToken: ToolConfig = {
                 msgToolId: options?.toolCallId,
                 input: {
                     status: 'SUCCESS',
-                    hash: swapResult.digest,
-                    title: `Swapped ${fromAmount} ${tokenDetails.fromToken.symbol} for ${quote.returnAmount} ${tokenDetails.toToken.symbol}`,
+                    hash: swapResult.hash,
+                    title: `Swapped ${fromAmount} ${fromTokenDetailsResult.symbol} for ${quote.totalAmountOut} ${toTokenDetailsResult.symbol}`,
                 },
             });
 
             console.log('swapResult', {
-                digest: swapResult.digest,
+                hash: swapResult.hash,
                 fromAmount,
-                fromToken: tokenDetails.fromToken.symbol,
-                toToken: tokenDetails.toToken.symbol,
-                toAmount: swapResult.quote?.returnAmount,
+                fromToken: fromTokenDetailsResult.symbol,
+                toToken: toTokenDetailsResult.symbol,
+                toAmount: quote.totalAmountOut,
             });
             return {
                 success: true,
                 data: {
-                    digest: swapResult.digest,
+                    digest: swapResult.hash ?? "",
                     fromAmount,
-                    fromToken: tokenDetails.fromToken.symbol,
-                    toToken: tokenDetails.toToken.symbol,
-                    toAmount: swapResult.quote?.returnAmount,
+                    fromToken: fromTokenDetailsResult.symbol,
+                    toToken: toTokenDetailsResult.symbol,
+                    toAmount: quote.totalAmountOut,
                 },
             };
         } catch (error: any) {
@@ -144,7 +135,7 @@ export const automatedSwapToken: ToolConfig = {
                     title: `Failed to execute the swap`,
                 },
             });
-
+            console.log("error", error)
             return {
                 success: false,
                 error: error.message || "Failed to execute automated swap",

@@ -16,7 +16,7 @@ export type CoinGeckoToken = {
 }
 
 export const getTokenFromRegistry = async (query: string) => {
-    const response = await fetch(`https://tokens.coingecko.com/sui/all.json`, { next: { tags: ['coingecko-tokens'], revalidate: 60 * 60 }});
+    const response = await fetch(`https://tokens.coingecko.com/near-protocol/all.json`, { next: { tags: ['coingecko-tokens'], revalidate: 60 * 60 }});
     const data = await response.json();
     const token: CoinGeckoToken | undefined = data.tokens.find((token: CoinGeckoToken) => token.name.toLowerCase() === query.toLowerCase() || token.symbol.toLowerCase() === query.toLowerCase() || token.address.toLowerCase() === query.toLowerCase());
     if (token) {

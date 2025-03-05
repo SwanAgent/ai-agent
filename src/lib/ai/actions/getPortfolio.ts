@@ -14,7 +14,7 @@ export type GetPortfolioResult = ActionResponse<PortfolioResponse['result']>;
 
 export const getPortfolio: ToolConfig = {
     displayName: '💰 Get Portfolio',
-    description: 'Get the portfolio of a wallet on sui chain',
+    description: 'Get the portfolio of a wallet on Near chain',
     parameters: getPortfolioSchema,
     execute: async ({ walletAddress }: GetPortfolioParams): Promise<GetPortfolioResult> => {
         try {

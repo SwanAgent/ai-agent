@@ -199,7 +199,7 @@ export function TokenDetailsCard({ result, msgToolId }: TokenDetailsCardProps) {
                 <TabsContent value="chart" className="p-4 min-w-[600px]">
                     <div className="h-[500px] w-full">
                         <iframe
-                            src={`https://dexscreener.com/sui/${tokenDetails?.pairAddress}?embed=1&loadChartSettings=0&trades=0&tabs=0&info=0&chartLeftToolbar=0&chartTimeframesToolbar=0&chartDefaultOnMobile=1&chartTheme=dark&theme=dark&chartStyle=0&chartType=usd&interval=15`}
+                            src={`https://dexscreener.com/near/${tokenDetails?.pairAddress}?embed=1&loadChartSettings=0&trades=0&tabs=0&info=0&chartLeftToolbar=0&chartTimeframesToolbar=0&chartDefaultOnMobile=1&chartTheme=dark&theme=dark&chartStyle=0&chartType=usd&interval=15`}
                             className="w-full h-full rounded-lg"
                         />
                     </div>

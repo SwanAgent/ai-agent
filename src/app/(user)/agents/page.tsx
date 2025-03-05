@@ -71,7 +71,7 @@ export default function AgentsPage() {
 
             <div className="mb-8">
                 <div className="relative">
-                    <div className="text-md mb-4 text-muted-foreground">Foam Long Term Memory ( Powered By <a href="https://www.walrus.xyz/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">Walrus</a> )</div>
+                    <div className="text-md mb-4 text-muted-foreground">SWAN Long Term Memory ( Powered By <a href="https://www.walrus.xyz/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">Walrus</a> )</div>
                     {isEditing ? (
                         <>
                             <textarea

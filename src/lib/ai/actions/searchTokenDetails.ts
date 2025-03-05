@@ -53,7 +53,7 @@ export const searchTokenDetails: ToolConfig = {
 
             const response = await fetch(`https://api.dexscreener.com/latest/dex/search?q=${query}`);
             const data: DexScreenerSearchResponse = await response.json();
-            const chainFilteredData = data.pairs.filter((pair) => pair.chainId === 'sui').sort((a, b) => {
+            const chainFilteredData = data.pairs.filter((pair) => pair.chainId === 'near').sort((a, b) => {
                 const exactMatchA = exactTokenMatch(query, a.baseToken) || exactTokenMatch(query, a.quoteToken);
                 const exactMatchB = exactTokenMatch(query, b.baseToken) || exactTokenMatch(query, b.quoteToken);
                 if (exactMatchA && exactMatchB) {

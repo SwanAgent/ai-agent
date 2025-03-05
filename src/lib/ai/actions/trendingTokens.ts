@@ -3,24 +3,22 @@ import { ActionResponse } from "@/types/actions";
 import { ToolConfig } from ".";
 
 export interface TrendingToken {
-    coinPrice: string;
-    coinMetadata: {
-        coinType: string;
-        name: string;
-        symbol: string;
-        description: string;
-        iconUrl: string;
-        decimals: string;
-    };
-    marketCap: string;
-    volume24h: string;
-    percentagePriceChange24h: string;
-    totalLiquidityUsd: string;
-    top10HolderPercentage: string;
+    contract: string;
+    name: string;
+    symbol: string;
+    decimals: number,
+    icon: string,
+    reference: string | null,
+    price: string | null,
+    total_supply: string,
+    onchain_market_cap: string,
+    change_24: string,
+    market_cap: string,
+    volume_24h: string;
 }
 
 const getTrendingTokensSchema = z.object({
-    limit: z.number().min(1).max(25).default(20).describe("Number of trending tokens to return. Maximum 25."),
+    // limit: z.number().min(1).max(25).default(20).describe("Number of trending tokens to return. Maximum 25."),
 });
 
 export type GetTrendingTokensSchema = z.infer<typeof getTrendingTokensSchema>;
@@ -30,23 +28,25 @@ export type GetTrendingTokensResponse = ActionResponse<{
 
 export const getTrendingTokens: ToolConfig = {
     displayName: '🔍 Get Trending Tokens',
-    description: "Get trending tokens on the SUI network sorted by various metrics like volume, price change, and market cap.",
+    description: "Get trending tokens on the Near network sorted by various metrics like volume, price change, and market cap.",
     parameters: getTrendingTokensSchema,
-    execute: async ({ limit }: GetTrendingTokensSchema): Promise<GetTrendingTokensResponse> => {
+    execute: async ({  }: GetTrendingTokensSchema): Promise<GetTrendingTokensResponse> => {
         try {
-            const response = await fetch(`https://api-ex.insidex.trade/coins/trending`, {
+            console.log("Fetching trending tokens");
+            const response = await fetch(`https://api.nearblocks.io/v1/fts?page=1&per_page=25&sort=change&order=desc`, {
                 headers: {
-                    'x-api-key': process.env.INSIDE_X_API_KEY as string,
+                    'Authorization': `Bearer ${process.env.NEARBLOCKS_API_KEY as string}`,
                 },
             });
-            
+            console.log("Response", response);
             if (!response.ok) {
+                console.log("Failed to fetch trending tokens");
                 throw new Error('Failed to fetch trending tokens');
             }
 
             const data = await response.json();
-
-            if (!Array.isArray(data)) {
+            console.log("Data", data);
+            if (!data || !data.tokens) {
                 return {
                     success: false,
                     error: "Invalid response format from trending tokens API",
@@ -55,12 +55,10 @@ export const getTrendingTokens: ToolConfig = {
 
             return {
                 success: true,
-                data: {
-                    tokens: data.slice(0, limit),
-                },
+                data: data,
             };
         } catch (error) {
-            console.error("Error fetching trending tokens:", error);
+            console.log("Error fetching trending tokens:", error);
             return {
                 success: false,
                 error: "Failed to fetch trending tokens",

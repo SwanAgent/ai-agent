@@ -3,8 +3,8 @@ import { Metadata } from 'next';
 import { HomeContent } from './home-content';
 
 export const metadata: Metadata = {
-  title: 'Foam',
-  description: 'Your DeFAI Agent on SUI',
+  title: 'SWAN',
+  description: 'Your DeFAI Agent on NEAR',
 };
 
 export default function HomePage() {

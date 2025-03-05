@@ -59,38 +59,57 @@
         --sidebar-ring: 220 50% 50%; /* Sidebar focus ring */
             }
     .dark {
-        --background: 240 8% 10%; /* Deep grayish background */
-        --foreground: 0 0% 92%; /* Soft white for primary text */
-        --card: 240 7% 15%; /* Dark gray for cards to add depth */
-        --card-foreground: 0 0% 95%; /* Bright white for card text */
-        --popover: 240 8% 12%; /* Slightly lighter gray for popovers */
-        --popover-foreground: 0 0% 92%; /* Soft white for popover text */
-        --primary: 330 80% 55%; /* Neon magenta for primary actions (base color) */
-        --primary-foreground: 0 0% 100%; /* Pure white for high contrast */
-        --secondary: 240 6% 20%; /* Muted gray for secondary elements */
-        --secondary-foreground: 330 80% 60%; /* Neon magenta for secondary text */
-        --muted: 240 6% 18%; /* Medium gray for muted elements */
-        --muted-foreground: 240 5% 60%; /* Cool grayish-blue for muted text */
-        --accent: 330 80% 55%; /* Neon magenta for accents */
-        --accent-foreground: 0 0% 100%; /* White for accent text */
-        --destructive: 0 65% 45%; /* Vibrant red for destructive actions */
-        --destructive-foreground: 0 0% 95%; /* Bright white for destructive text */
-        --border: 240 8% 15%; /* Subtle gray-blue for borders */
-        --input: 240 10% 20%; /* Light gray for inputs */
-        --ring: 330 80% 55%; /* Neon magenta glow for focus rings */
-        --chart-1: 330 80% 55%; /* Neon magenta for charts */
-        --chart-2: 200 70% 50%; /* Bright teal for chart diversity */
-        --chart-3: 60 80% 50%; /* Neon green for contrast */
-        --chart-4: 280 70% 60%; /* Neon purple for variety */
-        --chart-5: 40 90% 60%; /* Vibrant yellow for charts */
-        --sidebar-background: 240 8% 12%; /* Slightly lighter gray for sidebar */
-        --sidebar-foreground: 0 0% 92%; /* Soft white for sidebar text */
-        --sidebar-primary: 330 80% 55%; /* Neon magenta for sidebar highlights */
-        --sidebar-primary-foreground: 0 0% 100%; /* White for contrast */
-        --sidebar-accent: 240 6% 18%; /* Dark gray for sidebar accents */
-        --sidebar-accent-foreground: 330 80% 55%; /* Neon magenta for sidebar text */
-        --sidebar-border: 240 8% 15%; /* Subtle border color */
-        --sidebar-ring: 330 80% 55%; /* Neon magenta focus ring for sidebar */
+/* BASE COLORS */
+--background: 220 10% 10%; /* Deep dark grayish-blue */
+--foreground: 0 0% 92%; /* Off-white for primary text */
+
+/* CARD & PANEL COLORS */
+--card: 220 10% 12%; /* Slightly lighter dark gray */
+--card-foreground: 0 0% 95%; /* White text for readability */
+
+/* POPUPS & MODALS */
+--popover: 220 10% 14%; /* Subtle dark background */
+--popover-foreground: 0 0% 92%; /* White for contrast */
+
+/* PRIMARY ACCENT COLOR (Neon Green - #00EA9A) */
+--primary: 160 90% 55%; /* Vibrant neon green */
+--primary-foreground: 0 0% 100%; /* Pure white for contrast */
+
+/* SECONDARY COLORS */
+--secondary: 220 7% 20%; /* Muted dark gray-blue */
+--secondary-foreground: 160 90% 55%; /* Neon green for subtle highlights */
+
+/* MUTED & SUBTLE ELEMENTS */
+--muted: 220 7% 18%; /* Dark gray for muted elements */
+--muted-foreground: 220 6% 55%; /* Muted cyan for readability */
+
+/* ACCENTS */
+--accent: 160 90% 55%; /* Neon green accents */
+--accent-foreground: 0 0% 100%; /* White text */
+
+/* DESTRUCTIVE (Red Alert) */
+--destructive: 0 65% 45%; /* High-contrast red */
+--destructive-foreground: 0 0% 95%; /* White for visibility */
+
+/* BORDERS, INPUTS, AND RINGS */
+--border: 220 10% 20%; /* Subtle dark gray */
+--input: 220 10% 25%; /* Lighter dark gray for inputs */
+--ring: 160 90% 55%; /* Neon green focus ring */
+
+/* CHART COLORS (Futuristic Look) */
+--chart-1: 160 90% 55%; /* Neon green */
+--chart-2: 200 70% 55%; /* Electric blue */
+--chart-3: 60 90% 50%; /* Neon yellow-green */
+--chart-4: 280 75% 60%; /* Cyberpunk purple */
+--chart-5: 20 95% 60%; /* Bright orange-red */
+
+/* SIDEBAR & MENU */
+--sidebar-background: 220 10% 12%; /* Deep dark gray-blue */
+--sidebar-foreground: 0 0% 92%; /* Soft white */
+--sidebar-primary: 160 90% 55%; /* Neon green highlights */
+--sidebar-primary-foreground: 0 0% 100%; /* White for contrast */
+--sidebar-border: 220 10% 20%; /* Subtle dark border */
+--sidebar-ring: 160 90% 55%; /* Neon green glow */
                     }
         }
 

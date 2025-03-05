@@ -11,7 +11,7 @@ interface TransactionStatusProps {
   explorerUrl?: string;
 }
 
-export function TransactionStatus({ transaction, isLoading, explorerUrl = "https://suiexplorer.com/txblock" }: TransactionStatusProps) {
+export function TransactionStatus({ transaction, isLoading, explorerUrl = "https://nearblocks.io/txns" }: TransactionStatusProps) {
   console.log('transaction', transaction, isLoading);
   if (isLoading) {
     return (

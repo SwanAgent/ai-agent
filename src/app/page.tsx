@@ -22,7 +22,7 @@ export default function LandingPage() {
 
     const handleLogin = async () => {
         try {
-            const msg = "Welcome to FOAM DeFAI Agent";
+            const msg = "Welcome to SWAN DeFAI Agent";
             const csrfToken = await getCsrfToken();
 
             if (!csrfToken || !wallet || !wallet.signMessage) return;
@@ -299,7 +299,7 @@ const Footer = () => {
                 delay={0.5}
                 className="flex items-center justify-center gap-3 text-sm text-muted-foreground"
             >
-                <p>© 2025 Foam. All rights reserved.</p>
+                <p>© 2025 SWAN. All rights reserved.</p>
                 <span>|</span>
                 <p>Made with 🩷</p>
                 <span>|</span>

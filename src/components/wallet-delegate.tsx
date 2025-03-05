@@ -60,7 +60,7 @@ export default function WalletDelegate({ children, user }: { children: React.Rea
         }
     }
 
-    if (user && user.accountCreated) {
+    if (user && !user.accountCreated) {
         return (
             <div className="relative">
                 {children}

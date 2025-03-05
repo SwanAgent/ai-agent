@@ -301,10 +301,10 @@ function ChatMessage({
           <div
             className={cn(
               'relative flex flex-col gap-2 rounded-2xl px-4 py-3 text-sm shadow-sm',
-              isUser ? 'bg-primary text-primary-foreground' : 'bg-muted/60',
+              isUser ? 'bg-primary !text-white' : 'bg-muted/60',
             )}
           >
-            <div className="prose prose-neutral dark:prose-invert max-w-none">
+            <div className="prose prose-neutral dark:prose-invert max-w-none text-white">
               <ReactMarkdown
                 rehypePlugins={[rehypeRaw]}
                 remarkPlugins={[remarkGfm]}

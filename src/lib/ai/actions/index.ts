@@ -26,10 +26,11 @@ export const defaultToolsWithoutConfirmation: Record<string, ToolConfig> = {
   // fetchTweets,
   postTweet,
   searchTokenDetails,
-  getSuiAiPools,
-  getLiquidityPools,
+  // getSuiAiPools,
+  // getLiquidityPools,
   fetchTweetsTillTimestamp,
   getTrendingTokens,
+  createActionTool,
 }
 
 

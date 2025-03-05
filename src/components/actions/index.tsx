@@ -8,7 +8,7 @@ import { SwapToken } from "./swap-token";
 import { ActionResult } from "./action";
 import { TrendingTokens } from "./trending-tokens";
 import { TopGainers } from "./top-gainers";
-import Stake from "../stake/stake";
+// import Stake from "../stake/stake";
 import { LiquidityPools } from "./liquidity-pools";
 
 // export { SwapToken } from "./swap-token";
@@ -95,10 +95,10 @@ export const defaultTools: Record<string, {
     displayName: "Top Gainers",
     component: TopGainers,
   },
-  "stakeToken": {
-    displayName: "Stake Tokens",
-    component: Stake,
-  },
+  // "stakeToken": {
+  //   displayName: "Stake Tokens",
+  //   component: Stake,
+  // },
   "getLiquidityPools": {
     displayName: "Get Liquidity Pools",
     component: LiquidityPools,
